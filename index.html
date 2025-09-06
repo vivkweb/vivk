@@ -3,38 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مدونة vivk</title>
+  <title>📚 مدونة القراءة اليومية</title>
   <link rel="stylesheet" href="style.css">
   <script src="chatbot.js" defer></script>
 </head>
 <body>
   <header>
-    <h1>💻 مدونة vivk</h1>
-    <p>مرحباً بك — اختر مقالتك لقراءتها</p>
+    <h1>📚 مدونة القراءة اليومية</h1>
+    <nav>
+      <ul>
+        <li><a href="article1.html">أهمية القراءة اليومية</a></li>
+        <li><a href="article2.html">كيف تبدأ عادتك في القراءة</a></li>
+        <li><a href="article3.html">ذكاء الاصطناعي ومستقبل البشر</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
-    <div class="card">
-      <h2><a href="article1.html">📖 أهمية القراءة اليومية</a></h2>
-    </div>
-
-    <div class="card">
-      <h2><a href="article2.html">💻 كيف تبدأ رحلتك في البرمجة</a></h2>
-    </div>
-
-    <div class="card">
-      <h2><a href="article3.html">🧠 الذكاء الاصطناعي وكيف يعمل</a></h2>
-    </div>
+    <p>مرحبًا بك في مدونتي 🌟. اختر مقالة لبدء القراءة!</p>
   </main>
 
   <footer>
     <p>© 2025 مدونة vivk</p>
   </footer>
 
+  <!-- زر و صندوق الشات -->
   <button id="chat-btn">🤖</button>
   <div id="chat-box" class="hidden">
     <div id="chat-log"></div>
-    <input type="text" id="chat-input" placeholder="اكتب سؤالك هنا...">
+    <input type="text" id="chat-input" placeholder="اكتب رسالتك...">
     <button id="send-btn">إرسال</button>
   </div>
 </body>
