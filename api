@@ -23,11 +23,11 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content || "لم أفهم رسالتك 🚫";
+    const reply = data.choices?.[0]?.message?.content || "لم يتم الرد";
 
     res.status(200).json({ reply });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "خطأ في الخادم" });
+    res.status(500).json({ error: "حدث خطأ في الخادم" });
   }
 }
