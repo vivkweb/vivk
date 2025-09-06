@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🤖 Vivk AI</title>
+  <title>Vivk AI</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #141E30, #243B55);
+      color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -17,113 +17,72 @@
       margin: 0;
     }
     h1 {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
-    #chat {
-      width: 95%;
-      max-width: 600px;
-      height: 65vh;
-      background: #222;
+    .chat-box {
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
       border-radius: 10px;
-      padding: 15px;
-      overflow-y: auto;
-      margin-bottom: 10px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-    .message {
-      margin: 8px 0;
+    textarea {
+      width: 100%;
       padding: 10px;
-      border-radius: 8px;
-      line-height: 1.4;
-    }
-    .user {
-      background: #007bff;
-      text-align: right;
-    }
-    .bot {
-      background: #444;
-      text-align: left;
-    }
-    #inputArea {
-      width: 95%;
-      max-width: 600px;
-      display: flex;
-    }
-    #message {
-      flex: 1;
-      padding: 12px;
+      border-radius: 5px;
       border: none;
-      border-radius: 8px 0 0 8px;
-      outline: none;
+      margin-bottom: 10px;
+      resize: none;
     }
     button {
-      padding: 12px 20px;
-      border: none;
-      background: #28a745;
+      background: #00c6ff;
       color: white;
-      font-weight: bold;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
       cursor: pointer;
-      border-radius: 0 8px 8px 0;
+      font-weight: bold;
     }
     button:hover {
-      background: #218838;
+      background: #0072ff;
+    }
+    .response {
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 5px;
+      min-height: 40px;
     }
   </style>
 </head>
 <body>
   <h1>🤖 Vivk AI</h1>
-  <div id="chat"></div>
-
-  <div id="inputArea">
-    <input type="text" id="message" placeholder="اكتب رسالتك هنا..." />
+  <div class="chat-box">
+    <textarea id="message" rows="3" placeholder="اكتب رسالتك هنا..."></textarea>
     <button onclick="sendMessage()">إرسال</button>
+    <div class="response" id="response">✨ الرد سيظهر هنا</div>
   </div>
 
   <script>
     async function sendMessage() {
-      const input = document.getElementById("message");
-      const chat = document.getElementById("chat");
-      const text = input.value.trim();
-      if (!text) return;
-
-      // عرض رسالة المستخدم
-      chat.innerHTML += `<div class="message user">${text}</div>`;
-      input.value = "";
-      chat.scrollTop = chat.scrollHeight;
-
-      // عرض جاري الكتابة...
-      const loading = document.createElement("div");
-      loading.className = "message bot";
-      loading.innerText = "⏳ جاري التفكير...";
-      chat.appendChild(loading);
-      chat.scrollTop = chat.scrollHeight;
+      const message = document.getElementById("message").value;
+      const responseDiv = document.getElementById("response");
+      responseDiv.innerText = "⏳ جاري المعالجة...";
 
       try {
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: text })
+          body: JSON.stringify({ message })
         });
 
         const data = await res.json();
-        loading.remove(); // حذف جاري الكتابة
-
-        if (data.reply) {
-          chat.innerHTML += `<div class="message bot">${data.reply}</div>`;
-        } else {
-          chat.innerHTML += `<div class="message bot">⚠️ حدث خطأ في الاستجابة</div>`;
-        }
+        responseDiv.innerText = data.reply || "⚠️ لم يصل رد";
       } catch (err) {
-        loading.remove();
-        chat.innerHTML += `<div class="message bot">❌ خطأ بالاتصال: ${err.message}</div>`;
+        responseDiv.innerText = "❌ حدث خطأ بالاتصال";
       }
-
-      chat.scrollTop = chat.scrollHeight;
     }
-
-    // إرسال الرسالة عند الضغط على Enter
-    document.getElementById("message").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
   </script>
 </body>
 </html>
