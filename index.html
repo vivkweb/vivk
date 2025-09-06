@@ -4,23 +4,115 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>📚 مدونة القراءة اليومية</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="chatbot.js" defer></script>
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      background-color: #000;
+      color: #0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #111;
+      padding: 15px;
+    }
+    h1 { color: #0f0; }
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+    nav ul li {
+      display: inline-block;
+      margin: 0 10px;
+    }
+    nav a {
+      color: #0f0;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    nav a:hover { text-decoration: underline; }
+    footer {
+      background: #111;
+      padding: 10px;
+      font-size: 14px;
+    }
+    .article {
+      display: none;
+      padding: 20px;
+      text-align: right;
+    }
+    .active { display: block; }
+    /* صندوق الشات */
+    #chat-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0f0;
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    #chat-box {
+      position: fixed;
+      bottom: 70px;
+      right: 20px;
+      width: 300px;
+      background: #111;
+      border: 1px solid #0f0;
+      padding: 10px;
+    }
+    .hidden { display: none; }
+    #chat-log {
+      height: 150px;
+      overflow-y: auto;
+      background: #000;
+      border: 1px solid #0f0;
+      margin-bottom: 5px;
+      padding: 5px;
+      text-align: left;
+      font-size: 14px;
+    }
+    #chat-input { width: 70%; padding: 5px; }
+    #send-btn {
+      width: 25%;
+      padding: 5px;
+      background: #0f0;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1>📚 مدونة القراءة اليومية</h1>
     <nav>
       <ul>
-        <li><a href="article1.html">أهمية القراءة اليومية</a></li>
-        <li><a href="article2.html">كيف تبدأ عادتك في القراءة</a></li>
-        <li><a href="article3.html">ذكاء الاصطناعي ومستقبل البشر</a></li>
+        <li><a onclick="showArticle('home')">🏠 الرئيسية</a></li>
+        <li><a onclick="showArticle('a1')">أهمية القراءة اليومية</a></li>
+        <li><a onclick="showArticle('a2')">كيف تبدأ عادتك في القراءة</a></li>
+        <li><a onclick="showArticle('a3')">ذكاء الاصطناعي ومستقبل البشر</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <p>مرحبًا بك في مدونتي 🌟. اختر مقالة لبدء القراءة!</p>
+    <div id="home" class="article active">
+      <p>مرحبًا بك في مدونتي 🌟. اختر مقالة من القائمة أعلاه لبدء القراءة!</p>
+    </div>
+    <div id="a1" class="article">
+      <h2>📖 أهمية القراءة اليومية</h2>
+      <p>القراءة اليومية تغذي العقل وتساعد على تحسين اللغة والتفكير النقدي.</p>
+    </div>
+    <div id="a2" class="article">
+      <h2>📖 كيف تبدأ عادتك في القراءة</h2>
+      <p>ابدأ بعشر دقائق يوميًا، ثم زد الوقت تدريجيًا حتى تصبح القراءة جزءًا من يومك.</p>
+    </div>
+    <div id="a3" class="article">
+      <h2>🤖 ذكاء الاصطناعي ومستقبل البشر</h2>
+      <p>الذكاء الاصطناعي يتطور بسرعة، وسيؤثر على حياتنا اليومية في العمل والتعليم وحتى الفنون.</p>
+    </div>
   </main>
 
   <footer>
@@ -34,5 +126,49 @@
     <input type="text" id="chat-input" placeholder="اكتب رسالتك...">
     <button id="send-btn">إرسال</button>
   </div>
+
+  <script>
+    // التنقل بين المقالات
+    function showArticle(id) {
+      document.querySelectorAll(".article").forEach(div => {
+        div.classList.remove("active");
+      });
+      document.getElementById(id).classList.add("active");
+    }
+
+    // الشات البسيط
+    const chatBtn = document.getElementById("chat-btn");
+    const chatBox = document.getElementById("chat-box");
+    const chatLog = document.getElementById("chat-log");
+    const sendBtn = document.getElementById("send-btn");
+    const chatInput = document.getElementById("chat-input");
+
+    chatBtn.addEventListener("click", () => {
+      chatBox.classList.toggle("hidden");
+    });
+
+    sendBtn.addEventListener("click", () => {
+      const userMsg = chatInput.value.trim();
+      if (!userMsg) return;
+
+      const userDiv = document.createElement("div");
+      userDiv.textContent = "👤: " + userMsg;
+      chatLog.appendChild(userDiv);
+
+      chatInput.value = "";
+
+      const botDiv = document.createElement("div");
+      if (userMsg.includes("مرحبا") || userMsg.includes("هلا")) {
+        botDiv.textContent = "🤖: أهلاً! كيف أقدر أساعدك؟";
+      } else if (userMsg.includes("اسمك")) {
+        botDiv.textContent = "🤖: أنا شات بوت تجريبي 🌟";
+      } else {
+        botDiv.textContent = "🤖: إجابة تلقائية (نموذج فقط)";
+      }
+      chatLog.appendChild(botDiv);
+
+      chatLog.scrollTop = chatLog.scrollHeight;
+    });
+  </script>
 </body>
 </html>
