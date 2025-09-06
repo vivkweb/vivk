@@ -5,144 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🤖 Vivk AI</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #0d0d0d;
-      color: #e6e6e6;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    header {
-      background: #111;
-      padding: 15px;
-      text-align: center;
-      font-size: 22px;
-      color: #00ff99;
-      font-weight: bold;
-    }
-
-    main {
-      flex: 1;
-      overflow-y: auto;
-      padding: 15px;
-    }
-
-    .msg {
-      max-width: 75%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 10px;
-      line-height: 1.5;
-    }
-
-    .user {
-      background: #00ff99;
-      color: #000;
-      margin-left: auto;
-      border-bottom-right-radius: 0;
-    }
-
-    .bot {
-      background: #1c1c1c;
-      border: 1px solid #00ff99;
-      color: #00ff99;
-      margin-right: auto;
-      border-bottom-left-radius: 0;
-    }
-
-    footer {
-      display: flex;
-      padding: 10px;
-      background: #111;
-    }
-
-    input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      margin-left: 5px;
-    }
-
-    button {
-      background: #00ff99;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    button:hover {
-      background: #00cc77;
-    }
-
-    .typing {
-      font-style: italic;
-      opacity: 0.7;
-    }
+    body { background:#0d0d0d; color:#00ff7f; font-family:Tahoma, sans-serif; margin:0; text-align:center; }
+    header { background:#111; padding:15px; font-size:22px; font-weight:bold; }
+    #chat { width:90%; max-width:600px; margin:20px auto; padding:15px; border:1px solid #00ff7f;
+            border-radius:8px; background:#1a1a1a; height:400px; overflow-y:auto; text-align:right; }
+    .msg { margin:10px; padding:10px; border-radius:6px; line-height:1.6; }
+    .user { background:#00ff7f; color:black; font-weight:bold; }
+    .bot { background:#262626; border:1px solid #00ff7f; color:#fff; }
+    #input-area { margin:15px; display:flex; justify-content:center; gap:10px; }
+    input { flex:1; padding:10px; border-radius:6px; border:none; font-size:16px; }
+    button { background:#00ff7f; border:none; padding:10px 20px; font-size:16px; font-weight:bold; border-radius:6px; cursor:pointer; }
   </style>
 </head>
 <body>
-
   <header>🤖 Vivk AI - مساعدك الذكي</header>
-
-  <main id="chat">
-    <div class="msg bot">أهلاً بك 👋! أنا <b>Vivk AI</b> مساعدك الذكي، كيف أقدر أساعدك؟</div>
-  </main>
-
-  <footer>
-    <input id="userInput" type="text" placeholder="اكتب رسالتك...">
+  <div id="chat"></div>
+  <div id="input-area">
+    <input type="text" id="user-input" placeholder="اكتب رسالتك هنا...">
     <button onclick="sendMessage()">إرسال</button>
-  </footer>
+  </div>
 
   <script>
-    const chat = document.getElementById("chat");
-    const input = document.getElementById("userInput");
+    const chatBox = document.getElementById("chat");
 
-    function sendMessage() {
+    async function sendMessage() {
+      const input = document.getElementById("user-input");
       const text = input.value.trim();
       if (!text) return;
 
-      // عرض رسالة المستخدم
       addMessage(text, "user");
       input.value = "";
 
-      // إظهار "يكتب..."
-      const typingMsg = addMessage("فييك يكتب...", "bot typing");
+      addMessage("⏳ جاري التفكير...", "bot");
 
-      // الرد بعد ثواني
-      setTimeout(() => {
-        typingMsg.remove();
-        fakeReply(text);
-      }, 1500);
-    }
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text })
+        });
 
-    function addMessage(text, type) {
-      const msg = document.createElement("div");
-      msg.className = "msg " + type;
-      msg.innerHTML = text;
-      chat.appendChild(msg);
-      chat.scrollTop = chat.scrollHeight;
-      return msg;
-    }
-
-    // ردود تجريبية (تقدر تعدلها لاحقاً أو تربط API)
-    function fakeReply(userText) {
-      let reply = "تمام ✅، وضّح أكثر من فضلك...";
-      if (userText.includes("سلام") || userText.includes("هلا")) {
-        reply = "وعليكم السلام 🌹، نورت!";
-      } else if (userText.includes("انت")) {
-        reply = "أنا Vivk AI 🤖، مساعدك الذكي!";
-      } else if (userText.includes("شكرا")) {
-        reply = "العفو 🌟، هذا واجبي!";
+        const data = await res.json();
+        document.querySelectorAll(".bot").item(-1).remove();
+        addMessage(data.reply, "bot");
+      } catch (err) {
+        addMessage("⚠️ حدث خطأ أثناء الاتصال!", "bot");
       }
-      addMessage(reply, "bot");
+    }
+
+    function addMessage(text, sender) {
+      const div = document.createElement("div");
+      div.className = `msg ${sender}`;
+      div.textContent = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
   </script>
-
 </body>
 </html>
+
