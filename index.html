@@ -43,45 +43,91 @@
       text-align: right;
     }
     .active { display: block; }
-    /* صندوق الشات */
+
+    /* زر فتح الشات */
     #chat-btn {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: #0f0;
       border: none;
-      padding: 10px;
+      padding: 15px;
       border-radius: 50%;
       cursor: pointer;
+      font-size: 22px;
     }
+
+    /* صندوق الشات */
     #chat-box {
       position: fixed;
-      bottom: 70px;
+      bottom: 80px;
       right: 20px;
-      width: 300px;
-      background: #111;
+      width: 320px;
+      background: #1a1a1a;
       border: 1px solid #0f0;
-      padding: 10px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
     }
-    .hidden { display: none; }
+    #chat-header {
+      background: #0f0;
+      color: #000;
+      padding: 8px;
+      font-weight: bold;
+      border-radius: 10px 10px 0 0;
+    }
     #chat-log {
-      height: 150px;
+      height: 250px;
       overflow-y: auto;
-      background: #000;
-      border: 1px solid #0f0;
-      margin-bottom: 5px;
-      padding: 5px;
+      padding: 10px;
       text-align: left;
       font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    #chat-input { width: 70%; padding: 5px; }
+
+    /* فقاعات الدردشة */
+    .msg {
+      padding: 8px 12px;
+      border-radius: 15px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+    .user {
+      background: #0f0;
+      color: #000;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+    }
+    .bot {
+      background: #333;
+      color: #0f0;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+    }
+
+    #chat-input-area {
+      display: flex;
+      padding: 8px;
+      border-top: 1px solid #0f0;
+    }
+    #chat-input {
+      flex: 1;
+      padding: 6px;
+      border: none;
+      border-radius: 5px;
+    }
     #send-btn {
-      width: 25%;
-      padding: 5px;
       background: #0f0;
       border: none;
+      padding: 6px 12px;
+      margin-left: 5px;
+      border-radius: 5px;
       cursor: pointer;
+      font-weight: bold;
     }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
@@ -120,11 +166,14 @@
   </footer>
 
   <!-- زر و صندوق الشات -->
-  <button id="chat-btn">🤖</button>
+  <button id="chat-btn">💬</button>
   <div id="chat-box" class="hidden">
+    <div id="chat-header">🤖 مساعد الذكاء الاصطناعي</div>
     <div id="chat-log"></div>
-    <input type="text" id="chat-input" placeholder="اكتب رسالتك...">
-    <button id="send-btn">إرسال</button>
+    <div id="chat-input-area">
+      <input type="text" id="chat-input" placeholder="اكتب رسالتك...">
+      <button id="send-btn">إرسال</button>
+    </div>
   </div>
 
   <script>
@@ -136,7 +185,7 @@
       document.getElementById(id).classList.add("active");
     }
 
-    // الشات البسيط
+    // الشات
     const chatBtn = document.getElementById("chat-btn");
     const chatBox = document.getElementById("chat-box");
     const chatLog = document.getElementById("chat-log");
@@ -147,27 +196,28 @@
       chatBox.classList.toggle("hidden");
     });
 
+    function addMessage(text, sender) {
+      const div = document.createElement("div");
+      div.classList.add("msg", sender);
+      div.textContent = text;
+      chatLog.appendChild(div);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
     sendBtn.addEventListener("click", () => {
       const userMsg = chatInput.value.trim();
       if (!userMsg) return;
 
-      const userDiv = document.createElement("div");
-      userDiv.textContent = "👤: " + userMsg;
-      chatLog.appendChild(userDiv);
-
+      addMessage("👤: " + userMsg, "user");
       chatInput.value = "";
 
-      const botDiv = document.createElement("div");
-      if (userMsg.includes("مرحبا") || userMsg.includes("هلا")) {
-        botDiv.textContent = "🤖: أهلاً! كيف أقدر أساعدك؟";
-      } else if (userMsg.includes("اسمك")) {
-        botDiv.textContent = "🤖: أنا شات بوت تجريبي 🌟";
-      } else {
-        botDiv.textContent = "🤖: إجابة تلقائية (نموذج فقط)";
-      }
-      chatLog.appendChild(botDiv);
-
-      chatLog.scrollTop = chatLog.scrollHeight;
+      setTimeout(() => {
+        let botReply = "🤖: أنا مساعد تجريبي.";
+        if (userMsg.includes("مرحبا")) botReply = "🤖: أهلاً! كيف حالك؟";
+        else if (userMsg.includes("اسمك")) botReply = "🤖: اسمي شات بوت 🌟";
+        else if (userMsg.includes("كيف")) botReply = "🤖: بخير، شكراً لسؤالك!";
+        addMessage(botReply, "bot");
+      }, 500);
     });
   </script>
 </body>
