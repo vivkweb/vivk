@@ -1,123 +1,148 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="مدونة vivk - مقالات ومعلومات متنوعة">
   <title>مدونة vivk</title>
   <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; direction:rtl; }
-    header { background:#333; color:#fff; padding:15px; text-align:center; }
-    header h1 { margin:0; }
-    nav a { color:#fff; margin:0 10px; text-decoration:none; }
-    main { padding:20px; max-width:800px; margin:auto; }
-    article { background:#fff; padding:15px; margin-bottom:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
-    article h2 { margin-top:0; }
-    footer { background:#333; color:#fff; text-align:center; padding:10px; margin-top:20px; }
+    body { font-family: Tahoma, sans-serif; background:#f7f7f7; margin:0; }
+    header { background:#222; color:#fff; text-align:center; padding:20px; }
+    main { max-width:900px; margin:20px auto; padding:10px; }
+    .card {
+      background:#fff; border-radius:8px; padding:15px; margin-bottom:20px;
+      box-shadow:0 2px 5px rgba(0,0,0,0.1); display:flex; align-items:center;
+    }
+    .card img { width:150px; height:100px; object-fit:cover; margin-left:15px; border-radius:6px; }
+    .card h2 { margin:0 0 10px; font-size:20px; }
+    .card a { color:#0066cc; text-decoration:none; }
+    footer { text-align:center; padding:15px; background:#222; color:#fff; margin-top:20px; }
   </style>
 </head>
 <body>
   <header>
     <h1>مدونة vivk</h1>
-    <nav>
-      <a href="#art1">مقال ١</a>
-      <a href="#art2">مقال ٢</a>
-    </nav>
+    <p>اختر مقالتك المفضلة 👇</p>
   </header>
 
   <main>
-    <h2>أهلاً بك 👋</h2>
-    <p>هنا في مدونة <strong>vivk</strong> ستجد مقالات ومعلومات متنوعة.</p>
+    <div class="card">
+      <img src="images/reading.jpg" alt="القراءة اليومية">
+      <div>
+        <h2><a href="article1.html">📚 أهمية القراءة اليومية</a></h2>
+          <p>القراءة اليومية تُعتبر من أفضل العادات...</p>
+        <p>كيف تساعد القراءة في توسيع المدارك وتحسين التفكير.</p>
+      </div>
+    </div>
 
-    <article id="art1">
-      <h2>📖 أهمية القراءة اليومية</h2>
-      <p>القراءة اليومية تعتبر من أفضل العادات التي يمكن أن يكتسبها الإنسان. 
-      فهي توسع المدارك، وتزيد المعرفة، وتطور اللغة والتفكير النقدي.</p>
-    </article>
+    <div class="card">
+      <img src="images/programming.jpg" alt="البرمجة">
+      <div>
+        <h2><a href="article2.html">💻 كيف تبدأ رحلتك في البرمجة</a></h2>
+        <p>دليلك للبدء بلغة Python والمشاريع الصغيرة.</p>
+      </div>
+    </div>
 
-    <article id="art2">
-      <h2>💻 كيف تبدأ رحلتك في البرمجة</h2>
-      <p>ابدأ بتعلم لغة برمجة سهلة مثل <strong>Python</strong>، ثم مارس عبر مشاريع صغيرة. 
-      أهم شيء هو الاستمرارية والتطبيق العملي.</p>
-    </article>
-  </main>
-
-  <footer>
-    <p>© 2025 مدونة vivk</p>
-  </footer>
-</body>
-</html>
-
-<article id="post-3" lang="ar" dir="rtl">
-      <header>
-        <h2>🧠 المقالة الثالثة: الذكاء الاصطناعي وكيف يعمل؟</h2>
-        <p class="meta">⏱ مدة القراءة: 3–5 دقائق</p>
-      </header>
-
-      <p><strong>ملخص سريع:</strong> الذكاء الاصطناعي (AI) هو جعل الحاسوب ينفّذ مهامًا تحتاج عادةً إلى “ذكاء” بشري مثل الفهم، التنبؤ، واتخاذ القرار. يقوم على <em>البيانات</em> + <em>الخوارزميات</em> + <em>قدرة الحوسبة</em>.</p>
-
-      <section>
-        <h3>ما هو الذكاء الاصطناعي؟</h3>
-        <p>مجموعة تقنيات تمكّن الآلة من التعلّم من البيانات والتكيّف مع المواقف الجديدة بدلًا من اتباع أوامر ثابتة حرفيًا.</p>
-      </section>
-
-      <section>
-        <h3>أهم الأنواع باختصار</h3>
-        <ul>
-          <li><strong>تعلّم الآلة (Machine Learning):</strong> يتعلّم النموذج أنماطًا من البيانات لإصدار تنبؤات.</li>
-          <li><strong>التعلّم العميق (Deep Learning):</strong> شبكات عصبية عميقة ممتازة للصور والصوت واللغة.</li>
-          <li><strong>معالجة اللغة الطبيعية (NLP):</strong> فهم النصوص والكلام البشري والتفاعل معها.</li>
-          <li><strong>رؤية الحاسوب (Computer Vision):</strong> فهم الصور والفيديو واستخراج المعلومات منها.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h3>كيف يعمل عمليًا؟ (خط الأنابيب)</h3>
-        <ol>
-          <li><strong>تجميع البيانات:</strong> صور، نصوص، سجلات…</li>
-          <li><strong>تنظيفها وتجهيزها:</strong> إزالة الضجيج وتقسيمها لتدريب/تحقّق/اختبار.</li>
-          <li><strong>اختيار نموذج:</strong> شجرة قرار، انحدار، شبكة عصبية…</li>
-          <li><strong>التدريب:</strong> ضبط الأوزان لتقليل الخطأ.</li>
-          <li><strong>التقييم:</strong> قياس الدقة، الاستدعاء، F1 للتحقق من الجودة.</li>
-          <li><strong>النشر والمتابعة:</strong> تشغيل النموذج في التطبيق ومراقبته وتحديثه.</li>
-        </ol>
-      </section>
-
-      <section>
-        <h3>أمثلة سريعة للاستخدام</h3>
-        <ul>
-          <li>اقتراحات المحتوى والمنتجات.</li>
-          <li>فلاتر البريد العشوائي.</li>
-          <li>مساعدات الدردشة الذكية.</li>
-          <li>تحليلات طبية مبدئية.</li>
-          <li>كشف الاحتيال.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h3>حدود ومخاطر</h3>
-        <ul>
-          <li><strong>تحيّز البيانات = تحيّز المخرجات.</strong></li>
-          <li><strong>الخصوصية والأمان:</strong> حماية البيانات الحساسة أمر أساسي.</li>
-          <li><strong>الاعتمادية:</strong> قد يخطئ النموذج بثقة عالية؛ يلزم إشراف بشري.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h3>كيف أبدأ أنا؟</h3>
-        <ul>
-          <li>أساسيات <strong>Python</strong> مع <strong>NumPy</strong> و<strong>pandas</strong>.</li>
-          <li>خوارزميات الانحدار/التصنيف ثم الشبكات العصبية.</li>
-          <li>مشروع صغير تطبيقي (تصنيف نصوص، تحليل بيانات شخصية).</li>
-        </ul>
-      </section>
-    </article>
-
+    <div class="card">
+      <img src="images/ai.jpg" alt="الذكاء الاصطناعي">
+      <div>
+        <h2><a href="article3.html">🧠 الذكاء الاصطناعي وكيف يعمل</a></h2>
+        <p>شرح مبسط لأنواع الذكاء الاصطناعي وكيفية عمله.</p>
+      </div>
+    </div>
   </main>
 
   <footer>
     <p>© 2025 مدونة vivk — نشر المعرفة ببساطة</p>
   </footer>
-
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📚 أهمية القراءة اليومية</title>
+  <style>
+    body { font-family: Tahoma, sans-serif; background:#f7f7f7; margin:0; padding:20px; line-height:1.7; }
+    article { max-width:800px; margin:auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    img { width:100%; border-radius:8px; margin-bottom:15px; }
+    a { color:#0066cc; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>📚 أهمية القراءة اليومية</h1>
+    <img src="images/reading.jpg" alt="القراءة اليومية">
+    <p>القراءة اليومية تُعتبر من أفضل العادات التي يمكن أن يكتسبها الإنسان، فهي توسّع المدارك، تزيد المعرفة، وتساعد على تحسين اللغة والتفكير النقدي.</p>
+    <p><a href="index.html">⬅️ العودة إلى الصفحة الرئيسية</a></p>
+  </article>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💻 كيف تبدأ رحلتك في البرمجة</title>
+  <img src="images/programming.jpg" alt="البرمجة">
+  <style>
+    body { font-family: Tahoma, sans-serif; background:#f7f7f7; margin:0; padding:20px; line-height:1.7; }
+    article { max-width:800px; margin:auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    img { width:100%; border-radius:8px; margin-bottom:15px; }
+    a { color:#0066cc; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>💻 كيف تبدأ رحلتك في البرمجة</h1>
+    <img src="images/programming.jpg" alt="البرمجة">
+    <p>ابدأ بتعلم لغة برمجة سهلة مثل <strong>Python</strong>، وطبّق ما تتعلمه عبر مشاريع صغيرة. الأهم هو الاستمرار والتطبيق العملي لبناء خبرتك تدريجيًا.</p>
+    <p><a href="index.html">⬅️ العودة إلى الصفحة الرئيسية</a></p>
+  </article>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧠 الذكاء الاصطناعي وكيف يعمل</title>
+  <style>
+    body { font-family: Tahoma, sans-serif; background:#f7f7f7; margin:0; padding:20px; line-height:1.7; }
+    article { max-width:800px; margin:auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    img { width:100%; border-radius:8px; margin-bottom:15px; }
+    a { color:#0066cc; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <article>
+    <h1>🧠 الذكاء الاصطناعي وكيف يعمل؟</h1>
+    <img src="images/ai.jpg" alt="الذكاء الاصطناعي">
+    <p><strong>ملخص سريع:</strong> الذكاء الاصطناعي (AI) هو جعل الحاسوب ينفّذ مهامًا تحتاج عادةً إلى ذكاء بشري مثل الفهم، التنبؤ، واتخاذ القرار. يقوم على البيانات + الخوارزميات + قدرة الحوسبة.</p>
+
+    <h2>أهم الأنواع</h2>
+    <ul>
+      <li>تعلّم الآلة (Machine Learning)</li>
+      <li>التعلّم العميق (Deep Learning)</li>
+      <li>معالجة اللغة الطبيعية (NLP)</li>
+      <li>رؤية الحاسوب (Computer Vision)</li>
+    </ul>
+
+    <h2>كيف يعمل عمليًا؟</h2>
+    <ol>
+      <li>تجميع البيانات</li>
+      <li>تنظيف البيانات</li>
+      <li>اختيار النموذج</li>
+      <li>التدريب</li>
+      <li>التقييم</li>
+      <li>النشر والمتابعة</li>
+    </ol>
+
+    <p><a href="index.html">⬅️ العودة إلى الصفحة الرئيسية</a></p>
+  </article>
+</body>
+</html>
+
