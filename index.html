@@ -13,62 +13,108 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        :root {
+            --primary-color: #6e48aa;
+            --secondary-color: #9d50bb;
+            --accent-color: #ff6b6b;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #4ecdc4;
+        }
+
         body {
             background: linear-gradient(135deg, #6e48aa, #9d50bb);
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
         }
 
         .container {
             width: 100%;
-            max-width: 1000px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            margin: 20px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         header {
-            background: linear-gradient(to right, #6e48aa, #9d50bb);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            margin-bottom: 20px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
         }
 
         .logo i {
             font-size: 32px;
+            color: var(--primary-color);
             margin-left: 10px;
         }
 
         .logo h1 {
             font-size: 28px;
             font-weight: 700;
+            color: var(--primary-color);
         }
 
-        .tagline {
-            font-size: 16px;
-            opacity: 0.9;
-            margin-top: 5px;
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        nav ul li a:hover, 
+        nav ul li a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .page {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 600px;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .app-content {
             display: flex;
             flex-direction: column;
-            height: 600px;
+            height: 500px;
         }
 
         .messages-container {
@@ -76,6 +122,8 @@
             padding: 20px;
             overflow-y: auto;
             background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
 
         .message {
@@ -88,13 +136,8 @@
             animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .user-message {
-            background: #6e48aa;
+            background: var(--primary-color);
             color: white;
             margin-right: auto;
             border-bottom-right-radius: 5px;
@@ -110,9 +153,10 @@
         .input-container {
             padding: 15px 20px;
             background: white;
-            border-top: 1px solid #ddd;
+            border-radius: 10px;
             display: flex;
             align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .message-input {
@@ -126,14 +170,14 @@
         }
 
         .message-input:focus {
-            border-color: #6e48aa;
+            border-color: var(--primary-color);
         }
 
         .voice-btn, .send-btn {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: #6e48aa;
+            background: var(--primary-color);
             color: white;
             border: none;
             margin: 0 5px;
@@ -141,11 +185,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
 
         .voice-btn:hover, .send-btn:hover {
             background: #5a3a8a;
+            transform: scale(1.05);
         }
 
         .features {
@@ -154,16 +199,15 @@
             justify-content: center;
             gap: 20px;
             padding: 30px 20px;
-            background: white;
         }
 
         .feature {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
             text-align: center;
             flex: 1;
-            min-width: 200px;
+            min-width: 250px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
         }
@@ -173,8 +217,8 @@
         }
 
         .feature i {
-            font-size: 36px;
-            color: #6e48aa;
+            font-size: 40px;
+            color: var(--primary-color);
             margin-bottom: 15px;
         }
 
@@ -183,11 +227,72 @@
             color: #333;
         }
 
+        .page-title {
+            text-align: center;
+            margin: 20px 0;
+            color: var(--primary-color);
+            font-size: 28px;
+        }
+
+        .reminder-form, .summary-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #5a3a8a;
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
         footer {
             text-align: center;
             padding: 20px;
             color: white;
-            margin-top: auto;
+            margin-top: 40px;
         }
 
         .download-buttons {
@@ -200,9 +305,9 @@
         .download-btn {
             display: inline-flex;
             align-items: center;
-            padding: 10px 20px;
+            padding: 12px 25px;
             background: white;
-            color: #6e48aa;
+            color: var(--primary-color);
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
@@ -218,36 +323,12 @@
             margin-left: 8px;
         }
 
-        /* تنسيقات للشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .container {
-                border-radius: 15px;
-            }
-            
-            .app-content {
-                height: 500px;
-            }
-            
-            .message {
-                max-width: 90%;
-            }
-            
-            .features {
-                flex-direction: column;
-            }
-            
-            .download-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        /* مؤشر التسجيل الصوتي */
+        /* تسجيل الصوتي */
         .recording-indicator {
             display: none;
             text-align: center;
             padding: 10px;
-            background: #ff4757;
+            background: var(--accent-color);
             color: white;
             border-radius: 20px;
             margin: 10px auto;
@@ -259,108 +340,270 @@
             50% { opacity: 1; }
             100% { opacity: 0.6; }
         }
+
+        /* التكيف مع الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px;
+            }
+            
+            .feature {
+                min-width: 100%;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">
-                <i class="fas fa-robot"></i>
-                <h1>Vivk AI</h1>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <h1>Vivk AI</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-page="home">الرئيسية</a></li>
+                        <li><a href="#" class="nav-link" data-page="chat">الدردشة</a></li>
+                        <li><a href="#" class="nav-link" data-page="reminders">التذكيرات</a></li>
+                        <li><a href="#" class="nav-link" data-page="summary">التلخيص</a></li>
+                        <li><a href="#" class="nav-link" data-page="about">عن التطبيق</a></li>
+                    </ul>
+                </nav>
             </div>
-            <p class="tagline">مساعدك الذكي الذي يعمل على جميع أجهزتك</p>
         </header>
 
-        <div class="app-content">
-            <div class="messages-container" id="messagesContainer">
-                <div class="message bot-message">
-                    مرحباً! أنا Vivk AI، مساعدك الذكي. كيف يمكنني مساعدتك اليوم؟
+        <!-- الصفحة الرئيسية -->
+        <div id="home" class="page active">
+            <h2 class="page-title">مرحباً بك في Vivk AI</h2>
+            <p class="tagline" style="text-align: center; margin-bottom: 30px; font-size: 18px;">مساعدك الذكي الذي يعمل على جميع أجهزتك</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-comments"></i>
+                    <h3>دردشة ذكية</h3>
+                    <p>تحدث مع مساعد ذكي يستخدم أحدث تقنيات الذكاء الاصطناعي للإجابة على أسئلتك ومحادثتك</p>
                 </div>
-                <div class="message user-message">
-                    أريد إنشاء تذكير للاجتماع غداً الساعة 10 صباحاً
+                <div class="feature">
+                    <i class="fas fa-sticky-note"></i>
+                    <h3>تلخيص النصوص</h3>
+                    <p>احصل على ملخصات دقيقة ومركزة لأي نص طويل في ثوانٍ معدودة</p>
                 </div>
-                <div class="message bot-message">
-                    تم إنشاء تذكير للاجتماع غداً الساعة 10 صباحاً بنجاح ✅
-                </div>
-                <div class="message user-message">
-                    هل يمكنك تلخيص هذا النص لي؟
-                </div>
-                <div class="message bot-message">
-                    بالطبع! أرسل لي النص الذي تريد تلخيصه وسأقوم بذلك فوراً.
+                <div class="feature">
+                    <i class="fas fa-bell"></i>
+                    <h3>إنشاء تذكيرات</h3>
+                    <p>أنشئ تذكيرات ذكية لمناسباتك وأحداثك المهمة واجعلها تنبهك في الوقت المناسب</p>
                 </div>
             </div>
-
-            <div class="recording-indicator" id="recordingIndicator">
-                <i class="fas fa-microphone"></i> جاري التسجيل... قم بالتحدث الآن
-            </div>
-
-            <div class="input-container">
-                <button class="voice-btn" id="voiceBtn">
-                    <i class="fas fa-microphone"></i>
-                </button>
-                <input type="text" class="message-input" id="messageInput" placeholder="اكتب رسالتك هنا...">
-                <button class="send-btn" id="sendBtn">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <h3>كيفية استخدام التطبيق</h3>
+                <p>يمكنك التنقل بين صفحات التطبيق باستخدام القائمة أعلاه، والاستفادة من جميع الميزات المتاحة</p>
+                
+                <div class="download-buttons" style="margin-top: 20px;">
+                    <a href="#" class="download-btn">
+                        <i class="fab fa-apple"></i> App Store
+                    </a>
+                    <a href="#" class="download-btn">
+                        <i class="fab fa-google-play"></i> Google Play
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="features">
-            <div class="feature">
-                <i class="fas fa-comments"></i>
-                <h3>دردشة ذكية</h3>
-                <p>تحدث مع مساعد ذكي يستخدم GPT-4 للإجابة على أسئلتك ومحادثتك</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-sticky-note"></i>
-                <h3>تلخيص النصوص</h3>
-                <p>احصل على ملخصات دقيقة ومركزة لأي نص طويل في ثوانٍ</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-bell"></i>
-                <h3>إنشاء تذكيرات</h3>
-                <p>أنشئ تذكيرات ذكية لمناسباتك وأحداثك المهمة</p>
+        <!-- صفحة الدردشة -->
+        <div id="chat" class="page">
+            <h2 class="page-title">الدردشة الذكية مع Vivk AI</h2>
+            
+            <div class="app-content">
+                <div class="messages-container" id="messagesContainer">
+                    <div class="message bot-message">
+                        مرحباً! أنا Vivk AI، مساعدك الذكي. كيف يمكنني مساعدتك اليوم؟
+                    </div>
+                    <div class="message user-message">
+                        أريد إنشاء تذكير للاجتماع غداً الساعة 10 صباحاً
+                    </div>
+                    <div class="message bot-message">
+                        تم إنشاء تذكير للاجتماع غداً الساعة 10 صباحاً بنجاح ✅
+                    </div>
+                </div>
+
+                <div class="recording-indicator" id="recordingIndicator">
+                    <i class="fas fa-microphone"></i> جاري التسجيل... قم بالتحدث الآن
+                </div>
+
+                <div class="input-container">
+                    <button class="voice-btn" id="voiceBtn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <input type="text" class="message-input" id="messageInput" placeholder="اكتب رسالتك هنا...">
+                    <button class="send-btn" id="sendBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
             </div>
         </div>
+
+        <!-- صفحة التذكيرات -->
+        <div id="reminders" class="page">
+            <h2 class="page-title">إنشاء تذكيرات جديدة</h2>
+            
+            <div class="reminder-form">
+                <div class="form-group">
+                    <label for="reminderTitle">عنوان التذكير</label>
+                    <input type="text" id="reminderTitle" placeholder="مثال: اجتماع مع الفريق">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reminderDate">التاريخ والوقت</label>
+                    <input type="datetime-local" id="reminderDate">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reminderDetails">تفاصيل إضافية</label>
+                    <textarea id="reminderDetails" placeholder="أي تفاصيل إضافية تريد إضافتها..."></textarea>
+                </div>
+                
+                <button class="btn btn-block" id="createReminderBtn">إنشاء التذكير</button>
+            </div>
+            
+            <div id="remindersList">
+                <h3 style="margin: 20px 0 10px;">تذكيراتك المنشأة</h3>
+                <div class="message bot-message">
+                    <i class="fas fa-bell"></i> اجتماع مع الفريق - غداً 10:00 صباحاً
+                </div>
+                <div class="message bot-message">
+                    <i class="fas fa-bell"></i> دفع الفواتير - بعد غد 15:00
+                </div>
+            </div>
+        </div>
+
+        <!-- صفحة التلخيص -->
+        <div id="summary" class="page">
+            <h2 class="page-title">تلخيص النصوص</h2>
+            
+            <div class="summary-form">
+                <div class="form-group">
+                    <label for="textToSummarize">النص الذي تريد تلخيصه</label>
+                    <textarea id="textToSummarize" placeholder="الصق النص الذي تريد تلخيصه هنا..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="summaryLength">طول الملخص</label>
+                    <select id="summaryLength">
+                        <option value="short">قصير (نقاط رئيسية)</option>
+                        <option value="medium">متوسط (فقرات قصيرة)</option>
+                        <option value="long">طويل (شرح مفصل)</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-block" id="summarizeBtn">تلخيص النص</button>
+            </div>
+            
+            <div id="summaryResult" style="display: none;">
+                <h3 style="margin: 20px 0 10px;">الملخص الناتج</h3>
+                <div class="message bot-message">
+                    <p>هذا هو الملاح الذي تم إنشاؤه بناءً على النص الذي قدمته. يمكنك نسخه أو حفظه للرجوع إليه لاحقاً.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- صفحة عن التطبيق -->
+        <div id="about" class="page">
+            <h2 class="page-title">عن تطبيق Vivk AI</h2>
+            
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="message bot-message">
+                    <h3><i class="fas fa-info-circle"></i> ما هو Vivk AI؟</h3>
+                    <p>Vivk AI هو مساعد ذكي متطور يعمل بتقنيات الذكاء الاصطناعي الحديثة لمساعدتك في إنجاز مهامك اليومية.</p>
+                </div>
+                
+                <div class="message bot-message">
+                    <h3><i class="fas fa-star"></i> الميزات الرئيسية</h3>
+                    <ul style="padding-right: 20px;">
+                        <li>دردشة ذكية باستخدام تقنية GPT-4 المتطورة</li>
+                        <li>إنشاء وتنظيم التذكيرات بسهولة</li>
+                        <li>تلخيص النصوص الطويلة إلى معلومات مركزة</li>
+                        <li>واجهة مستخدم بسيطة وسهلة الاستخدام</li>
+                        <li>يدعم الإدخال الصوتي والنصي</li>
+                    </ul>
+                </div>
+                
+                <div class="message bot-message">
+                    <h3><i class="fas fa-mobile-alt"></i> التوافق</h3>
+                    <p>يعمل التطبيق على جميع الأجهزة بما في ذلك هواتف Android و iOS، بالإضافة إلى المتصفحات الحديثة.</p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <h3>حمل التطبيق الآن</h3>
+                    <div class="download-buttons">
+                        <a href="#" class="download-btn">
+                            <i class="fab fa-apple"></i> App Store
+                        </a>
+                        <a href="#" class="download-btn">
+                            <i class="fab fa-google-play"></i> Google Play
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 Vivk AI. جميع الحقوق محفوظة</p>
+            <p>تم تطويره باستخدام أحدث تقنيات الذكاء الاصطناعي</p>
+        </footer>
     </div>
-
-    <footer>
-        <p>حمل التطبيق الآن واستمتع بتجربة كاملة على جوالك</p>
-        <div class="download-buttons">
-            <a href="#" class="download-btn">
-                <i class="fab fa-apple"></i> App Store
-            </a>
-            <a href="#" class="download-btn">
-                <i class="fab fa-google-play"></i> Google Play
-            </a>
-        </div>
-        <p>© 2023 Vivk AI. جميع الحقوق محفوظة</p>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // عناصر DOM
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
             const messageInput = document.getElementById('messageInput');
             const sendBtn = document.getElementById('sendBtn');
             const voiceBtn = document.getElementById('voiceBtn');
             const messagesContainer = document.getElementById('messagesContainer');
             const recordingIndicator = document.getElementById('recordingIndicator');
+            const createReminderBtn = document.getElementById('createReminderBtn');
+            const summarizeBtn = document.getElementById('summarizeBtn');
+            const summaryResult = document.getElementById('summaryResult');
             
-            // إرسال الرسالة عند الضغط على زر الإرسال
-            sendBtn.addEventListener('click', sendMessage);
-            
-            // إرسال الرسالة عند الضغط على Enter
-            messageInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
+            // التنقل بين الصفحات
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // إزالة النشاط من جميع الروابط
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // إضافة النشاط للرابط الحالي
+                    this.classList.add('active');
+                    
+                    // إخفاء جميع الصفحات
+                    pages.forEach(page => page.classList.remove('active'));
+                    
+                    // إظهار الصفحة المطلوبة
+                    const pageId = this.getAttribute('data-page');
+                    document.getElementById(pageId).classList.add('active');
+                });
             });
             
-            // محاكاة التسجيل الصوتي
-            voiceBtn.addEventListener('mousedown', startRecording);
-            voiceBtn.addEventListener('mouseup', stopRecording);
-            voiceBtn.addEventListener('touchstart', startRecording);
-            voiceBtn.addEventListener('touchend', stopRecording);
-            
+            // إرسال الرسالة في الدردشة
             function sendMessage() {
                 const message = messageInput.value.trim();
                 if (message !== '') {
@@ -370,12 +613,16 @@
                     // محاكاة رد المساعد بعد ثانية
                     setTimeout(() => {
                         const responses = [
+                            "شكراً لرسالتك. هل تحتاج إلى مساعدة إضافية؟",
                             "تم استلام رسالتك بنجاح. كيف يمكنني مساعدتك؟",
                             "أفهم طلبك، سأقوم بمعالجته الآن.",
-                            "شكراً لرسالتك. هل تحتاج إلى مساعدة إضافية؟",
+                            "هذا سؤال مثير للاهتمام! دعني أفكر في أفضل إجابة...",
+                            "لقد قمت بمعالجة طلبك. هل تريد أي شيء آخر؟",
                             "تم إنشاء التذكير بنجاح ✅",
                             "هذا ملخص النص الذي طلبته: [نص ملخص]",
-                            "يمكنني مساعدتك في إنشاء التذكيرات، الإجابة على الأسئلة، وتلخيص النصوص."
+                            "يمكنني مساعدتك في إنشاء التذكيرات، الإجابة على الأسئلة، وتلخيص النصوص.",
+                            "هل تريد مني مساعدتك في شيء آخر؟",
+                            "أنا هنا لمساعدتك في أي وقت تحتاجني فيه!"
                         ];
                         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                         addMessage(randomResponse, 'bot');
@@ -383,6 +630,7 @@
                 }
             }
             
+            // إضافة رسالة إلى الدردشة
             function addMessage(text, sender) {
                 const messageElement = document.createElement('div');
                 messageElement.classList.add('message');
@@ -393,6 +641,7 @@
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
             
+            // محاكاة التسجيل الصوتي
             function startRecording(e) {
                 e.preventDefault();
                 recordingIndicator.style.display = 'block';
@@ -411,7 +660,13 @@
                     "أنشئ تذكيراً للاجتماع غداً الساعة العاشرة",
                     "لخّص هذا النص من فضلك",
                     "ما هو الطقس غداً؟",
-                    "كيف يمكنني إنشاء تذكير؟"
+                    "كيف يمكنني إنشاء تذكير؟",
+                    "ما هي ميزات التطبيق؟",
+                    "أحتاج إلى مساعدة في كتابة رسالة بريد إلكتروني",
+                    "ما هو آخر إصدار من نظام Android؟",
+                    "كيف يمكنني تحسين إنتاجيتي؟",
+                    "ما هي أفضل طريقة لتعلم لغة جديدة؟",
+                    "أعطني نصائح للسفر إلى اليابان"
                 ];
                 const randomCommand = voiceCommands[Math.floor(Math.random() * voiceCommands.length)];
                 
@@ -423,6 +678,42 @@
                 }, 800);
             }
             
+            // إنشاء تذكير جديد
+            createReminderBtn.addEventListener('click', function() {
+                const title = document.getElementById('reminderTitle').value;
+                const date = document.getElementById('reminderDate').value;
+                
+                if (title && date) {
+                    alert(`تم إنشاء التذكير "${title}" بنجاح!`);
+                    document.getElementById('reminderTitle').value = '';
+                    document.getElementById('reminderDate').value = '';
+                    document.getElementById('reminderDetails').value = '';
+                    
+                    // إضافة التذكير إلى القائمة
+                    const remindersList = document.getElementById('remindersList');
+                    const newReminder = document.createElement('div');
+                    newReminder.classList.add('message', 'bot-message');
+                    newReminder.innerHTML = `<i class="fas fa-bell"></i> ${title} - ${new Date(date).toLocaleString('ar-SA')}`;
+                    remindersList.appendChild(newReminder);
+                } else {
+                    alert('يرجى ملء جميع الحقول المطلوبة!');
+                }
+            });
+            
+            // محاكاة تلخيص النص
+            summarizeBtn.addEventListener('click', function() {
+                const text = document.getElementById('textToSummarize').value;
+                
+                if (text.length > 0) {
+                    // محاكاة عملية التلخيص
+                    setTimeout(() => {
+                        summaryResult.style.display = 'block';
+                    }, 1500);
+                } else {
+                    alert('يرجى إدخال النص الذي تريد تلخيصه!');
+                }
+            });
+            
             // إضافة بعض الرسائل الأولية لمحاكاة المحادثة
             setTimeout(() => {
                 addMessage("هل يمكنك مساعدتي في تلخيص مستند؟", 'user');
@@ -431,6 +722,19 @@
             setTimeout(() => {
                 addMessage("بالطبع! أرسل لي المستند الذي تريد تلخيصه وسأقوم بذلك فوراً.", 'bot');
             }, 3000);
+            
+            // إضافة مستمعي الأحداث
+            sendBtn.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            voiceBtn.addEventListener('mousedown', startRecording);
+            voiceBtn.addEventListener('mouseup', stopRecording);
+            voiceBtn.addEventListener('touchstart', startRecording);
+            voiceBtn.addEventListener('touchend', stopRecording);
         });
     </script>
 </body>
