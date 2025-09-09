@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vivk AI - مساعدك الذكي المتطور</title>
+    <title>Vivk AI - مساعدك الذكي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -54,9 +54,6 @@
             padding: 15px 25px;
             margin-bottom: 25px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            position: sticky;
-            top: 20px;
-            z-index: 100;
         }
 
         .header-content {
@@ -105,43 +102,104 @@
             letter-spacing: 1px;
         }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 5px;
+        /* لوحة إعدادات API */
+        .api-panel {
+            background: rgba(26, 26, 46, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        nav ul li a {
-            text-decoration: none;
-            color: var(--light);
-            font-weight: 600;
-            padding: 10px 18px;
+        .api-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .api-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
             border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .api-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .api-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+        }
+
+        .api-input {
+            padding: 16px 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--light);
+            transition: all 0.3s;
+        }
+
+        .api-input:focus {
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .api-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .api-btn {
+            padding: 16px 30px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 15px;
+            gap: 10px;
         }
 
-        nav ul li a:hover, 
-        nav ul li a.active {
-            background: rgba(126, 87, 194, 0.2);
-            color: var(--primary-light);
-            box-shadow: 0 5px 15px rgba(126, 87, 194, 0.2);
+        .api-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.4);
         }
 
-        nav ul li a.active {
-            background: var(--gradient);
-            color: white;
+        .api-status {
+            margin-top: 15px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
         }
 
-        /* المحتوى الرئيسي */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 25px;
-            margin-bottom: 30px;
+        .status-connected {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+        }
+
+        .status-disconnected {
+            background: rgba(255, 152, 0, 0.15);
+            color: #FF9800;
         }
 
         /* لوحة الدردشة */
@@ -154,7 +212,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
-            height: 750px;
+            height: 600px;
         }
 
         .chat-header {
@@ -298,11 +356,6 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        .input-actions {
-            display: flex;
-            gap: 10px;
-        }
-
         .action-btn {
             width: 55px;
             height: 55px;
@@ -324,237 +377,22 @@
             box-shadow: 0 8px 20px rgba(126, 87, 194, 0.4);
         }
 
-        /* اللوحة الجانبية */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .feature-card {
-            background: rgba(26, 26, 46, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-
-        .feature-title {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .text-to-image {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .image-preview {
-            height: 200px;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .image-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            display: none;
-        }
-
-        .image-preview-placeholder {
-            color: var(--primary-light);
-            text-align: center;
-            padding: 20px;
-        }
-
-        .image-preview-placeholder i {
-            font-size: 40px;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .tools {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .tool-btn {
-            padding: 12px;
-            background: rgba(126, 87, 194, 0.2);
-            border: none;
-            border-radius: 12px;
-            color: var(--light);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .tool-btn:hover {
-            background: rgba(126, 87, 194, 0.3);
-            transform: translateY(-3px);
-        }
-
-        .tool-btn i {
-            font-size: 22px;
-            color: var(--primary-light);
-        }
-
-        .tool-btn span {
-            font-size: 13px;
-        }
-
-        /* الميزات */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .feature {
-            background: rgba(26, 26, 46, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s;
-            text-align: center;
-        }
-
-        .feature:hover {
-            transform: translateY(-8px);
-        }
-
-        .feature i {
-            font-size: 50px;
-            margin-bottom: 20px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .feature h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-
-        .feature p {
-            color: var(--primary-light);
-            line-height: 1.6;
-        }
-
-        /* التذييل */
-        footer {
-            text-align: center;
-            padding: 30px;
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 20px;
-        }
-
-        .download-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 25px 0;
-        }
-
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 15px 30px;
-            background: var(--gradient);
-            color: white;
-            border-radius: 15px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.4);
-            transition: all 0.3s;
-            gap: 10px;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(126, 87, 194, 0.5);
-        }
-
-        .download-btn i {
-            font-size: 24px;
+        .action-btn:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         /* التكيف مع الشاشات الصغيرة */
-        @media (max-width: 968px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-            
-            .download-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 gap: 20px;
             }
             
-            nav ul {
-                width: 100%;
-                justify-content: space-around;
-            }
-            
-            nav ul li a {
-                padding: 8px 12px;
-                font-size: 14px;
+            .api-form {
+                grid-template-columns: 1fr;
             }
             
             .message {
@@ -584,38 +422,6 @@
             right: 10%;
             background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
         }
-
-        /* تأثيرات الكود */
-        .code-block {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-        }
-
-        /* الرسومات المتقدمة */
-        .ai-response {
-            position: relative;
-            padding: 20px;
-            background: linear-gradient(145deg, rgba(126, 87, 194, 0.15), rgba(38, 166, 154, 0.15));
-            border-radius: 15px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .ai-response h4 {
-            margin-bottom: 10px;
-            color: var(--primary-light);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .ai-response h4 i {
-            color: var(--primary);
-        }
     </style>
 </head>
 <body>
@@ -634,180 +440,124 @@
                         <span>مساعد ذكي متطور</span>
                     </div>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="#" class="active"><i class="fas fa-home"></i> الرئيسية</a></li>
-                        <li><a href="#"><i class="fas fa-comments"></i> الدردشة</a></li>
-                        <li><a href="#"><i class="fas fa-image"></i> نص إلى صورة</a></li>
-                        <li><a href="#"><i class="fas fa-download"></i> حمل التطبيق</a></li>
-                    </ul>
-                </nav>
             </div>
         </header>
 
-        <div class="main-content">
-            <div class="chat-container">
-                <div class="chat-header">
-                    <div class="chat-avatar">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="chat-info">
-                        <h2>Vivk AI</h2>
-                        <p>مساعدك الذكي المتطور</p>
-                    </div>
-                    <div class="chat-status"></div>
+        <div class="api-panel">
+            <div class="api-header">
+                <div class="api-icon">
+                    <i class="fas fa-key"></i>
                 </div>
-                
-                <div class="messages-container" id="messagesContainer">
-                    <div class="message bot-message">
-                        مرحباً! أنا Vivk AI، مساعدك الذكي المتطور. كيف يمكنني مساعدتك اليوم؟
-                    </div>
-                    <div class="message user-message">
-                        ما هي أهم ميزاتك؟
-                    </div>
-                    <div class="message bot-message">
-                        لدي العديد من الميزات الرائعة! يمكنني:
-                        <br>• إجراء محادثات ذكية باستخدام أحدث تقنيات الذكاء الاصطناعي
-                        <br>• إنشاء تذكيرات ذكية ومنظمة
-                        <br>• تلخيص النصوص الطويلة بدقة عالية
-                        <br>• تحويل النص إلى صور بإبداع مذهل
-                        <br>• الإجابة على أسئلتك المعقدة بمعلومات دقيقة
-                    </div>
-                    <div class="message user-message">
-        هل يمكنك إنشاء تذكير لي للاجتماع يوم الأربعاء القادم؟
-    </div>
-    <div class="message bot-message">
-        بالطبع! لقد قمت بإنشاء تذكير للاجتماع يوم الأربعاء القادم في 10:00 صباحاً.
-        <br>✅ سيتم إشعارك قبل 30 دقيقة من الموعد.
-    </div>
-                </div>
-
-                <div class="input-container">
-                    <input type="text" class="message-input" id="messageInput" placeholder="اكتب رسالتك هنا...">
-                    <div class="input-actions">
-                        <button class="action-btn" id="voiceBtn">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button class="action-btn" id="sendBtn">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
+                <h2 class="api-title">إعدادات API</h2>
             </div>
-
-            <div class="sidebar">
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">
-                            <i class="fas fa-image"></i>
-                        </div>
-                        <h3 class="feature-title">تحويل النص إلى صورة</h3>
-                    </div>
-                    <div class="text-to-image">
-                        <div class="image-preview">
-                            <div class="image-preview-placeholder">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>سيظهر الناتج هنا</p>
-                            </div>
-                            <img id="generatedImage" src="" alt="الصورة المنشأة">
-                        </div>
-                        <textarea class="message-input" id="imagePrompt" placeholder="صِف ما تريد إنشاءه..." rows="3"></textarea>
-                        <button class="action-btn" id="generateImageBtn" style="width: 100%; border-radius: 15px;">
-                            <i class="fas fa-magic"></i> إنشاء صورة
-                        </button>
-                    </div>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">
-                            <i class="fas fa-wand-magic-sparkles"></i>
-                        </div>
-                        <h3 class="feature-title">أدوات سريعة</h3>
-                    </div>
-                    <div class="tools">
-                        <div class="tool-btn">
-                            <i class="fas fa-summary"></i>
-                            <span>تلخيص النص</span>
-                        </div>
-                        <div class="tool-btn">
-                            <i class="fas fa-bell"></i>
-                            <span>تذكير</span>
-                        </div>
-                        <div class="tool-btn">
-                            <i class="fas fa-translate"></i>
-                            <span>ترجمة</span>
-                        </div>
-                        <div class="tool-btn">
-                            <i class="fas fa-code"></i>
-                            <span>إنشاء كود</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="api-form">
+                <input type="password" class="api-input" id="apiKeyInput" placeholder="أدخل مفتاح OpenAI API الخاص بك هنا">
+                <button class="api-btn" id="saveApiKey">
+                    <i class="fas fa-save"></i> حفظ المفتاح
+                </button>
+            </div>
+            <div class="api-status status-disconnected" id="apiStatus">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>لم يتم توصيل مفتاح API بعد</span>
             </div>
         </div>
 
-        <div class="features">
-            <div class="feature">
-                <i class="fas fa-brain"></i>
-                <h3>ذكاء متقدم</h3>
-                <p>يعتمد على أحدث نماذج الذكاء الاصطناعي لفهم السياق وتقديم إجابات دقيقة وذكية</p>
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="chat-info">
+                    <h2>Vivk AI</h2>
+                    <p>مساعدك الذكي المتطور</p>
+                </div>
+                <div class="chat-status" id="chatStatus"></div>
             </div>
-            <div class="feature">
-                <i class="fas fa-bolt"></i>
-                <h3>سرعة فائقة</h3>
-                <p>معالجة البيانات وتقديم الاستجابات في أجزاء من الثانية دون تأخير</p>
+            
+            <div class="messages-container" id="messagesContainer">
+                <div class="message bot-message">
+                    مرحباً! أنا Vivk AI، مساعدك الذكي المتطور. 
+                    <br>لبدء الاستخدام، يرجى إضافة مفتاح OpenAI API في الحقل أعلاه.
+                </div>
             </div>
-            <div class="feature">
-                <i class="fas fa-shield-alt"></i>
-                <h3>خصوصية وأمان</h3>
-                <p>بياناتك محمية ومشفرة بأحدث تقنيات الأمان للحفاظ على خصوصيتك</p>
+
+            <div class="input-container">
+                <input type="text" class="message-input" id="messageInput" placeholder="اكتب رسالتك هنا..." disabled>
+                <button class="action-btn" id="sendBtn" disabled>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
         </div>
-
-        <footer>
-            <h3>حمل التطبيق الآن واستمتع بتجربة كاملة</h3>
-            <p>توفر تطبيقات الجوال تجربة أكثر سلاسة مع ميزات إضافية</p>
-            
-            <div class="download-buttons">
-                <a href="#" class="download-btn">
-                    <i class="fab fa-apple"></i>
-                    <span>App Store</span>
-                </a>
-                <a href="#" class="download-btn">
-                    <i class="fab fa-google-play"></i>
-                    <span>Google Play</span>
-                </a>
-            </div>
-            
-            <p>© 2023 Vivk AI. جميع الحقوق محفوظة</p>
-        </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            const saveApiKeyBtn = document.getElementById('saveApiKey');
+            const apiStatus = document.getElementById('apiStatus');
             const messageInput = document.getElementById('messageInput');
             const sendBtn = document.getElementById('sendBtn');
-            const voiceBtn = document.getElementById('voiceBtn');
             const messagesContainer = document.getElementById('messagesContainer');
-            const imagePrompt = document.getElementById('imagePrompt');
-            const generateImageBtn = document.getElementById('generateImageBtn');
-            const generatedImage = document.getElementById('generatedImage');
+            const chatStatus = document.getElementById('chatStatus');
             
-            // محاكاة الردود الذكية
-            const intelligentResponses = {
-                "الذكاء الاصطناعي": "الذكاء الاصطناعي هو مجال من مجالات علوم الكمبيوتر يركز على إنشاء أنظمة قادرة على أداء المهام التي تتطلب ذكاءً بشريًا. هذه الأنظمة قادرة على التعلم واتخاذ القرارات وحل المشكلات.",
-                "كيف تعمل": "أعمل باستخدام خوارزميات متقدمة للذكاء الاصطناعي تعتمد على نماذج اللغة الكبيرة. أتدرب على كميات هائلة من البيانات لفهم السياق وتوليد ردود مناسبة.",
-                "ماذا تستطيع أن تفعل": "يمكنني الإجابة على الأسئلة، إنشاء المحتوى، تلخيص النصوص، إنشاء تذكيرات، تحويل النص إلى صور، كتابة الأكواد البرمجية، الترجمة، والكثير غير ذلك!",
-                "من صنعك": "تم تطويري من قبل فريق Vivk AI باستخدام أحدث تقنيات الذكاء الاصطناعي ومعالجة اللغة الطبيعية.",
-                "ما هو GPT-4": "GPT-4 هو أحدث نموذج للذكاء الاصطناعي من OpenAI. إنه نموذج لغة كبير محسن للأداء والدقة في فهم وتوليد النص بلغات متعددة.",
-                "كيف يمكنك مساعدتي في العمل": "يمكنني مساعدتك في كتابة التقارير، إنشاء العروض التقديمية، إدارة المهام، تحليل البيانات، كتابة الأكواد، والرد على رسائل البريد الإلكتروني بشكل احترافي."
-            };
-            
-            // إرسال الرسالة في الدردشة
+            let apiKey = '';
+            let isApiConnected = false;
+
+            // تحقق إذا كان هناك مفتاح محفوظ مسبقاً
+            const savedApiKey = localStorage.getItem('vivkAiApiKey');
+            if (savedApiKey) {
+                apiKeyInput.value = '••••••••••••••••••••••••••••••';
+                apiKey = savedApiKey;
+                updateApiStatus(true);
+                enableChat();
+            }
+
+            // حفظ مفتاح API
+            saveApiKeyBtn.addEventListener('click', function() {
+                const key = apiKeyInput.value.trim();
+                
+                if (key && !key.startsWith('••••')) {
+                    apiKey = key;
+                    localStorage.setItem('vivkAiApiKey', key);
+                    apiKeyInput.value = '••••••••••••••••••••••••••••••';
+                    updateApiStatus(true);
+                    enableChat();
+                    
+                    addMessage('تم حفظ مفتاح API بنجاح! يمكنك الآن البدء في الدردشة.', 'bot');
+                } else if (key.startsWith('••••') && apiKey) {
+                    // المفتاح محفوظ مسبقاً
+                    updateApiStatus(true);
+                    enableChat();
+                } else {
+                    alert('يرجى إدخال مفتاح API صحيح');
+                }
+            });
+
+            // تحديث حالة API
+            function updateApiStatus(connected) {
+                isApiConnected = connected;
+                if (connected) {
+                    apiStatus.className = 'api-status status-connected';
+                    apiStatus.innerHTML = '<i class="fas fa-check-circle"></i><span>تم توصيل مفتاح API بنجاح</span>';
+                    chatStatus.style.background = '#4CAF50';
+                } else {
+                    apiStatus.className = 'api-status status-disconnected';
+                    apiStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>لم يتم توصيل مفتاح API بعد</span>';
+                    chatStatus.style.background = '#FF9800';
+                }
+            }
+
+            // تمكين الدردشة
+            function enableChat() {
+                messageInput.disabled = false;
+                sendBtn.disabled = false;
+                messageInput.placeholder = 'اكتب رسالتك هنا...';
+            }
+
+            // إرسال رسالة
             function sendMessage() {
                 const message = messageInput.value.trim();
-                if (message !== '') {
+                if (message !== '' && isApiConnected) {
                     addMessage(message, 'user');
                     messageInput.value = '';
                     
@@ -825,40 +575,26 @@
                     messagesContainer.appendChild(typingIndicator);
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                     
-                    // محاكاة رد الذكاء الاصطناعي بعد فترة
+                    // محاكاة الاتصال بـ API (في الواقع سيتصل بـ OpenAI API)
                     setTimeout(() => {
                         messagesContainer.removeChild(typingIndicator);
                         
-                        let response = "شكراً على رسالتك. كيف يمكنني مساعدتك further?";
+                        // محاكاة رد من API
+                        const responses = [
+                            "شكراً على سؤالك! كيف يمكنني مساعدتك further?",
+                            "هذا سؤال مثير للاهتمام! دعني أفكر في أفضل إجابة...",
+                            "لقد قمت بمعالجة طلبك. هل تريد أي شيء آخر؟",
+                            "أنا هنا لمساعدتك في أي وقت تحتاجني فيه!",
+                            "بناءً على طلبك، هذه هي المعلومات التي وجدتها...",
+                            "يمكنني مساعدتك في إنشاء التذكيرات، الإجابة على الأسئلة، وتلخيص النصوص."
+                        ];
+                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                         
-                        // البحث عن رد ذكي مخصص
-                        for (const [keyword, intelligentResponse] of Object.entries(intelligentResponses)) {
-                            if (message.includes(keyword)) {
-                                response = intelligentResponse;
-                                break;
-                            }
-                        }
-                        
-                        // إذا كان السؤال حول إنشاء تذكير
-                        if (message.includes('تذكير') || message.includes('تذكيرة') || message.includes('ذكرني')) {
-                            response = "تم إنشاء التذكير بنجاح! سأقوم بتذكيرك في الوقت المحدد. هل تريد إضافة المزيد من التفاصيل؟";
-                        }
-                        
-                        // إذا كان السؤال حول تلخيص نص
-                        if (message.includes('لخص') || message.includes('تلخيص') || message.includes('اختصار')) {
-                            response = "بالطبع! أرسل لي النص الذي تريد تلخيصه وسأقوم بإنشاء ملخص واضح ومركز له.";
-                        }
-                        
-                        // إذا كان السؤال حول إنشاء صورة
-                        if (message.includes('صورة') || message.includes('رسم') || message.includes('إنشاء صورة')) {
-                            response = "يمكنني مساعدتك في إنشاء صور من النص! انتقل إلى أداة 'تحويل النص إلى صورة' على الجانب وأدخل الوصف الذي تريده.";
-                        }
-                        
-                        addMessage(response, 'bot');
-                    }, 1500);
+                        addMessage(randomResponse, 'bot');
+                    }, 2000);
                 }
             }
-            
+
             // إضافة رسالة إلى الدردشة
             function addMessage(text, sender) {
                 const messageElement = document.createElement('div');
@@ -870,32 +606,6 @@
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
             
-            // محاكاة تحويل النص إلى صورة
-            generateImageBtn.addEventListener('click', function() {
-                const prompt = imagePrompt.value.trim();
-                if (prompt !== '') {
-                    generateImageBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإنشاء...';
-                    
-                    // في بيئة حقيقية، هنا سيتم الاتصال بـ API لإنشاء الصور
-                    // لكننا سنقوم بمحاكاة العملية
-                    setTimeout(() => {
-                        generateImageBtn.innerHTML = '<i class="fas fa-magic"></i> إنشاء صورة';
-                        
-                        // عرض صورة منشأة (في التطبيق الحقيقي، هذه ستأتي من API)
-                        const imagePlaceholder = document.querySelector('.image-preview-placeholder');
-                        imagePlaceholder.style.display = 'none';
-                        
-                        // استخدام صورة من placeholder.com بناءً على الوصف
-                        const encodedPrompt = encodeURIComponent(prompt);
-                        generatedImage.src = `https://via.placeholder.com/300x200/7E57C2/FFFFFF?text=${encodedPrompt}`;
-                        generatedImage.style.display = 'block';
-                        
-                        // إضافة رسالة في الدردشة
-                        addMessage(`لقد أنشأت صورة based على وصفك: "${prompt}"`, 'bot');
-                    }, 2000);
-                }
-            });
-            
             // إضافة مستمعي الأحداث
             sendBtn.addEventListener('click', sendMessage);
             messageInput.addEventListener('keypress', function(e) {
@@ -903,15 +613,19 @@
                     sendMessage();
                 }
             });
-            
-            voiceBtn.addEventListener('click', function() {
-                alert("ميزة التعرف على الصوت سيتم تنشيطها. في التطبيق الكامل، سيتمكن المستخدم من التحدث بدلاً من الكتابة.");
+
+            // إظهار المفتاح الحقيقي عند النقر على campo
+            apiKeyInput.addEventListener('focus', function() {
+                if (this.value === '••••••••••••••••••••••••••••••' && apiKey) {
+                    this.value = apiKey;
+                }
             });
-            
-            // إضافة بعض الرسائل الأولية لإظهار القدرات
-            setTimeout(() => {
-                addMessage("جرب أن تسألني عن الذكاء الاصطناعي، أو كيف أعمل، أو ما الذي أستطيع فعله!", 'bot');
-            }, 3000);
+
+            apiKeyInput.addEventListener('blur', function() {
+                if (this.value === apiKey && apiKey) {
+                    this.value = '••••••••••••••••••••••••••••••';
+                }
+            });
         });
     </script>
 </body>
