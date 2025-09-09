@@ -4,26 +4,294 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vivk.Ai - الذكاء الاصطناعي المتقدم</title>
-    <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6E3AFF;
+            --secondary: #00D4FF;
+            --dark: #0F0F1A;
+            --light: #F5F5F7;
+            --gray: #8A8A9C;
+            --success: #00CC99;
+            --warning: #FF9900;
+            --danger: #FF3366;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0F0F1A 0%, #2A2A40 100%);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* تحسين الهيدر */
+        header {
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(110, 58, 255, 0.2);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+        }
+
+        .btn-login {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-login:hover {
+            background: var(--primary);
+        }
+
+        .btn-signup {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 58, 255, 0.3);
+        }
+
+        /* تحسين الشات */
+        .chat-container {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            width: 350px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(110, 58, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            z-index: 999;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .message.ai {
+            background: rgba(110, 58, 255, 0.15);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user {
+            background: rgba(0, 212, 255, 0.15);
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-input {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 25px;
+            border: 1px solid rgba(110, 58, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .chat-input button:hover {
+            background: var(--secondary);
+        }
+
+        /* زر toggle الشات */
+        .chat-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(110, 58, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* المحتوى الرئيسي */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* responsive */
+        @media (max-width: 768px) {
+            .chat-container {
+                width: 90%;
+                left: 5%;
+                bottom: 80px;
+                height: 400px;
+            }
+            
+            nav ul {
+                gap: 15px;
+                font-size: 14px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5em;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-    <!-- المحتوى الأساسي -->
-    <header class="header-modern">
+    <!-- الهيدر -->
+    <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon"><i class="fas fa-robot"></i></div>
-                    <div class="logo-text">Vivk.Ai</div>
+                    <i class="fas fa-robot"></i>
+                    Vivk.Ai
                 </div>
                 
                 <nav>
                     <ul>
-                        <li><a href="#">الرئيسية</a></li>
-                        <li><a href="#">الميزات</a></li>
-                        <li><a href="#">الأسعار</a></li>
-                        <li><a href="#">من نحن</a></li>
-                        <li><a href="#">اتصل بنا</a></li>
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#features">الميزات</a></li>
+                        <li><a href="#pricing">الأسعار</a></li>
+                        <li><a href="#about">من نحن</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
                     </ul>
                 </nav>
                 
@@ -35,13 +303,105 @@
         </div>
     </header>
 
-    <!-- باقي محتوى الصفحة -->
+    <!-- المحتوى الرئيسي -->
     <main>
-        <!-- أقسام الصفحة -->
+        <section id="home" class="hero">
+            <div class="container">
+                <h1>ذكاء اصطناعي متقدم لمستقبل أفضل</h1>
+                <p>اكتشف قوة الذكاء الاصطناعي مع Vivk.Ai. نحن نقدم حلولاً مبتكرة للدردشة الذكية، إنشاء المحتوى، وتحليل البيانات.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-signup">ابدأ مجاناً</button>
+                    <button class="btn btn-login">شاهد التجربة</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- سأضيف هنا أقسام أخرى -->
     </main>
 
-    <!-- الروابط لل scripts -->
-    <script src="scripts/chat.js"></script>
-    <script src="scripts/main.js"></script>
+    <!-- نظام الدردشة المحسن -->
+    <div class="chat-container" style="display: none;">
+        <div class="chat-header">
+            مساعد Vivk.Ai الذكي
+        </div>
+        <div class="chat-messages">
+            <div class="message ai">
+                مرحباً! أنا مساعد Vivk.Ai. كيف يمكنني مساعدتك اليوم؟
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="اكتب رسالتك هنا...">
+            <button><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div class="chat-toggle">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <script>
+        // نظام الدردشة المتطور
+        class AdvancedChat {
+            constructor() {
+                this.messages = [
+                    "مرحباً! أنا مساعد Vivk.Ai. كيف يمكنني مساعدتك اليوم؟",
+                    "هذا مثير للاهتمام! أخبرني المزيد عن ما تبحث عنه",
+                    "أستطيع مساعدتك في إنشاء محتوى، تحليل بيانات، أو الإجابة على أسئلتك",
+                    "هل تريد إنشاء فيديو، صورة، أو نص باستخدام الذكاء الاصطناعي؟",
+                    "أنا هنا لمساعدتك في أي وقت. ما الذي تحتاج إليه؟"
+                ];
+                
+                this.init();
+            }
+
+            init() {
+                this.toggleBtn = document.querySelector('.chat-toggle');
+                this.chatContainer = document.querySelector('.chat-container');
+                this.input = document.querySelector('.chat-input input');
+                this.sendBtn = document.querySelector('.chat-input button');
+                this.messagesContainer = document.querySelector('.chat-messages');
+
+                this.toggleBtn.addEventListener('click', () => this.toggleChat());
+                this.sendBtn.addEventListener('click', () => this.sendMessage());
+                this.input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.sendMessage();
+                });
+            }
+
+            toggleChat() {
+                this.chatContainer.style.display = 
+                    this.chatContainer.style.display === 'none' ? 'flex' : 'none';
+            }
+
+            sendMessage() {
+                const message = this.input.value.trim();
+                if (!message) return;
+
+                this.addMessage(message, 'user');
+                this.input.value = '';
+
+                // محاكاة رد ذكي بعد وقت قصير
+                setTimeout(() => {
+                    const randomResponse = this.messages[
+                        Math.floor(Math.random() * this.messages.length)
+                    ];
+                    this.addMessage(randomResponse, 'ai');
+                }, 1000);
+            }
+
+            addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                messageDiv.textContent = text;
+                this.messagesContainer.appendChild(messageDiv);
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+            }
+        }
+
+        // تهيئة الدردشة عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            window.chatSystem = new AdvancedChat();
+        });
+    </script>
 </body>
 </html>
