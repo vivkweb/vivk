@@ -12,6 +12,9 @@
             --dark: #0F0F1A;
             --light: #F5F5F7;
             --gray: #8A8A9C;
+            --success: #00CC99;
+            --warning: #FF9900;
+            --danger: #FF3366;
         }
 
         * {
@@ -22,10 +25,11 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0F0F1A 0%, #2A2A40 100%);
+            background: linear-gradient(135deg, #0F0F1A 0%, #1E1E2E 100%);
             color: var(--light);
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
@@ -34,65 +38,75 @@
             padding: 0 20px;
         }
 
-        /* الهيدر */
+        /* تحسين الهيدر */
         header {
-            background: rgba(15, 15, 26, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
+            background: rgba(15, 15, 26, 0.98);
+            backdrop-filter: blur(15px);
+            padding: 12px 0;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            border-bottom: 1px solid rgba(110, 58, 255, 0.2);
+            border-bottom: 1px solid rgba(110, 58, 255, 0.3);
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 30px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 24px;
-            font-weight: 700;
+            gap: 12px;
+            font-size: 28px;
+            font-weight: 800;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            white-space: nowrap;
         }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 30px;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         nav a {
             color: var(--light);
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
             font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
         }
 
         nav a:hover, nav a.active {
             color: var(--secondary);
+            background: rgba(110, 58, 255, 0.1);
         }
 
         .auth-buttons {
             display: flex;
             gap: 15px;
+            flex-shrink: 0;
         }
 
         .btn {
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             border: none;
+            font-size: 14px;
+            white-space: nowrap;
         }
 
         .btn-login {
@@ -103,149 +117,254 @@
 
         .btn-login:hover {
             background: var(--primary);
+            transform: translateY(-2px);
         }
 
         .btn-signup {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            box-shadow: 0 4px 15px rgba(110, 58, 255, 0.3);
         }
 
         .btn-signup:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(110, 58, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(110, 58, 255, 0.4);
         }
 
-        /* المحتوى */
-        .page {
-            display: none;
-            padding: 120px 0 80px;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        .page.active {
-            display: block;
-        }
-
+        /* المحتوى الرئيسي */
         .hero {
+            padding: 140px 0 80px;
             text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .hero h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
+            font-size: 4em;
+            margin-bottom: 25px;
             background: linear-gradient(135deg, var(--secondary), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            font-weight: 800;
         }
 
         .hero p {
-            font-size: 1.2em;
+            font-size: 1.3em;
             color: var(--gray);
+            margin: 0 auto 50px;
+            line-height: 1.6;
             max-width: 600px;
-            margin: 0 auto 40px;
         }
 
-        /* نظام الدردشة */
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* نظام الدردشة المتقدم */
         .chat-container {
             position: fixed;
-            bottom: 100px;
+            bottom: 120px;
             left: 30px;
-            width: 350px;
-            height: 500px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(110, 58, 255, 0.3);
+            width: 380px;
+            height: 550px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(110, 58, 255, 0.4);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             overflow: hidden;
             z-index: 999;
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+
+        .chat-container.active {
+            transform: translateX(0);
         }
 
         .chat-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 20px;
+            padding: 25px;
             text-align: center;
             color: white;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .chat-messages {
             flex: 1;
-            padding: 20px;
+            padding: 25px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
+            background: rgba(15, 15, 26, 0.6);
         }
 
         .message {
-            max-width: 80%;
-            padding: 12px 18px;
-            border-radius: 18px;
-            animation: fadeIn 0.3s ease-in;
+            max-width: 85%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            animation: messageSlide 0.3s ease-out;
+            line-height: 1.5;
+            font-size: 15px;
         }
 
         .message.ai {
-            background: rgba(110, 58, 255, 0.15);
+            background: linear-gradient(135deg, rgba(110, 58, 255, 0.15), rgba(0, 212, 255, 0.15));
             align-self: flex-start;
             border-bottom-left-radius: 5px;
+            border: 1px solid rgba(110, 58, 255, 0.2);
         }
 
         .message.user {
-            background: rgba(0, 212, 255, 0.15);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(110, 58, 255, 0.15));
             align-self: flex-end;
             border-bottom-right-radius: 5px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
         }
 
         .chat-input {
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
             display: flex;
-            gap: 10px;
+            gap: 15px;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .chat-input input {
             flex: 1;
-            padding: 12px 18px;
-            border-radius: 25px;
-            border: 1px solid rgba(110, 58, 255, 0.3);
+            padding: 16px 20px;
+            border-radius: 30px;
+            border: 2px solid rgba(110, 58, 255, 0.3);
             background: rgba(255, 255, 255, 0.08);
             color: white;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .chat-input button {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
             border-radius: 50%;
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .chat-input button:hover {
+            transform: rotate(15deg) scale(1.1);
         }
 
         .chat-toggle {
             position: fixed;
-            bottom: 30px;
-            left: 30px;
-            width: 60px;
-            height: 60px;
+            bottom: 40px;
+            left: 40px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
             z-index: 1000;
-            box-shadow: 0 5px 15px rgba(110, 58, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(110, 58, 255, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .chat-toggle:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 12px 35px rgba(110, 58, 255, 0.6);
+        }
+
+        /* تأثيرات */
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 8px 25px rgba(110, 58, 255, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 12px 35px rgba(110, 58, 255, 0.6);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .hero p {
+                font-size: 1.1em;
+            }
+            
+            .chat-container {
+                width: 90%;
+                left: 5%;
+                bottom: 100px;
+                height: 450px;
+            }
+            
+            .chat-toggle {
+                bottom: 20px;
+                left: 20px;
+                width: 60px;
+                height: 60px;
+            }
         }
     </style>
 </head>
@@ -261,11 +380,11 @@
                 
                 <nav>
                     <ul>
-                        <li><a href="#home" class="nav-link active" data-page="home">الرئيسية</a></li>
-                        <li><a href="#features" class="nav-link" data-page="features">الميزات</a></li>
-                        <li><a href="#pricing" class="nav-link" data-page="pricing">الأسعار</a></li>
-                        <li><a href="#about" class="nav-link" data-page="about">من نحن</a></li>
-                        <li><a href="#contact" class="nav-link" data-page="contact">اتصل بنا</a></li>
+                        <li><a href="#home" class="active">الرئيسية</a></li>
+                        <li><a href="#features">الميزات</a></li>
+                        <li><a href="#pricing">الأسعار</a></li>
+                        <li><a href="#about">من نحن</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
                     </ul>
                 </nav>
                 
@@ -277,12 +396,11 @@
         </div>
     </header>
 
-    <!-- الصفحات -->
+    <!-- المحتوى الرئيسي -->
     <main>
-        <!-- الصفحة الرئيسية -->
-        <section id="home" class="page active">
+        <section class="hero">
             <div class="container">
-                <div class="hero">
+                <div class="hero-content">
                     <h1>ذكاء اصطناعي متقدم لمستقبل أفضل</h1>
                     <p>اكتشف قوة الذكاء الاصطناعي مع Vivk.Ai. نحن نقدم حلولاً مبتكرة للدردشة الذكية، إنشاء المحتوى، وتحليل البيانات.</p>
                     <div class="hero-buttons">
@@ -292,102 +410,45 @@
                 </div>
             </div>
         </section>
-
-        <!-- صفحة الميزات -->
-        <section id="features" class="page">
-            <div class="container">
-                <h2>ميزاتنا الرائعة</h2>
-                <p>اكتشف كل ما نقدمه من حلول متطورة</p>
-                <!-- محتوى الميزات -->
-            </div>
-        </section>
-
-        <!-- صفحة الأسعار -->
-        <section id="pricing" class="page">
-            <div class="container">
-                <h2>خطط الأسعار</h2>
-                <p>اختر الخطة التي تناسبك</p>
-                <!-- محتوى الأسعار -->
-            </div>
-        </section>
-
-        <!-- صفحة من نحن -->
-        <section id="about" class="page">
-            <div class="container">
-                <h2>من نحن</h2>
-                <p>تعرف على فريق Vivk.Ai</p>
-                <!-- محتوى من نحن -->
-            </div>
-        </section>
-
-        <!-- صفحة اتصل بنا -->
-        <section id="contact" class="page">
-            <div class="container">
-                <h2>اتصل بنا</h2>
-                <p>نحن هنا لمساعدتك</p>
-                <!-- محتوى الاتصال -->
-            </div>
-        </section>
     </main>
 
-    <!-- نظام الدردشة -->
-    <div class="chat-container" style="display: none;">
-        <div class="chat-header">مساعد Vivk.Ai الذكي</div>
+    <!-- نظام الدردشة المتقدم -->
+    <div class="chat-container">
+        <div class="chat-header">
+            <i class="fas fa-robot"></i>
+            مساعد Vivk.Ai الذكي
+        </div>
         <div class="chat-messages">
-            <div class="message ai">مرحباً! أنا مساعد Vivk.Ai. كيف يمكنني مساعدتك اليوم؟</div>
+            <div class="message ai">
+                مرحباً! أنا مساعد Vivk.Ai المتقدم. كيف يمكنني مساعدتك اليوم؟ 😊
+            </div>
         </div>
         <div class="chat-input">
-            <input type="text" placeholder="اكتب رسالتك هنا...">
-            <button><i class="fas fa-paper-plane"></i></button>
+            <input type="text" placeholder="اكتب رسالتك هنا..." id="chat-input">
+            <button id="send-button">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </div>
     </div>
 
-    <div class="chat-toggle">
+    <div class="chat-toggle" id="chat-toggle">
         <i class="fas fa-comments"></i>
     </div>
 
     <script>
-        // نظام الصفحات المتعددة
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const pageId = link.getAttribute('data-page');
-                
-                // إخفاء جميع الصفحات
-                document.querySelectorAll('.page').forEach(page => {
-                    page.classList.remove('active');
-                });
-                
-                // إظهار الصفحة المحددة
-                document.getElementById(pageId).classList.add('active');
-                
-                // تحديد الرابط النشط
-                document.querySelectorAll('.nav-link').forEach(navLink => {
-                    navLink.classList.remove('active');
-                });
-                link.classList.add('active');
-            });
-        });
-
-        // نظام الدردشة المتطور
-        class AdvancedChat {
+        // نظام الذكاء الاصطناعي المتقدم
+        class VivkAIChat {
             constructor() {
-                this.responses = {
-                    'hello': ['مرحباً! كيف حالك اليوم؟', 'أهلاً وسهلاً! كيف يمكنني مساعدتك؟', 'مرحباً بك في Vivk.Ai!'],
-                    'time': ['الساعة الآن هي: ' + new Date().toLocaleTimeString('ar-SA'), 'الوقت الحالي: ' + new Date().toLocaleTimeString('ar-SA')],
-                    'date': ['التاريخ اليوم: ' + new Date().toLocaleDateString('ar-SA'), 'اليوم هو: ' + new Date().toLocaleDateString('ar-SA')],
-                    'name': ['أنا مساعد Vivk.Ai الذكي!', 'اسمي مساعد Vivk.Ai، كيف يمكنني خدمتك؟'],
-                    'default': ['هذا مثير للاهتمام! أخبرني المزيد', 'أستطيع مساعدتك في ذلك، ما الذي تبحث عنه بالضبط؟', 'رائع! كيف يمكنني مساعدتك في هذا؟']
-                };
-                
+                this.conversationHistory = [];
+                this.isProcessing = false;
                 this.init();
             }
 
             init() {
-                this.toggleBtn = document.querySelector('.chat-toggle');
+                this.toggleBtn = document.getElementById('chat-toggle');
                 this.chatContainer = document.querySelector('.chat-container');
-                this.input = document.querySelector('.chat-input input');
-                this.sendBtn = document.querySelector('.chat-input button');
+                this.input = document.getElementById('chat-input');
+                this.sendBtn = document.getElementById('send-button');
                 this.messagesContainer = document.querySelector('.chat-messages');
 
                 this.toggleBtn.addEventListener('click', () => this.toggleChat());
@@ -395,50 +456,99 @@
                 this.input.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') this.sendMessage();
                 });
+
+                this.addMessage('مرحباً! أنا مساعد Vivk.Ai المتقدم. كيف يمكنني مساعدتك اليوم؟ 😊', 'ai');
             }
 
             toggleChat() {
-                this.chatContainer.style.display = 
-                    this.chatContainer.style.display === 'none' ? 'flex' : 'none';
+                this.chatContainer.classList.toggle('active');
             }
 
-            sendMessage() {
+            async sendMessage() {
                 const message = this.input.value.trim();
-                if (!message) return;
+                if (!message || this.isProcessing) return;
 
                 this.addMessage(message, 'user');
                 this.input.value = '';
+                this.isProcessing = true;
 
-                // محاكاة رد ذكي
-                setTimeout(() => {
-                    const response = this.generateResponse(message);
-                    this.addMessage(response, 'ai');
-                }, 1000);
+                // محاكاة اتصال بالذكاء الاصطناعي
+                const response = await this.generateAIResponse(message);
+                this.addMessage(response, 'ai');
+                this.isProcessing = false;
             }
 
-            generateResponse(message) {
-                const lowerMessage = message.toLowerCase();
-                
-                if (lowerMessage.includes('مرحب') || lowerMessage.includes('اهل') || lowerMessage.includes('hello')) {
-                    return this.getRandomResponse('hello');
+            async generateAIResponse(userMessage) {
+                // محاكاة وقت معالجة الذكاء الاصطناعي
+                await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+
+                const responses = {
+                    greeting: [
+                        "مرحباً! 😊 كيف يمكنني مساعدتك اليوم؟",
+                        "أهلاً وسهلاً! 🌟 ما الذي يمكنني فعله لك؟",
+                        "مرحباً بك! 🚀 كيف أساعدك؟"
+                    ],
+                    time: [
+                        `الوقت الحالي هو: ${new Date().toLocaleTimeString('ar-SA')} ⏰`,
+                        `الساعة الآن: ${new Date().toLocaleTimeString('ar-SA')} 🕒`
+                    ],
+                    date: [
+                        `التاريخ اليوم: ${new Date().toLocaleDateString('ar-SA')} 📅`,
+                        `اليوم هو: ${new Date().toLocaleDateString('ar-SA')} 🗓️`
+                    ],
+                    name: [
+                        "أنا مساعد Vivk.Ai الذكي! 🤖",
+                        "اسمي مساعد Vivk.Ai، أنا هنا لخدمتك! ⚡"
+                    ],
+                    weather: [
+                        "للأسف لا أستطيع الوصول إلى بيانات الطقس حالياً. 🌤️",
+                        "يمكنني مساعدتك في many things، لكن الطقس يحتاج اتصالاً خارجياً. ⚡"
+                    ],
+                    joke: [
+                        "لماذا لا يثق العلماء في الذرات؟ لأنها تصنع كل شيء! 😄",
+                        "ماذا قال الكمبيوتر للموظف؟ أنت بحاجة إلى upgrade! 🎯"
+                    ],
+                    help: [
+                        "يمكنني مساعدتك في: الإجابة على الأسئلة، إنشاء المحتوى، التحليل، والكثير! 🚀",
+                        "أستطيع: المحادثة، generate الأفكار، المساعدة في البرمجة، وغير ذلك! 💡"
+                    ],
+                    default: [
+                        "هذا مثير للاهتمام! 🤔 أخبرني المزيد عن ما تبحث عنه",
+                        "رائع! 🎯 كيف يمكنني مساعدتك في هذا بالضبط؟",
+                        "أفهم! 💡 ما الذي تحتاجه تحديداً؟"
+                    ]
+                };
+
+                const lowerMessage = userMessage.toLowerCase();
+
+                if (/(مرحبا|اهلا|hello|اهلين)/.test(lowerMessage)) {
+                    return this.getRandomResponse(responses.greeting);
                 }
-                else if (lowerMessage.includes('وقت') || lowerMessage.includes('ساعة') || lowerMessage.includes('time')) {
-                    return this.getRandomResponse('time');
+                else if (/(وقت|ساعة|time)/.test(lowerMessage)) {
+                    return this.getRandomResponse(responses.time);
                 }
-                else if (lowerMessage.includes('تاريخ') || lowerMessage.includes('يوم') || lowerMessage.includes('date')) {
-                    return this.getRandomResponse('date');
+                else if (/(تاريخ|يوم|date)/.test(lowerMessage)) {
+                    return this.getRandomResponse(responses.date);
                 }
-                else if (lowerMessage.includes('اسمك') || lowerMessage.includes('من انت') || lowerMessage.includes('name')) {
-                    return this.getRandomResponse('name');
+                else if (/(اسمك|من انت|name)/.test(lowerMessage)) {
+                    return this.getRandomResponse(responses.name);
+                }
+                else if (/(طقس|جو|weather)/.test(lowerMessage)) {
+                    return this.getRandomResponse(responses.weather);
+                }
+                else if (/(نكته|ضحك|joke)/.test(lowerMessage)) {
+                    return this.getRandomResponse(responses.joke);
+                }
+                else if (/(مساعدة|help|دعم)/.test(lowerMessage)) {
+                    return this.getRandomResponse(responses.help);
                 }
                 else {
-                    return this.getRandomResponse('default');
+                    return this.getRandomResponse(responses.default);
                 }
             }
 
-            getRandomResponse(type) {
-                const responses = this.responses[type];
-                return responses[Math.floor(Math.random() * responses.length)];
+            getRandomResponse(responsesArray) {
+                return responsesArray[Math.floor(Math.random() * responsesArray.length)];
             }
 
             addMessage(text, sender) {
@@ -447,12 +557,15 @@
                 messageDiv.textContent = text;
                 this.messagesContainer.appendChild(messageDiv);
                 this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+
+                // حفظ في history
+                this.conversationHistory.push({ sender, text, timestamp: new Date() });
             }
         }
 
-        // تهيئة الدردشة
+        // تهيئة الدردشة عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
-            window.chatSystem = new AdvancedChat();
+            window.vivkAI = new VivkAIChat();
         });
     </script>
 </body>
