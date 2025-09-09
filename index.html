@@ -12,9 +12,6 @@
             --dark: #0F0F1A;
             --light: #F5F5F7;
             --gray: #8A8A9C;
-            --success: #00CC99;
-            --warning: #FF9900;
-            --danger: #FF3366;
         }
 
         * {
@@ -37,7 +34,7 @@
             padding: 0 20px;
         }
 
-        /* تحسين الهيدر */
+        /* الهيدر */
         header {
             background: rgba(15, 15, 26, 0.95);
             backdrop-filter: blur(10px);
@@ -80,7 +77,7 @@
             font-size: 16px;
         }
 
-        nav a:hover {
+        nav a:hover, nav a.active {
             color: var(--secondary);
         }
 
@@ -96,7 +93,6 @@
             cursor: pointer;
             transition: all 0.3s;
             border: none;
-            font-size: 14px;
         }
 
         .btn-login {
@@ -119,7 +115,37 @@
             box-shadow: 0 5px 15px rgba(110, 58, 255, 0.3);
         }
 
-        /* تحسين الشات */
+        /* المحتوى */
+        .page {
+            display: none;
+            padding: 120px 0 80px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero {
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* نظام الدردشة */
         .chat-container {
             position: fixed;
             bottom: 100px;
@@ -187,7 +213,6 @@
             border: 1px solid rgba(110, 58, 255, 0.3);
             background: rgba(255, 255, 255, 0.08);
             color: white;
-            font-size: 14px;
         }
 
         .chat-input button {
@@ -198,14 +223,8 @@
             width: 45px;
             height: 45px;
             cursor: pointer;
-            transition: background 0.3s;
         }
 
-        .chat-input button:hover {
-            background: var(--secondary);
-        }
-
-        /* زر toggle الشات */
         .chat-toggle {
             position: fixed;
             bottom: 30px;
@@ -222,51 +241,6 @@
             cursor: pointer;
             z-index: 1000;
             box-shadow: 0 5px 15px rgba(110, 58, 255, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .chat-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        /* المحتوى الرئيسي */
-        .hero {
-            padding: 120px 0 80px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.2em;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto 40px;
-        }
-
-        /* responsive */
-        @media (max-width: 768px) {
-            .chat-container {
-                width: 90%;
-                left: 5%;
-                bottom: 80px;
-                height: 400px;
-            }
-            
-            nav ul {
-                gap: 15px;
-                font-size: 14px;
-            }
-            
-            .hero h1 {
-                font-size: 2.5em;
-            }
         }
 
         @keyframes fadeIn {
@@ -287,11 +261,11 @@
                 
                 <nav>
                     <ul>
-                        <li><a href="#home">الرئيسية</a></li>
-                        <li><a href="#features">الميزات</a></li>
-                        <li><a href="#pricing">الأسعار</a></li>
-                        <li><a href="#about">من نحن</a></li>
-                        <li><a href="#contact">اتصل بنا</a></li>
+                        <li><a href="#home" class="nav-link active" data-page="home">الرئيسية</a></li>
+                        <li><a href="#features" class="nav-link" data-page="features">الميزات</a></li>
+                        <li><a href="#pricing" class="nav-link" data-page="pricing">الأسعار</a></li>
+                        <li><a href="#about" class="nav-link" data-page="about">من نحن</a></li>
+                        <li><a href="#contact" class="nav-link" data-page="contact">اتصل بنا</a></li>
                     </ul>
                 </nav>
                 
@@ -303,31 +277,64 @@
         </div>
     </header>
 
-    <!-- المحتوى الرئيسي -->
+    <!-- الصفحات -->
     <main>
-        <section id="home" class="hero">
+        <!-- الصفحة الرئيسية -->
+        <section id="home" class="page active">
             <div class="container">
-                <h1>ذكاء اصطناعي متقدم لمستقبل أفضل</h1>
-                <p>اكتشف قوة الذكاء الاصطناعي مع Vivk.Ai. نحن نقدم حلولاً مبتكرة للدردشة الذكية، إنشاء المحتوى، وتحليل البيانات.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-signup">ابدأ مجاناً</button>
-                    <button class="btn btn-login">شاهد التجربة</button>
+                <div class="hero">
+                    <h1>ذكاء اصطناعي متقدم لمستقبل أفضل</h1>
+                    <p>اكتشف قوة الذكاء الاصطناعي مع Vivk.Ai. نحن نقدم حلولاً مبتكرة للدردشة الذكية، إنشاء المحتوى، وتحليل البيانات.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-signup">ابدأ مجاناً</button>
+                        <button class="btn btn-login">شاهد التجربة</button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- سأضيف هنا أقسام أخرى -->
+        <!-- صفحة الميزات -->
+        <section id="features" class="page">
+            <div class="container">
+                <h2>ميزاتنا الرائعة</h2>
+                <p>اكتشف كل ما نقدمه من حلول متطورة</p>
+                <!-- محتوى الميزات -->
+            </div>
+        </section>
+
+        <!-- صفحة الأسعار -->
+        <section id="pricing" class="page">
+            <div class="container">
+                <h2>خطط الأسعار</h2>
+                <p>اختر الخطة التي تناسبك</p>
+                <!-- محتوى الأسعار -->
+            </div>
+        </section>
+
+        <!-- صفحة من نحن -->
+        <section id="about" class="page">
+            <div class="container">
+                <h2>من نحن</h2>
+                <p>تعرف على فريق Vivk.Ai</p>
+                <!-- محتوى من نحن -->
+            </div>
+        </section>
+
+        <!-- صفحة اتصل بنا -->
+        <section id="contact" class="page">
+            <div class="container">
+                <h2>اتصل بنا</h2>
+                <p>نحن هنا لمساعدتك</p>
+                <!-- محتوى الاتصال -->
+            </div>
+        </section>
     </main>
 
-    <!-- نظام الدردشة المحسن -->
+    <!-- نظام الدردشة -->
     <div class="chat-container" style="display: none;">
-        <div class="chat-header">
-            مساعد Vivk.Ai الذكي
-        </div>
+        <div class="chat-header">مساعد Vivk.Ai الذكي</div>
         <div class="chat-messages">
-            <div class="message ai">
-                مرحباً! أنا مساعد Vivk.Ai. كيف يمكنني مساعدتك اليوم؟
-            </div>
+            <div class="message ai">مرحباً! أنا مساعد Vivk.Ai. كيف يمكنني مساعدتك اليوم؟</div>
         </div>
         <div class="chat-input">
             <input type="text" placeholder="اكتب رسالتك هنا...">
@@ -340,16 +347,38 @@
     </div>
 
     <script>
+        // نظام الصفحات المتعددة
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                
+                // إخفاء جميع الصفحات
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // إظهار الصفحة المحددة
+                document.getElementById(pageId).classList.add('active');
+                
+                // تحديد الرابط النشط
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                link.classList.add('active');
+            });
+        });
+
         // نظام الدردشة المتطور
         class AdvancedChat {
             constructor() {
-                this.messages = [
-                    "مرحباً! أنا مساعد Vivk.Ai. كيف يمكنني مساعدتك اليوم؟",
-                    "هذا مثير للاهتمام! أخبرني المزيد عن ما تبحث عنه",
-                    "أستطيع مساعدتك في إنشاء محتوى، تحليل بيانات، أو الإجابة على أسئلتك",
-                    "هل تريد إنشاء فيديو، صورة، أو نص باستخدام الذكاء الاصطناعي؟",
-                    "أنا هنا لمساعدتك في أي وقت. ما الذي تحتاج إليه؟"
-                ];
+                this.responses = {
+                    'hello': ['مرحباً! كيف حالك اليوم؟', 'أهلاً وسهلاً! كيف يمكنني مساعدتك؟', 'مرحباً بك في Vivk.Ai!'],
+                    'time': ['الساعة الآن هي: ' + new Date().toLocaleTimeString('ar-SA'), 'الوقت الحالي: ' + new Date().toLocaleTimeString('ar-SA')],
+                    'date': ['التاريخ اليوم: ' + new Date().toLocaleDateString('ar-SA'), 'اليوم هو: ' + new Date().toLocaleDateString('ar-SA')],
+                    'name': ['أنا مساعد Vivk.Ai الذكي!', 'اسمي مساعد Vivk.Ai، كيف يمكنني خدمتك؟'],
+                    'default': ['هذا مثير للاهتمام! أخبرني المزيد', 'أستطيع مساعدتك في ذلك، ما الذي تبحث عنه بالضبط؟', 'رائع! كيف يمكنني مساعدتك في هذا؟']
+                };
                 
                 this.init();
             }
@@ -380,13 +409,36 @@
                 this.addMessage(message, 'user');
                 this.input.value = '';
 
-                // محاكاة رد ذكي بعد وقت قصير
+                // محاكاة رد ذكي
                 setTimeout(() => {
-                    const randomResponse = this.messages[
-                        Math.floor(Math.random() * this.messages.length)
-                    ];
-                    this.addMessage(randomResponse, 'ai');
+                    const response = this.generateResponse(message);
+                    this.addMessage(response, 'ai');
                 }, 1000);
+            }
+
+            generateResponse(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                if (lowerMessage.includes('مرحب') || lowerMessage.includes('اهل') || lowerMessage.includes('hello')) {
+                    return this.getRandomResponse('hello');
+                }
+                else if (lowerMessage.includes('وقت') || lowerMessage.includes('ساعة') || lowerMessage.includes('time')) {
+                    return this.getRandomResponse('time');
+                }
+                else if (lowerMessage.includes('تاريخ') || lowerMessage.includes('يوم') || lowerMessage.includes('date')) {
+                    return this.getRandomResponse('date');
+                }
+                else if (lowerMessage.includes('اسمك') || lowerMessage.includes('من انت') || lowerMessage.includes('name')) {
+                    return this.getRandomResponse('name');
+                }
+                else {
+                    return this.getRandomResponse('default');
+                }
+            }
+
+            getRandomResponse(type) {
+                const responses = this.responses[type];
+                return responses[Math.floor(Math.random() * responses.length)];
             }
 
             addMessage(text, sender) {
@@ -398,7 +450,7 @@
             }
         }
 
-        // تهيئة الدردشة عند تحميل الصفحة
+        // تهيئة الدردشة
         document.addEventListener('DOMContentLoaded', () => {
             window.chatSystem = new AdvancedChat();
         });
