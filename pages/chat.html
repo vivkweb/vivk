@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحادثة - Vivk AI</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="logo-text">Vivk AI</div>
+            </div>
+            
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" onclick="location.href='../index.html'">
+                    <i class="fas fa-home"></i>
+                    الصفحة الرئيسية
+                </button>
+            </div>
+        </header>
+        
+        <div class="chat-layout">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3>المحادثات</h3>
+                    <button class="new-chat-btn">
+                        <i class="fas fa-plus"></i>
+                        محادثة جديدة
+                    </button>
+                </div>
+                
+                <div class="chat-history">
+                    <div class="chat-item active">
+                        <i class="fas fa-message"></i>
+                        <span>محادثة جديدة</span>
+                    </div>
+                    <div class="chat-item">
+                        <i class="fas fa-message"></i>
+                        <span>مناقشة حول البرمجة</span>
+                    </div>
+                    <div class="chat-item">
+                        <i class="fas fa-message"></i>
+                        <span>استفسارات تقنية</span>
+                    </div>
+                </div>
+                
+                <div class="ai-models">
+                    <h4>نموذج الذكاء الاصطناعي</h4>
+                    <select class="model-select">
+                        <option>Vivk AI Pro - النموذج المتقدم</option>
+                        <option>Vivk AI Lite - النموذج الخفيف</option>
+                        <option>Vivk AI Creative - للنصوص الإبداعية</option>
+                        <option>Vivk AI Code - للمبرمجين</option>
+                    </select>
+                </div>
+            </aside>
+            
+            <main class="chat-main">
+                <div class="chat-header">
+                    <h2>محادثة مع Vivk AI</h2>
+                    <div class="chat-actions">
+                        <button class="chat-action-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="chat-action-btn">
+                            <i class="fas fa-share"></i>
+                        </button>
+                        <button class="chat-action-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-text">
+                                مرحباً! أنا مساعدك الذكي Vivk AI. كيف يمكنني مساعدتك اليوم؟
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <div class="chat-input-box">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="اكتب رسالتك هنا...">
+                        <button class="chat-send-btn" id="sendMessage">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <small class="input-hint">
+                        اضغط على Enter للإرسال أو Shift+Enter للسطر الجديد
+                    </small>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../scripts/chat.js"></script>
+</body>
+</html>
