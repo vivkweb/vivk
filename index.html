@@ -30,76 +30,82 @@
             background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
             color: var(--light);
             min-height: 100vh;
-            padding: 20px;
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 20px;
-            height: calc(100vh - 40px);
-        }
-
-        /* الشريط الجانبي */
-        .sidebar {
+        /* الشريط العلوي */
+        .top-nav {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
+            padding: 15px 30px;
             display: flex;
-            flex-direction: column;
-            border: 1px solid var(--card-border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
             gap: 12px;
         }
 
         .logo-img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 22px;
+            font-size: 18px;
             color: white;
             box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
         .logo-text {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .brand-subtitle {
-            font-size: 13px;
-            color: var(--gray);
-            margin-top: 5px;
+        .nav-links {
+            display: flex;
+            gap: 20px;
         }
 
-        .controls {
+        .nav-link {
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+        }
+
+        .nav-link i {
+            margin-left: 8px;
+        }
+
+        .user-actions {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 10px;
         }
 
         .btn {
-            padding: 12px 16px;
-            border-radius: 12px;
+            padding: 10px 16px;
+            border-radius: 10px;
             border: none;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
@@ -129,11 +135,45 @@
             color: var(--light);
         }
 
-        .sessions-container {
-            flex: 1;
-            overflow-y: auto;
-            margin: 15px 0;
-            padding-right: 5px;
+        /* المحتوى الرئيسي */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* الشريط الجانبي */
+        .sidebar {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-title i {
+            color: var(--primary);
         }
 
         .session-item {
@@ -160,17 +200,12 @@
             font-weight: 600;
             margin-bottom: 5px;
             color: var(--light);
+            font-size: 14px;
         }
 
         .session-date {
             font-size: 12px;
             color: var(--gray);
-        }
-
-        .settings {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid var(--card-border);
         }
 
         .setting-item {
@@ -193,19 +228,19 @@
             color: var(--light);
         }
 
-        /* المنطقة الرئيسية */
-        .main {
-            display: flex;
-            flex-direction: column;
+        /* منطقة المحتوى الديناميكي */
+        .content-area {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
+            border-radius: 16px;
             overflow: hidden;
             border: 1px solid var(--card-border);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
         }
 
-        .header {
+        .content-header {
             padding: 20px 25px;
             border-bottom: 1px solid var(--card-border);
             display: flex;
@@ -213,23 +248,18 @@
             align-items: center;
         }
 
-        .header-title {
+        .content-title {
             font-size: 20px;
             font-weight: 700;
         }
 
-        .header-subtitle {
+        .content-subtitle {
             font-size: 14px;
             color: var(--gray);
             margin-top: 5px;
         }
 
-        .export-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-area {
+        .content-body {
             flex: 1;
             padding: 25px;
             overflow-y: auto;
@@ -237,6 +267,13 @@
             flex-direction: column;
             gap: 20px;
             background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* محتوى الدردشة */
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         .message {
@@ -311,7 +348,7 @@
             text-align: left;
         }
 
-        /* تأثيرات خاصة */
+        /* مؤشر الكتابة */
         .typing-indicator {
             display: flex;
             gap: 5px;
@@ -346,8 +383,9 @@
             50% { opacity: 1; transform: scale(1.1); }
         }
 
+        /* تأثيرات التوهج */
         .glow-effect {
-            position: absolute;
+            position: fixed;
             width: 300px;
             height: 300px;
             background: radial-gradient(var(--primary), transparent 70%);
@@ -367,9 +405,64 @@
             background: radial-gradient(var(--secondary), transparent 70%);
         }
 
-        /* Responsive design */
-        @media (max-width: 900px) {
-            .container {
+        /* محتوى الصفحات الأخرى */
+        .page-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: var(--gray);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* التكيف مع الشاشات المختلفة */
+        @media (max-width: 1024px) {
+            .main-content {
                 grid-template-columns: 1fr;
             }
             
@@ -381,36 +474,92 @@
                 max-width: 90%;
             }
         }
+
+        @media (max-width: 768px) {
+            .top-nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .user-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="glow-effect glow-1"></div>
     <div class="glow-effect glow-2"></div>
     
-    <div class="container">
+    <!-- الشريط العلوي -->
+    <nav class="top-nav">
+        <div class="logo">
+            <div class="logo-img">V</div>
+            <div class="logo-text">vivk.ai</div>
+        </div>
+        
+        <div class="nav-links">
+            <div class="nav-link active" data-page="chat">
+                <i class="fas fa-comments"></i> الدردشة
+            </div>
+            <div class="nav-link" data-page="models">
+                <i class="fas fa-brain"></i> النماذج
+            </div>
+            <div class="nav-link" data-page="tools">
+                <i class="fas fa-tools"></i> الأدوات
+            </div>
+            <div class="nav-link" data-page="help">
+                <i class="fas fa-question-circle"></i> المساعدة
+            </div>
+        </div>
+        
+        <div class="user-actions">
+            <button class="btn ghost"><i class="fas fa-user"></i> تسجيل الدخول</button>
+            <button class="btn"><i class="fas fa-crown"></i> الترقية</button>
+        </div>
+    </nav>
+    
+    <!-- المحتوى الرئيسي -->
+    <div class="main-content">
         <!-- الشريط الجانبي -->
         <aside class="sidebar">
-            <div class="logo">
-                <div class="logo-img">V</div>
-                <div>
-                    <div class="logo-text">vivk.ai</div>
-                    <div class="brand-subtitle">الذكاء الاصطناعي المتقدم</div>
+            <div class="sidebar-section">
+                <div class="sidebar-title"><i class="fas fa-plus"></i> جلسات الدردشة</div>
+                <button class="btn" style="width: 100%"><i class="fas fa-plus"></i> جلسة جديدة</button>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title"><i class="fas fa-history"></i> المحادثات الحديثة</div>
+                <div class="session-item active">
+                    <div class="session-title">مناقشة حول الذكاء الاصطناعي</div>
+                    <div class="session-date">اليوم • ١٠:٣٠ صباحاً</div>
+                </div>
+                <div class="session-item">
+                    <div class="session-title">أسئلة حول البرمجة</div>
+                    <div class="session-date">أمس • ٠٣:١٥ مساءً</div>
+                </div>
+                <div class="session-item">
+                    <div class="session-title">استفسارات علمية</div>
+                    <div class="session-date">٢٥ نوفمبر • ٠٩:٤٥ صباحاً</div>
                 </div>
             </div>
             
-            <div class="controls">
-                <button class="btn" id="new-chat"><i class="fas fa-plus"></i> محادثة جديدة</button>
-                <button class="btn ghost" id="import-chat"><i class="fas fa-file-import"></i> استيراد محادثة</button>
-            </div>
-            
-            <div class="sessions-container" id="sessions-list">
-                <!-- سيتم ملؤها ديناميكياً -->
-            </div>
-            
-            <div class="settings">
+            <div class="sidebar-section">
+                <div class="sidebar-title"><i class="fas fa-cog"></i> الإعدادات</div>
                 <div class="setting-item">
                     <label class="setting-label">اللغة</label>
-                    <select id="language-select">
+                    <select>
                         <option value="ar">العربية</option>
                         <option value="en">English</option>
                         <option value="es">Español</option>
@@ -419,46 +568,173 @@
                 
                 <div class="setting-item">
                     <label class="setting-label">نمط الردود</label>
-                    <select id="response-style">
+                    <select>
                         <option value="standard">قياسي</option>
                         <option value="creative">إبداعي</option>
                         <option value="precise">دقيق</option>
                     </select>
                 </div>
                 
-                <button class="btn ghost" id="ai-settings"><i class="fas fa-robot"></i> إعدادات الذكاء الاصطناعي</button>
+                <button class="btn ghost" style="width: 100%; margin-top: 10px;">
+                    <i class="fas fa-robot"></i> إعدادات متقدمة
+                </button>
             </div>
         </aside>
         
-        <!-- المنطقة الرئيسية -->
-        <main class="main">
-            <header class="header">
-                <div>
-                    <div class="header-title" id="chat-title">محادثة Vivk AI</div>
-                    <div class="header-subtitle">اسأل أي شيء وسأجيبك بإبداع</div>
+        <!-- منطقة المحتوى الديناميكي -->
+        <main class="content-area">
+            <!-- صفحة الدردشة -->
+            <div class="page-content active" id="chat-page">
+                <div class="content-header">
+                    <div>
+                        <div class="content-title">محادثة Vivk AI</div>
+                        <div class="content-subtitle">اسأل أي شيء وسأجيبك بإبداع</div>
+                    </div>
+                    <div>
+                        <button class="btn"><i class="fas fa-download"></i> تصدير المحادثة</button>
+                    </div>
                 </div>
-                <div class="export-actions">
-                    <button class="btn ghost" id="export-chat"><i class="fas fa-download"></i> تصدير</button>
-                    <button class="btn" id="share-chat"><i class="fas fa-share-alt"></i> مشاركة</button>
+                
+                <div class="content-body">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message bot">
+                            مرحباً! أنا مساعدك الذكي Vivk AI. كيف يمكنني مساعدتك اليوم؟
+                            <div class="message-meta">Vivk AI • الآن</div>
+                        </div>
+                    </div>
+                    
+                    <div class="typing-indicator" id="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
                 </div>
-            </header>
-            
-            <div class="chat-area" id="chat-messages">
-                <!-- سيتم ملؤها ديناميكياً -->
+                
+                <form class="composer" id="message-form">
+                    <div class="input-container">
+                        <textarea id="message-input" placeholder="اكتب رسالتك هنا... (Ctrl+Enter للإرسال)"></textarea>
+                        <div class="input-hint">⇧ + Enter للسطر الجديد</div>
+                    </div>
+                    <button type="submit" class="btn" id="send-button"><i class="fas fa-paper-plane"></i></button>
+                </form>
             </div>
             
-            <form class="composer" id="message-form">
-                <div class="input-container">
-                    <textarea id="message-input" placeholder="اكتب رسالتك هنا... (Ctrl+Enter للإرسال)"></textarea>
-                    <div class="input-hint">⇧ + Enter للسطر الجديد</div>
+            <!-- صفحة النماذج -->
+            <div class="page-content" id="models-page">
+                <div class="content-header">
+                    <div>
+                        <div class="content-title">نماذج الذكاء الاصطناعي</div>
+                        <div class="content-subtitle">اختر النموذج المناسب لاحتياجاتك</div>
+                    </div>
                 </div>
-                <button type="submit" class="btn" id="send-button"><i class="fas fa-paper-plane"></i></button>
-            </form>
+                
+                <div class="content-body">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-lightbulb"></i></div>
+                            <div class="feature-title">Vivk Creative</div>
+                            <div class="feature-desc">نموذج مخصص للإبداع والكتابة، يساعدك في إنشاء محتوى مبدع وفريد من نوعه.</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="feature-title">Vivk Analytic</div>
+                            <div class="feature-desc">نموذج متخصص في التحليل والبيانات، يساعدك في اتخاذ القرارات المستنيرة.</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-code"></i></div>
+                            <div class="feature-title">Vivk Code</div>
+                            <div class="feature-desc">نموذج مبرمج خبير، يساعدك في كتابة وتصحيح الكود بلغات برمجية متعددة.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- صفحة الأدوات -->
+            <div class="page-content" id="tools-page">
+                <div class="content-header">
+                    <div>
+                        <div class="content-title">أدوات الذكاء الاصطناعي</div>
+                        <div class="content-subtitle">استخدم أدواتنا المتقدمة لتعزيز إنتاجيتك</div>
+                    </div>
+                </div>
+                
+                <div class="content-body">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-language"></i></div>
+                            <div class="feature-title">مترجم فوري</div>
+                            <div class="feature-desc">ترجمة نصوص بدقة عالية بين أكثر من 50 لغة مختلفة.</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-file-alt"></i></div>
+                            <div class="feature-title">تلخيص النصوص</div>
+                            <div class="feature-desc">تلخيص المستندات الطويلة إلى نقاط رئيسية واضحة.</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-magic"></i></div>
+                            <div class="feature-title">تحسين المحتوى</div>
+                            <div class="feature-desc">تحسين جودة النصوص وتصحيح الأخطاء اللغوية.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- صفحة المساعدة -->
+            <div class="page-content" id="help-page">
+                <div class="content-header">
+                    <div>
+                        <div class="content-title">مركز المساعدة</div>
+                        <div class="content-subtitle">دليل الاستخدام والأسئلة الشائعة</div>
+                    </div>
+                </div>
+                
+                <div class="content-body">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-book"></i></div>
+                            <div class="feature-title">دليل المستخدم</div>
+                            <div class="feature-desc">تعرف على كيفية استخدام Vivk AI بأفضل طريقة ممكنة.</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-question-circle"></i></div>
+                            <div class="feature-title">الأسئلة الشائعة</div>
+                            <div class="feature-desc">إجابات على الأسئلة الأكثر شيوعاً حول المنصة.</div>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                            <div class="feature-title">الدعم الفني</div>
+                            <div class="feature-desc">اتصل بفريق الدعم للحصول على مساعدة فورية.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
     <script>
-        // قاعدة معرفة الذكاء الاصطناعي - تحتوي على أنماط مختلفة من الردود
+        // نظام التوجيه بين الصفحات
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                // إزالة النشاط من جميع الروابط
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                // إضافة النشاط للرابط المحدد
+                this.classList.add('active');
+                
+                // إخفاء جميع الصفحات
+                document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+                // إظهار الصفحة المحددة
+                const pageId = this.getAttribute('data-page') + '-page';
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+
+        // قاعدة معرفة الذكاء الاصطناعي المحسنة
         const aiKnowledgeBase = {
             greetings: [
                 "مرحباً! أنا مساعدك الذكي Vivk AI. كيف يمكنني مساعدتك اليوم؟",
@@ -471,6 +747,14 @@
                 "ما الذي تستطيع فعله": [
                     "يمكنني مساعدتك في العديد من المجالات مثل الإجابة على الأسئلة، الشرح، الكتابة الإبداعية، التحليل، والكثير غير ذلك!",
                     "أستطيع الإجابة على الأسئلة، المساعدة في البحث، توليد الأفكار، التحليل، والكثير من المهام الأخرى. ما الذي تحتاج إليه؟"
+                ],
+                "ما هو الذكاء الاصطناعي": [
+                    "الذكاء الاصطناعي هو مجال من مجالات علوم الكمبيوتر يركز على إنشاء أنظمة قادرة على أداء المهام التي تتطلب ذكاءً بشريًا مثل التعلم، التفكير، حل المشكلات، والإدراك.",
+                    "ببساطة، الذكاء الاصطناعي هو محاولة جعل الآلات تفكر وتتعلم مثل البشر، من خلال الخوارزميات ونماذج التعلم الآلي."
+                ],
+                "كيف يعمل الذكاء الاصطناعي": [
+                    "يعمل الذكاء الاصطناعي من خلال تحليل كميات هائلة من البيانات، والتعرف على الأنماط، واستخدام هذه الأنماط لاتخاذ القرارات أو إجراء التنبؤات.",
+                    "يعتمد الذكاء الاصطناعي على خوارزميات التعلم الآلي التي تتحسن أداؤها مع تزويدها بمزيد من البيانات والخبرة."
                 ]
             },
             topics: {
@@ -489,6 +773,14 @@
                 "التعليم": [
                     "التعليم هو أساس تقدم المجتمعات. مع التقنيات الحديثة، أصبح التعليم متاحاً للجميع وبطرق مبتكرة.",
                     "الذكاء الاصطناعي يغير وجه التعليم من خلال توفير تجارب تعلم مخصصة للجميع."
+                ],
+                "البرمجة": [
+                    "البرمجة هي لغة العصر الحديث. تمكننا من إنشاء تطبيقات ومواقع وأنظمة ذكية تحسن حياتنا.",
+                    "تعلم البرمجة يطور مهارات التفكير المنطقي وحل المشكلات، وهي من أهم المهارات في القرن الحادي والعشرين."
+                ],
+                "الصحة": [
+                    "الصحة هي أغلى ما نملك. التقدم في التقنيات الطبية والذكاء الاصطناعي يساعد في تشخيص وعلاج الأمراض بفعالية أكبر.",
+                    "الذكاء الاصطناعي يساهم في ثورة طبية من خلال تحليل البيانات الطبية وتطوير علاجات مخصصة."
                 ]
             },
             responses: {
@@ -523,33 +815,11 @@
             ]
         };
 
-        // محاكاة ذاكرة المحادثة وسياقها
-        let conversationContext = {
-            topic: null,
-            mood: "neutral",
-            history: []
-        };
-
         // عناصر DOM
         const messageForm = document.getElementById('message-form');
         const messageInput = document.getElementById('message-input');
         const chatMessages = document.getElementById('chat-messages');
-        const typingIndicator = document.createElement('div');
-        typingIndicator.className = 'typing-indicator';
-        typingIndicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-
-        // تهيئة المحادثة
-        function initializeChat() {
-            // إضافة رسالة ترحيب من الذكاء الاصطناعي
-            addMessage('bot', getRandomResponse('greetings'));
-            
-            // في بعض الأحيان يبدأ الذكاء الاصطناعي المحادثة بسؤال
-            setTimeout(() => {
-                if (Math.random() > 0.5) {
-                    addMessage('bot', "هل هناك موضوع محدد تود التحدث عنه اليوم؟");
-                }
-            }, 2000);
-        }
+        const typingIndicator = document.getElementById('typing-indicator');
 
         // إضافة رسالة إلى الدردشة
         function addMessage(sender, text) {
@@ -568,40 +838,31 @@
             
             chatMessages.appendChild(messageElement);
             
-            // إضافة إلى تاريخ المحادثة
-            conversationContext.history.push({ sender, text });
-            
             // التمرير إلى الأسفل
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // الحصول على رد عشوائي من نوع محدد
-        function getRandomResponse(type) {
-            const responses = aiKnowledgeBase[type];
-            return responses[Math.floor(Math.random() * responses.length)];
-        }
-
-        // محاكاة تفكير الذكاء الاصطناعي وتحليل الرسالة
+        // تحليل الرسالة وفهمها
         function analyzeMessage(message) {
-            // تحليل المشاعر والمحتوى بشكل مبسط
             const lowerMessage = message.toLowerCase();
             
-            // اكتشاف إذا كانت رسالة ترحيب
-            if (lowerMessage.includes('مرحبا') || lowerMessage.includes('اهلا') || lowerMessage.includes('اهلاً')) {
-                return { type: 'greeting', topic: null };
+            // التحقق من الرسائل التحية
+            if (lowerMessage.includes('مرحبا') || lowerMessage.includes('اهلا') || lowerMessage.includes('اهلاً') || 
+                lowerMessage.includes('السلام عليكم') || lowerMessage.includes('اهلا بك')) {
+                return { type: 'greeting' };
             }
             
-            // اكتشاف إذا كان سؤال عن الذكاء الاصطناعي نفسه
+            // التحقق من الأسئلة عن الذات
             if (lowerMessage.includes('من انت') || lowerMessage.includes('ما اسمك') || lowerMessage.includes('من أنت')) {
-                return { type: 'self-inquiry', topic: null };
+                return { type: 'self-inquiry' };
             }
             
-            // اكتشاف إذا كان سؤال عن القدرات
+            // التحقق من الأسئلة عن القدرات
             if (lowerMessage.includes('ماذا تستطيع') || lowerMessage.includes('ما الذي تستطيع') || lowerMessage.includes('قدراتك')) {
-                return { type: 'capabilities', topic: null };
+                return { type: 'capabilities' };
             }
             
-            // اكتشاف الموضوعات الرئيسية
+            // التحقق من المواضيع
             const topics = Object.keys(aiKnowledgeBase.topics);
             for (const topic of topics) {
                 if (lowerMessage.includes(topic.toLowerCase())) {
@@ -609,44 +870,55 @@
                 }
             }
             
+            // إذا كانت الرسالة تحتوي على كلمة "كيف" أو "ما هو" أو "لماذا"
+            if (lowerMessage.includes('كيف') || lowerMessage.includes('ما هو') || lowerMessage.includes('لماذا') || 
+                lowerMessage.includes('متى') || lowerMessage.includes('أين') || lowerMessage.includes('هل')) {
+                return { type: 'question' };
+            }
+            
             // إذا لم يتم التعرف على نوع محدد
-            return { type: 'general', topic: null };
+            return { type: 'general' };
         }
 
-        // توليد رد ذكي بناءً على تحليل الرسالة
-        function generateResponse(analysis) {
+        // توليد رد بناءً على تحليل الرسالة
+        function generateResponse(analysis, message) {
             let response;
             
             switch(analysis.type) {
                 case 'greeting':
-                    response = getRandomResponse('greetings');
+                    response = aiKnowledgeBase.greetings[Math.floor(Math.random() * aiKnowledgeBase.greetings.length)];
                     break;
                     
                 case 'self-inquiry':
-                    response = getRandomResponse(aiKnowledgeBase.questions['من أنت']);
+                    response = aiKnowledgeBase.questions['من أنت'][Math.floor(Math.random() * aiKnowledgeBase.questions['من أنت'].length)];
                     break;
                     
                 case 'capabilities':
-                    response = getRandomResponse(aiKnowledgeBase.questions['ما الذي تستطيع فعله']);
+                    response = aiKnowledgeBase.questions['ما الذي تستطيع فعله'][Math.floor(Math.random() * aiKnowledgeBase.questions['ما الذي تستطيع فعله'].length)];
                     break;
                     
                 case 'topic':
-                    response = getRandomResponse(aiKnowledgeBase.topics[analysis.topic]);
+                    response = aiKnowledgeBase.topics[analysis.topic][Math.floor(Math.random() * aiKnowledgeBase.topics[analysis.topic].length)];
                     // إضافة متابعة
                     if (Math.random() > 0.3) {
-                        response += " " + getRandomResponse('followUps');
+                        response += " " + aiKnowledgeBase.followUps[Math.floor(Math.random() * aiKnowledgeBase.followUps.length)];
+                    }
+                    break;
+                    
+                case 'question':
+                    // اختيار نمط الرد بناءً على الإعدادات
+                    const responseStyle = document.querySelector('select').value;
+                    response = aiKnowledgeBase.responses[responseStyle][Math.floor(Math.random() * aiKnowledgeBase.responses[responseStyle].length)];
+                    
+                    // في بعض الأحيان يضيف الذكاء الاصطناعي سؤال متابعة
+                    if (Math.random() > 0.5) {
+                        response += " " + aiKnowledgeBase.followUps[Math.floor(Math.random() * aiKnowledgeBase.followUps.length)];
                     }
                     break;
                     
                 default:
-                    // اختيار نمط الرد بناءً على الإعدادات
-                    const responseStyle = document.getElementById('response-style').value;
-                    response = getRandomResponse(aiKnowledgeBase.responses[responseStyle]);
-                    
-                    // في بعض الأحيان يضيف الذكاء الاصطناعي سؤال متابعة
-                    if (Math.random() > 0.5) {
-                        response += " " + getRandomResponse('followUps');
-                    }
+                    // رد عام
+                    response = "هذا مثير للاهتمام! يمكنني مساعدتك في استكشاف هذا الموضوع بشكل أعمق. هل تريد أن أعطيك مزيدًا من المعلومات؟";
             }
             
             return response;
@@ -666,7 +938,6 @@
             messageInput.value = '';
             
             // إظهار مؤشر الكتابة
-            chatMessages.appendChild(typingIndicator);
             typingIndicator.style.display = 'flex';
             chatMessages.scrollTop = chatMessages.scrollHeight;
             
@@ -681,56 +952,32 @@
                 const analysis = analyzeMessage(message);
                 
                 // توليد الرد
-                const response = generateResponse(analysis);
+                const response = generateResponse(analysis, message);
                 
                 // إضافة رد الذكاء الاصطناعي
                 addMessage('bot', response);
-                
-                // في بعض الأحيان يضيف الذكاء الاصطناعي رسالة تلقائية بعد فترة
-                if (conversationContext.history.length >= 2 && Math.random() > 0.7) {
-                    setTimeout(() => {
-                        const autoResponses = [
-                            "هل تود أن أعطيك معلومات أكثر تفصيلاً عن هذا الموضوع؟",
-                            "لدي الكثير من المعلومات الشيقة حول هذا، هل تريد الاستمرار؟",
-                            "هذا الموضوع يتفرع إلى عدة اتجاهات مثيرة للاهتمام، هل تريد استكشافها؟"
-                        ];
-                        
-                        chatMessages.appendChild(typingIndicator);
-                        typingIndicator.style.display = 'flex';
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                        
-                        setTimeout(() => {
-                            typingIndicator.style.display = 'none';
-                            addMessage('bot', autoResponses[Math.floor(Math.random() * autoResponses.length)]);
-                        }, 1000);
-                    }, 3000);
-                }
             }, processingTime);
         });
 
         // بدء المحادثة عند تحميل الصفحة
         window.addEventListener('load', function() {
-            initializeChat();
+            addMessage('bot', aiKnowledgeBase.greetings[0]);
             
             // في بعض الأحيان يبدأ الذكاء الاصطناعي بالمبادرة بسؤال
             setTimeout(() => {
-                if (Math.random() > 0.5) {
-                    const initialQuestions = [
-                        "هل هناك موضوع معين تود التحدث عنه اليوم؟",
-                        "كيف يمكنني مساعدتك اليوم؟",
-                        "أنا هنا لمساعدتك في أي موضوع تريده. من أاذا نبدأ؟"
-                    ];
-                    
-                    chatMessages.appendChild(typingIndicator);
-                    typingIndicator.style.display = 'flex';
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                    
-                    setTimeout(() => {
-                        typingIndicator.style.display = 'none';
-                        addMessage('bot', initialQuestions[Math.floor(Math.random() * initialQuestions.length)]);
-                    }, 1500);
-                }
-            }, 4000);
+                const initialQuestions = [
+                    "هل هناك موضوع معين تود التحدث عنه اليوم؟",
+                    "كيف يمكنني مساعدتك اليوم؟",
+                    "أنا هنا لمساعدتك في أي موضوع تريده. من أاذا نبدأ؟"
+                ];
+                
+                typingIndicator.style.display = 'flex';
+                
+                setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    addMessage('bot', initialQuestions[Math.floor(Math.random() * initialQuestions.length)]);
+                }, 1500);
+            }, 3000);
         });
 
         // تأثيرات للكتابة في حقل النص
