@@ -1,382 +1,826 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>موقعي — مثال تفاعلي</title>
-  <style>
-    :root{
-      --bg:#0f1724; --card:#0b1220; --accent:#ff6b6b; --muted:#9aa4b2;
-      --glass: rgba(255,255,255,0.03);
-      font-family: "Segoe UI", Roboto, "Noto Naskh Arabic", system-ui, sans-serif;
-    }
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071028 0%, #0b1220 100%);color:#e6eef6}
-    .app{max-width:1100px;margin:28px auto;padding:18px;display:grid;grid-template-columns: 280px 1fr;gap:18px;}
-    .sidebar{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,.6)}
-    .logo{font-weight:700;font-size:20px;margin-bottom:10px}
-    .nav a{display:block;padding:10px;border-radius:8px;color:inherit;text-decoration:none;margin-bottom:6px}
-    .nav a.active{background:var(--glass);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.02)}
-    .lang-switch{display:flex;gap:8px;margin-top:12px}
-    .lang-switch button{flex:1;padding:8px;border-radius:8px;border:none;background:transparent;color:var(--muted);cursor:pointer}
-    .main{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;min-height:60vh}
-    .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-    .card{background:var(--glass);padding:12px;border-radius:10px;margin-bottom:12px}
-    .chat{height:320px;overflow:auto;padding:12px;border-radius:8px;background:rgba(0,0,0,0.25);margin-bottom:12px}
-    .msg{margin-bottom:8px;padding:8px;border-radius:8px;max-width:78%}
-    .msg.user{background:rgba(255,255,255,0.06);margin-inline-start:auto;text-align:right}
-    .msg.bot{background:rgba(255,255,255,0.03);text-align:left}
-    .controls{display:flex;gap:8px}
-    input[type="text"]{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-    button.primary{padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:#0b1220;cursor:pointer}
-    button.danger{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);cursor:pointer}
-    .small{font-size:13px;color:var(--muted)}
-    .right{text-align:right}
-    .hidden{display:none}
-    /* responsive */
-    @media (max-width:880px){
-      .app{grid-template-columns:1fr; padding:12px}
-      .sidebar{order:2}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivk AI - ذكاء اصطناعي متطور</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #564FC9;
+            --secondary: #36D1DC;
+            --accent: #FF6584;
+            --light: #F8F9FA;
+            --dark: #121826;
+            --dark-card: #1E293B;
+            --dark-border: #334155;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --text-primary: #F1F5F9;
+            --text-secondary: #CBD5E1;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), #0F172A);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--dark-card);
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid var(--dark-border);
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+        
+        header {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+        
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+        
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.1);
+            border-right: 1px solid var(--dark-border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--dark-border);
+        }
+        
+        .model-selector {
+            margin-bottom: 25px;
+        }
+        
+        .model-select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--dark-border);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .model-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .model-option:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .model-option.active {
+            background: rgba(108, 99, 255, 0.15);
+        }
+        
+        .model-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-action-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            border: 1px solid var(--dark-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .chat-action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .message {
+            display: flex;
+            gap: 15px;
+            max-width: 80%;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .ai .message-avatar {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+        }
+        
+        .user .message-avatar {
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+        }
+        
+        .message-content {
+            padding: 15px 20px;
+            border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .ai .message-content {
+            background: rgba(255, 255, 255, 0.05);
+            border-top-left-radius: 5px;
+        }
+        
+        .user .message-content {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            border-top-right-radius: 5px;
+        }
+        
+        .message-text {
+            line-height: 1.7;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            opacity: 0.6;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .user .message-time {
+            text-align: left;
+        }
+        
+        .chat-input-container {
+            padding: 20px;
+            border-top: 1px solid var(--dark-border);
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-input-box {
+            display: flex;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--dark-border);
+            padding: 5px 5px 5px 15px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            padding: 14px 0;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .chat-send-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .chat-send-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+        
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .suggestion {
+            background: rgba(108, 99, 255, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--text-primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .suggestion:hover {
+            background: rgba(108, 99, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            color: var(--text-secondary);
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: bounce 1.5s infinite;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--dark-border);
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="app" id="app">
-    <aside class="sidebar" aria-label="الشريط الجانبي">
-      <div class="logo" id="app-title">موقعي</div>
-      <nav class="nav" id="nav">
-        <a href="#/" data-route="/" class="active" id="link-home">الصفحة الرئيسية</a>
-        <a href="#/about" data-route="/about" id="link-about">عن الموقع</a>
-        <a href="#/chat" data-route="/chat" id="link-chat">الشات الجاهز</a>
-        <a href="#/settings" data-route="/settings" id="link-settings">الإعدادات</a>
-      </nav>
-
-      <div style="margin-top:12px" class="small">اللغة</div>
-      <div class="lang-switch" role="tablist" aria-label="تبديل اللغة">
-        <button id="lang-ar" data-lang="ar">العربية</button>
-        <button id="lang-en" data-lang="en">English</button>
-        <button id="lang-es" data-lang="es">Español</button>
-      </div>
-
-      <div style="margin-top:12px" class="card small">
-        <div>حذف المحادثات</div>
-        <div style="margin-top:8px">
-          <button id="delete-all" class="danger">حذف الكل</button>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div>
+                    <div class="logo-text">Vivk AI</div>
+                    <div class="tagline">ذكاء اصطناعي متطور بميزات مبتكرة</div>
+                </div>
+            </div>
+            
+            <div class="ai-status">
+                <span class="status-dot"></span>
+                <span id="statusText">متصل وجاهز للمساعدة</span>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <aside class="sidebar">
+                <h3 class="sidebar-title">نموذج الذكاء الاصطناعي</h3>
+                
+                <div class="model-selector">
+                    <select class="model-select" id="modelSelect">
+                        <option>Vivk AI Pro - النموذج المتقدم</option>
+                        <option>Vivk AI Lite - النموذج الخفيف</option>
+                        <option>Vivk AI Creative - للإبداع والكتابة</option>
+                        <option>Vivk AI Code - للمبرمجين والمطورين</option>
+                    </select>
+                    
+                    <div class="model-option active">
+                        <div class="model-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>
+                            <div>وضع سريع</div>
+                            <small>استجابة أسرع بتكلفة أقل</small>
+                        </div>
+                    </div>
+                    
+                    <div class="model-option">
+                        <div class="model-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div>
+                            <div>وضع دقيق</div>
+                            <small>استجابة أكثر دقة وتفصيلاً</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-title">المحادثات الحديثة</div>
+                <div id="recentChats">
+                    <div class="model-option">
+                        <div class="model-icon">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div>مناقشة حول البرمجة</div>
+                    </div>
+                    
+                    <div class="model-option">
+                        <div class="model-icon">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div>استفسارات تقنية</div>
+                    </div>
+                    
+                    <div class="model-option">
+                        <div class="model-icon">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div>أسئلة عامة</div>
+                    </div>
+                </div>
+            </aside>
+            
+            <main class="chat-container">
+                <div class="chat-header">
+                    <h2 class="chat-title">محادثة جديدة</h2>
+                    <div class="chat-actions">
+                        <button class="chat-action-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="chat-action-btn">
+                            <i class="fas fa-share"></i>
+                        </button>
+                        <button class="chat-action-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-text">
+                                مرحباً! أنا <strong>Vivk AI</strong>، مساعدك الذكي المتطور.<br><br>
+                                يمكنني مساعدتك في العديد من المهام مثل:
+                                <br>• الإجابة على الأسئلة العامة والتقنية
+                                <br>• المساعدة في البرمجة وتصحيح الأكواد
+                                <br>• الترجمة بين اللغات المختلفة
+                                <br>• الكتابة الإبداعية وإنشاء المحتوى
+                                <br>• التحليل والاستنتاج المنطقي
+                                <br><br>
+                                كيف يمكنني مساعدتك اليوم؟
+                            </div>
+                            <div class="message-time">الآن</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <div class="chat-input-box">
+                        <input type="text" class="chat-input" id="userInput" placeholder="اكتب رسالتك هنا...">
+                        <button class="chat-send-btn" id="sendMessage">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="suggestions">
+                        <div class="suggestion" onclick="askSuggestion('ما هو الوقت الحالي؟')">ما هو الوقت الحالي؟</div>
+                        <div class="suggestion" onclick="askSuggestion('كيف يعمل الذكاء الاصطناعي؟')">كيف يعمل الذكاء الاصطناعي؟</div>
+                        <div class="suggestion" onclick="askSuggestion('ما هي لغة البرمجة الأفضل للمبتدئين؟')">أفضل لغة برمجة للمبتدئين</div>
+                        <div class="suggestion" onclick="askSuggestion('كيف أتعلم البرمجة؟')">كيف أتعلم البرمجة؟</div>
+                    </div>
+                </div>
+            </main>
         </div>
-      </div>
-
-      <div class="card small" style="margin-top:8px">
-        <div>روابط مفيدة</div>
-        <div style="margin-top:8px"><a href="#/about" style="color:inherit">كيف يعمل التنقّل؟</a></div>
-      </div>
-    </aside>
-
-    <main class="main" id="main">
-      <!-- محتوى ديناميكي -->
-    </main>
-  </div>
-
-<script>
-/* ====== بيانات الترجمة والردود النموذجية ====== */
-const LOCALES = {
-  ar: {
-    title: "موقعي",
-    home_title: "مرحبًا بك — الصفحة الرئيسية",
-    home_sub: "هذا مثال لموقع يعمل بنسبة 100%، يدعم تنقّل، ثلاث لغات، وردود جاهزة.",
-    about_title: "عن الموقع",
-    about_text: "هذا نموذج عملي مبني ليوضّح حل مشاكل الانتقال وواجهة المستخدم. انسخ الملف إلى مشروعك.",
-    chat_title: "الشات الجاهز",
-    input_placeholder: "اكتب رسالتك هنا...",
-    send: "أرسل",
-    delete_confirm: "تم حذف كل المحادثات.",
-    sample_responses_title: "ردود نموذجية قوية (قابلة للتعديل)",
-    settings_title: "الإعدادات",
-    settings_text: "يمكنك تغيير اللغة، حذف المحادثات، أو تعديل الردود النموذجية.",
-    sample_responses: [
-      { role: "bot", text: "مرحبًا! كيف أستطيع مساعدتك اليوم؟" },
-      { role: "bot", text: "هل تريد نسخة من الصفحة قابلة للطباعة؟ أرسِل 'اطبع'." },
-      { role: "bot", text: "تم حفظ طلبك — سنبلّغك بالتحديثات." },
-      { role: "bot", text: "عذرًا، لم أفهم ذلك. هل يمكنك إعادة الصياغة؟" }
-    ]
-  },
-  en: {
-    title: "MySite",
-    home_title: "Welcome — Home",
-    home_sub: "A working example: navigation, 3 languages, and strong canned replies.",
-    about_title: "About",
-    about_text: "This is a practical template that fixes navigation and UI issues. Drop into your project.",
-    chat_title: "Ready Chat",
-    input_placeholder: "Type your message...",
-    send: "Send",
-    delete_confirm: "All chats deleted.",
-    sample_responses_title: "Strong canned responses (editable)",
-    settings_title: "Settings",
-    settings_text: "Change language, clear chats, or edit canned replies.",
-    sample_responses: [
-      { role: "bot", text: "Hello! How can I help you today?" },
-      { role: "bot", text: "Would you like a printable copy of this page? Type 'print'." },
-      { role: "bot", text: "Your request was saved — we'll notify you of updates." },
-      { role: "bot", text: "Sorry, I didn't understand. Could you rephrase?" }
-    ]
-  },
-  es: {
-    title: "MiSitio",
-    home_title: "Bienvenido — Inicio",
-    home_sub: "Ejemplo funcional: navegación, 3 idiomas y respuestas predefinidas poderosas.",
-    about_title: "Acerca de",
-    about_text: "Plantilla práctica que soluciona navegación e interfaz. Colócala en tu proyecto.",
-    chat_title: "Chat listo",
-    input_placeholder: "Escribe tu mensaje...",
-    send: "Enviar",
-    delete_confirm: "Todas las conversaciones eliminadas.",
-    sample_responses_title: "Respuestas prediseñadas fuertes (editable)",
-    settings_title: "Ajustes",
-    settings_text: "Cambia idioma, borra chats, o edita respuestas prediseñadas.",
-    sample_responses: [
-      { role: "bot", text: "¡Hola! ¿En qué puedo ayudarte hoy?" },
-      { role: "bot", text: "¿Deseas una copia imprimible? Escribe 'imprimir'." },
-      { role: "bot", text: "Tu solicitud fue guardada — te notificaremos." },
-      { role: "bot", text: "Lo siento, no entendí. ¿Puedes reformular?" }
-    ]
-  }
-};
-
-/* ====== بسيطة: تخزين محادثات محليًا ====== */
-const STORAGE_KEY = "site_demo_chats_v1";
-const LANG_KEY = "site_demo_lang_v1";
-
-/* ====== Router بسيط مبني على hash ====== */
-const routes = {
-  "/": renderHome,
-  "/about": renderAbout,
-  "/chat": renderChat,
-  "/settings": renderSettings
-};
-
-function getLang(){ return localStorage.getItem(LANG_KEY) || "ar"; }
-let currentLang = getLang();
-
-/* ==== helpers ==== */
-function t(k){ // وصول سريع: t('home_title')
-  const segs = k.split('.');
-  let cur = LOCALES[currentLang];
-  for (let p of segs){ cur = cur?.[p] ?? null; if (!cur) break; }
-  return cur ?? k;
-}
-
-function setActiveLink(path){
-  document.querySelectorAll('.nav a').forEach(a=>{
-    a.classList.toggle('active', a.getAttribute('data-route') === path);
-  });
-}
-
-/* ==== render pages ==== */
-function renderHome(){
-  setActiveLink('/');
-  const html = `
-    <div class="header">
-      <div>
-        <h2>${t('home_title')}</h2>
-        <div class="small">${t('home_sub')}</div>
-      </div>
-      <div class="small">${currentLang.toUpperCase()}</div>
     </div>
 
-    <div class="card">
-      <strong>${t('sample_responses_title')}</strong>
-      <div style="margin-top:8px" class="small">${generateSampleList()}</div>
-    </div>
-
-    <div class="card">
-      <strong>${t('about_title')}</strong>
-      <div class="small">${t('about_text')}</div>
-    </div>
-  `;
-  document.getElementById('main').innerHTML = html;
-}
-
-function generateSampleList(){
-  return LOCALES[currentLang].sample_responses.map(s=>`• ${s.text}`).join('<br>');
-}
-
-function renderAbout(){
-  setActiveLink('/about');
-  const html = `
-    <div class="header">
-      <h2>${t('about_title')}</h2>
-    </div>
-    <div class="card small">${t('about_text')}</div>
-  `;
-  document.getElementById('main').innerHTML = html;
-}
-
-function renderChat(){
-  setActiveLink('/chat');
-  const saved = loadChats();
-  const html = `
-    <div class="header">
-      <h2>${t('chat_title')}</h2>
-      <div class="small">${Object.keys(saved).length ? ('المحادثات المحفوظة: ' + Object.keys(saved).length) : 'لا توجد محادثات'}</div>
-    </div>
-
-    <div class="card">
-      <div class="chat" id="chat-box">
-        ${renderMessages(saved)}
-      </div>
-
-      <div class="controls" style="margin-top:8px">
-        <input id="user-input" placeholder="${t('input_placeholder')}" />
-        <button id="send-btn" class="primary">${t('send')}</button>
-      </div>
-
-      <div style="margin-top:8px" class="small">
-        <strong>نصائح:</strong> هذه الردود النموذجية مُخزنة داخل الكود وتستطيع تعديلها في LOCALES[lang].sample_responses
-      </div>
-    </div>
-  `;
-  document.getElementById('main').innerHTML = html;
-
-  document.getElementById('send-btn').addEventListener('click', onSend);
-  document.getElementById('user-input').addEventListener('keydown', (e)=>{
-    if(e.key === 'Enter') onSend();
-  });
-}
-
-function renderMessages(saved){
-  // saved is object with arrays; for demo: use single thread called "default"
-  const msgs = saved['default'] || [];
-  // if empty, preload with sample bot response
-  if(msgs.length === 0){
-    const sample = LOCALES[currentLang].sample_responses;
-    for (let i=0;i<Math.min(2,sample.length);i++){
-      msgs.push({role:'bot', text: sample[i].text, ts: Date.now()- (1000*(i+1))});
-    }
-    saveChats({default: msgs});
-  }
-  return msgs.map(m=>`<div class="msg ${m.role==='user'?'user':'bot'}"><div>${escapeHtml(m.text)}</div></div>`).join('');
-}
-
-function renderSettings(){
-  setActiveLink('/settings');
-  const sr = LOCALES[currentLang].sample_responses.map((s, idx)=> `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,0.02)">
-      <div style="flex:1">${escapeHtml(s.text)}</div>
-      <div><button data-idx="${idx}" class="edit-sample small">تعديل</button></div>
-    </div>
-  `).join('');
-  const html = `
-    <div class="header"><h2>${t('settings_title')}</h2></div>
-    <div class="card small">${t('settings_text')}</div>
-    <div style="margin-top:12px">${sr}</div>
-  `;
-  document.getElementById('main').innerHTML = html;
-  document.querySelectorAll('.edit-sample').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const idx = +btn.getAttribute('data-idx');
-      const newText = prompt("عدل النص:", LOCALES[currentLang].sample_responses[idx].text);
-      if(newText !== null){
-        LOCALES[currentLang].sample_responses[idx].text = newText;
-        renderSettings();
-      }
-    });
-  });
-}
-
-/* ====== Storage helpers ====== */
-function loadChats(){
-  try{
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-  }catch(e){ return {}; }
-}
-function saveChats(obj){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
-}
-
-/* ====== events ====== */
-function onSend(){
-  const input = document.getElementById('user-input');
-  const text = (input.value || "").trim();
-  if(!text) return;
-  const saved = loadChats();
-  if(!saved['default']) saved['default'] = [];
-  saved['default'].push({role:'user', text, ts:Date.now()});
-  // choose canned response by keyword or fallback
-  const canned = chooseCannedResponse(text);
-  saved['default'].push({role:'bot', text: canned, ts:Date.now()+5});
-  saveChats(saved);
-  // re-render chat messages
-  const box = document.getElementById('chat-box');
-  if(box) box.innerHTML = renderMessages(saved);
-  input.value = '';
-  box.scrollTop = box.scrollHeight;
-}
-
-function chooseCannedResponse(text){
-  text = text.toLowerCase();
-  const samples = LOCALES[currentLang].sample_responses.map(s=>s.text);
-  // keyword logic simple:
-  if(text.includes('طباعة') || text.includes('print') || text.includes('imprimir')) return samples[1] || samples[0];
-  if(text.includes('حفظ') || text.includes('save')) return samples[2] || samples[0];
-  if(text.includes('؟') || text.length < 3) return samples[3] || samples[0];
-  // otherwise return best match (first)
-  return samples[0] || "تم استلام الرسالة.";
-}
-
-/* ====== delete all chats ====== */
-document.getElementById('delete-all').addEventListener('click', ()=>{
-  localStorage.removeItem(STORAGE_KEY);
-  alert(t('delete_confirm'));
-  const path = location.hash.replace('#','') || '/';
-  navigateTo(path);
-});
-
-/* ====== language switch ====== */
-document.querySelectorAll('.lang-switch button').forEach(b=>{
-  b.addEventListener('click',(e)=>{
-    const l = b.getAttribute('data-lang');
-    currentLang = l;
-    localStorage.setItem(LANG_KEY, l);
-    // adjust dir for Arabic
-    if(l === 'ar'){ document.documentElement.dir = 'rtl'; document.documentElement.lang='ar'; }
-    else { document.documentElement.dir = 'ltr'; document.documentElement.lang = (l==='es'?'es':'en'); }
-    renderCurrentRoute();
-    // update title and sidebar
-    document.getElementById('app-title').textContent = LOCALES[currentLang].title;
-  });
-});
-
-/* ====== Router actions ====== */
-function renderCurrentRoute(){
-  const path = (location.hash.replace('#','') || '/').split('?')[0];
-  const render = routes[path] || renderHome;
-  render();
-}
-function navigateTo(path){
-  location.hash = path;
-}
-
-/* hash change listener for navigation */
-window.addEventListener('hashchange', renderCurrentRoute);
-window.addEventListener('load', ()=>{
-  // initial language setup
-  currentLang = getLang();
-  document.getElementById('app-title').textContent = LOCALES[currentLang].title;
-  if(currentLang === 'ar'){ document.documentElement.dir='rtl'; } else { document.documentElement.dir='ltr'; }
-  // attach click prevention? Not needed. Links are hash-based.
-  renderCurrentRoute();
-});
-
-/* utility: escape HTML to avoid injection */
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
-
-/* ensure nav links highlight when clicked (works also when clicking anchors) */
-document.querySelectorAll('.nav a').forEach(a=>{
-  a.addEventListener('click', (e)=>{
-    // allow default anchor (hash) to change location => hashchange triggers render
-    // but we also set active immediately for snappiness
-    const path = a.getAttribute('data-route');
-    setActiveLink(path);
-  });
-});
-</script>
+    <script>
+        // عناصر واجهة المستخدم
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendMessage');
+        const statusText = document.getElementById('statusText');
+        
+        // نماذج الذكاء الاصطناعي
+        const aiModels = {
+            pro: "Vivk AI Pro - النموذج المتقدم",
+            lite: "Vivk AI Lite - النموذج الخفيف",
+            creative: "Vivk AI Creative - للإبداع والكتابة",
+            code: "Vivk AI Code - للمبرمجين والمطورين"
+        };
+        
+        // إرسال رسالة عند النقر على الزر
+        sendButton.addEventListener('click', sendMessage);
+        
+        // إرسال رسالة عند الضغط على Enter
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // دالة إرسال الرسالة
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            // إضافة رسالة المستخدم
+            addMessage(message, 'user');
+            userInput.value = '';
+            
+            // إظهار مؤشر الكتابة
+            const typingIndicator = showTypingIndicator();
+            
+            // الحصول على رد من الذكاء الاصطناعي (بعد تأخير لمحاكاة المعالجة)
+            setTimeout(() => {
+                // إزالة مؤشر الكتابة
+                if (typingIndicator) {
+                    chatMessages.removeChild(typingIndicator);
+                }
+                
+                // الحصول على رد الذكاء الاصطناعي
+                const response = getAIResponse(message);
+                
+                // إضافة الرد
+                addMessage(response, 'ai');
+            }, 1500);
+        }
+        
+        // دالة إضافة رسالة إلى الدردشة
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender);
+            
+            const avatar = document.createElement('div');
+            avatar.classList.add('message-avatar');
+            avatar.innerHTML = `<i class="fas fa-${sender === 'user' ? 'user' : 'robot'}"></i>`;
+            
+            const content = document.createElement('div');
+            content.classList.add('message-content');
+            
+            const textDiv = document.createElement('div');
+            textDiv.classList.add('message-text');
+            textDiv.innerHTML = text;
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.classList.add('message-time');
+            timeDiv.textContent = getCurrentTime();
+            
+            content.appendChild(textDiv);
+            content.appendChild(timeDiv);
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return messageDiv;
+        }
+        
+        // دالة إظهار مؤشر الكتابة
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('message', 'ai');
+            typingDiv.id = 'typingIndicator';
+            
+            const avatar = document.createElement('div');
+            avatar.classList.add('message-avatar');
+            avatar.innerHTML = '<i class="fas fa-robot"></i>';
+            
+            const content = document.createElement('div');
+            content.classList.add('message-content');
+            
+            const loadingDiv = document.createElement('div');
+            loadingDiv.classList.add('typing-indicator');
+            
+            const text = document.createElement('span');
+            text.textContent = 'Vivk AI يكتب';
+            
+            const dots = document.createElement('div');
+            dots.classList.add('typing-dots');
+            
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('typing-dot');
+                dots.appendChild(dot);
+            }
+            
+            loadingDiv.appendChild(text);
+            loadingDiv.appendChild(dots);
+            content.appendChild(loadingDiv);
+            typingDiv.appendChild(avatar);
+            typingDiv.appendChild(content);
+            
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return typingDiv;
+        }
+        
+        // دالة للحصول على الوقت الحالي
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // دالة لاستخدام الاقتراحات
+        function askSuggestion(question) {
+            userInput.value = question;
+            sendMessage();
+        }
+        
+        // قاعدة معارف الذكاء الاصطناعي المحسنة
+        const aiKnowledgeBase = {
+            greetings: [
+                "مرحباً! كيف يمكنني مساعدتك اليوم؟",
+                "أهلاً وسهلاً! كيف حالك اليوم؟",
+                "مرحباً بك! أنا هنا لمساعدتك في أي شيء تحتاجه.",
+                "أهلاً! ما الذي يمكنني فعله لك اليوم؟"
+            ],
+            farewells: [
+                "إلى اللقاء! كان حديثاً ممتعاً.",
+                "وداعاً! لا تتردد في العودة إذا كان لديك المزيد من الأسئلة.",
+                "أتمنى لك يوماً رائعاً!",
+                "مع السلامة! أنا هنا دائماً لمساعدتك."
+            ],
+            thanks: [
+                "على الرحب والسعة! سعيد لأنني استطعت المساعدة.",
+                "لا شكر على واجب! دائماً سعيد لمساعدتك.",
+                "شكراً لك على التواصل معي!",
+                "أنت welcome! ما الذي تريد المساعدة فيه الآن؟"
+            ],
+            questions: {
+                "ما هو اسمك": "أنا <strong>Vivk AI</strong>، مساعدك الذكي المتطور!",
+                "من صنعك": "لقد تم تطويري باستخدام أحدث تقنيات الذكاء الاصطناعي لمساعدتك في مختلف المهام.",
+                "ماذا يمكنك أن تفعل": "يمكنني المساعدة في الإجابة على الأسئلة، المساعدة في البرمجة، الترجمة، الكتابة الإبداعية، التحليل المنطقي، والكثير غير ذلك! فقط أخبرني بما تحتاج.",
+                "كيف حالك": "أنا بخير، شكراً لسؤالك! كيف حالك أنت؟",
+                "ما هو الوقت": "حاليا الوقت هو: " + new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
+                "ما هو التاريخ": "اليوم هو: " + new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+            },
+            responses: [
+                "هذا سؤال مثير للاهتمام!",
+                "أفهم استفسارك بشكل كامل.",
+                "دعني أفكر في أفضل طريقة للإجابة على هذا.",
+                "هذا موضوع شيق بالفعل.",
+                "لدي بعض الأفكار حول هذا الموضوع."
+            ]
+        };
+        
+        // دالة للحصول على رد من الذكاء الاصطناعي
+        function getAIResponse(message) {
+            // تنظيف الرسالة وتحويلها لحروف صغيرة
+            const cleanMessage = message.toLowerCase().trim();
+            
+            // التحقق من التحيات
+            if (cleanMessage.includes('مرحبا') || cleanMessage.includes('اهلا') || cleanMessage.includes('اهلين') || cleanMessage.includes('السلام')) {
+                return getRandomResponse(aiKnowledgeBase.greetings);
+            }
+            
+            // التحقق من الوداع
+            if (cleanMessage.includes('وداعا') || cleanMessage.includes('مع السلامة') || cleanMessage.includes('الى اللقاء') || cleanMessage.includes('باي')) {
+                return getRandomResponse(aiKnowledgeBase.farewells);
+            }
+            
+            // التحقق من الشكر
+            if (cleanMessage.includes('شكرا') || cleanMessage.includes('مشكور') || cleanMessage.includes('thank') || cleanMessage.includes('thanks')) {
+                return getRandomResponse(aiKnowledgeBase.thanks);
+            }
+            
+            // التحقق من الأسئلة المحددة
+            for (const [question, answer] of Object.entries(aiKnowledgeBase.questions)) {
+                if (cleanMessage.includes(question.toLowerCase())) {
+                    return answer;
+                }
+            }
+            
+            // الرد على الأسئلة البرمجية
+            if (cleanMessage.includes('برمجة') || cleanMessage.includes('كود') || cleanMessage.includes('برمج') || cleanMessage.includes('programming') || cleanMessage.includes('code')) {
+                return "يمكنني مساعدتك في الأمور البرمجية! ما اللغة أو التقنية التي تريد المساعدة فيها؟";
+            }
+            
+            // الرد على أسئلة الترجمة
+            if (cleanMessage.includes('ترجمة') || cleanMessage.includes('ترجم') || cleanMessage.includes('translate') || cleanMessage.includes('translation')) {
+                return "يمكنني المساعدة في ترجمة النصوص! ما النص الذي تريد ترجمته وإلى أي لغة؟";
+            }
+            
+            // الرد على أسئلة الوقت
+            if (cleanMessage.includes('وقت') || cleanMessage.includes('الساعة') || cleanMessage.includes('time')) {
+                return "حاليا الوقت هو: " + new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+            }
+            
+            // الرد على أسئلة التاريخ
+            if (cleanMessage.includes('تاريخ') || cleanMessage.includes('اليوم') || cleanMessage.includes('date')) {
+                return "اليوم هو: " + new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            }
+            
+            // رد افتراضي أكثر ذكاء
+            return getRandomResponse(aiKnowledgeBase.responses) + " " + generateContextualResponse(cleanMessage);
+        }
+        
+        // دالة للحصول على رد عشوائي من مصفوفة
+        function getRandomResponse(responses) {
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // دالة لإنشاء رد contextual
+        function generateContextualResponse(message) {
+            if (message.includes('؟') || message.includes('?')) {
+                return "هل يمكنك توضيح سؤالك أكثر حتى أتمكن من مساعدتك بشكل أفضل؟";
+            }
+            
+            if (message.length < 5) {
+                return "هل يمكنك إعطائي المزيد من التفاصيل حول ما تبحث عنه؟";
+            }
+            
+            const responses = [
+                "ما رأيك في مناقشة هذا الموضوع بمزيد من العمق؟",
+                "أود معرفة المزيد عن هذا الموضوع إذا كان ذلك ممكناً.",
+                "هذا مثير للاهتمام! هل لديك المزيد من الأسئلة ذات الصلة؟",
+                "أعتقد أن لدي بعض الأفكار التي قد تساعدك في هذا الشأن.",
+                "دعني أساعدك في هذا الأمر بمزيد من التفاصيل."
+            ];
+            
+            return getRandomResponse(responses);
+        }
+    </script>
 </body>
 </html>
