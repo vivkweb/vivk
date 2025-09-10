@@ -1,817 +1,577 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Vivk AI — الشات الذكي المتطور</title>
-  <meta name="description" content="واجهة دردشة ذكية متطورة – بث الردود، جلسات محفوظة، تصدير، دعم لغات، قراءة صوتية." />
-  <style>
-    /* ====== Stylish dark RTL layout (compact, modern) ====== */
-    :root {
-      --bg: #061025;
-      --card: #081224;
-      --glass: rgba(255, 255, 255, 0.03);
-      --accent1: #06b6d4;
-      --accent2: #7c3aed;
-      --muted: #9fb1bb;
-      --success: #10b981;
-      --radius: 14px;
-      --shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
-      --glass-2: rgba(255, 255, 255, 0.02);
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-      background: radial-gradient(800px 400px at 10% 10%, rgba(7, 29, 54, 0.6), transparent),
-                  linear-gradient(180deg, #061025 0%, #02101a 100%);
-      color: #e6f1f5;
-    }
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-    .app {
-      max-width: 1200px;
-      margin: 28px auto;
-      padding: 18px;
-      display: flex;
-      gap: 18px;
-      height: calc(100vh - 56px);
-    }
-    .card {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      display: flex;
-      flex: 1;
-    }
-    /* sidebar */
-    .sidebar {
-      width: 300px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      border-right: 1px solid var(--glass-2);
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #002427;
-    }
-    .brand h1 {
-      margin: 0;
-      font-size: 18px;
-    }
-    .controls {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      background: var(--accent1);
-      color: #052224;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-    .btn:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-    .btn.ghost {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      color: var(--muted);
-    }
-    .btn.ghost:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-    .sessions {
-      flex: 1;
-      overflow: auto;
-      margin-top: 8px;
-      padding-right: 4px;
-    }
-    .session-item {
-      padding: 10px;
-      border-radius: 10px;
-      margin-bottom: 8px;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.02);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.2s ease;
-    }
-    .session-item:hover {
-      background: rgba(255, 255, 255, 0.03);
-    }
-    .session-item.active {
-      background: linear-gradient(90deg, rgba(6, 182, 212, 0.08), rgba(124, 58, 237, 0.04));
-      border-color: rgba(6, 182, 212, 0.1);
-    }
-    .small {
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .footer-note {
-      font-size: 12px;
-      color: var(--muted);
-      text-align: center;
-      padding-top: 10px;
-    }
-    .lang-select {
-      width: 100%;
-      padding: 8px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.02);
-      background: transparent;
-      color: inherit;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivk AI - الشات الذكي المتطور</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
 
-    /* main chat */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    }
-    .header .title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-    .meta-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .chat-area {
-      flex: 1;
-      padding: 18px;
-      overflow: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.01));
-    }
-    .messages {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      max-width: 880px;
-      margin-inline-start: auto;
-      margin-inline-end: 0;
-    }
-    .message {
-      max-width: 78%;
-      padding: 12px;
-      border-radius: 12px;
-      background: var(--glass);
-      color: #dff2f6;
-      box-shadow: 0 4px 18px rgba(2, 6, 23, 0.4);
-      overflow-wrap: break-word;
-    }
-    .message.user {
-      margin-left: auto;
-      background: linear-gradient(90deg, var(--accent1), #0ea5a7);
-      color: #002427;
-    }
-    .message.bot {
-      margin-right: auto;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-      color: #e6f1f5;
-    }
-    .message .meta {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    /* composer */
-    .composer {
-      display: flex;
-      gap: 8px;
-      padding: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.02);
-      align-items: flex-end;
-    }
-    textarea {
-      flex: 1;
-      min-height: 56px;
-      border-radius: 10px;
-      padding: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      background: transparent;
-      color: inherit;
-      resize: vertical;
-      font-size: 15px;
-      font-family: inherit;
-    }
-    textarea:focus {
-      outline: none;
-      border-color: rgba(6, 182, 212, 0.3);
-    }
-    .composer-right {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .tiny {
-      font-size: 12px;
-      color: var(--muted);
-    }
+        body {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-    /* typing cursor */
-    .typing {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background: #fff;
-      border-radius: 50%;
-      opacity: 0.9;
-      margin-inline-start: 6px;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0% { opacity: 0.2; }
-      50% { opacity: 1; }
-      100% { opacity: 0.2; }
-    }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px;
+            height: calc(100vh - 40px);
+        }
 
-    /* responsive */
-    @media (max-width: 980px) {
-      .sidebar {
-        display: none;
-      }
-      .app {
-        padding: 12px;
-      }
-      .messages {
-        max-width: 100%;
-      }
-    }
-    /* small helper */
-    .row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .badge {
-      background: rgba(255, 255, 255, 0.02);
-      padding: 6px 8px;
-      border-radius: 8px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .icon {
-      width: 18px;
-      height: 18px;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    .glow {
-      box-shadow: 0 6px 30px rgba(6, 182, 212, 0.14);
-    }
-    
-    /* Loading animation */
-    .loader {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top-color: var(--accent1);
-      animation: spin 1s ease-in-out infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-  </style>
-  <!-- jsPDF for PDF export (CDN) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+        /* الشريط الجانبي */
+        .sidebar {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 22px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn.ghost {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--gray);
+            box-shadow: none;
+        }
+
+        .btn.ghost:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+        }
+
+        .sessions-container {
+            flex: 1;
+            overflow-y: auto;
+            margin: 15px 0;
+            padding-right: 5px;
+        }
+
+        .session-item {
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .session-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--card-border);
+        }
+
+        .session-item.active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-color: var(--primary);
+        }
+
+        .session-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--light);
+        }
+
+        .session-date {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .settings {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .setting-item {
+            margin-bottom: 15px;
+        }
+
+        .setting-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--light);
+        }
+
+        /* المنطقة الرئيسية */
+        .main {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .export-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-area {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            line-height: 1.6;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--light);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-meta {
+            font-size: 12px;
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        .composer {
+            padding: 20px;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .input-container {
+            flex: 1;
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 50px;
+            max-height: 150px;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--light);
+            resize: none;
+            font-size: 16px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .input-hint {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 5px;
+            text-align: left;
+        }
+
+        /* تأثيرات خاصة */
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            align-self: flex-start;
+            margin-bottom: 10px;
+            border: 1px solid var(--card-border);
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: pulse 1.5s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(var(--primary), transparent 70%);
+            opacity: 0.05;
+            filter: blur(40px);
+            z-index: -1;
+        }
+
+        .glow-1 {
+            top: 10%;
+            right: 10%;
+        }
+
+        .glow-2 {
+            bottom: 10%;
+            left: 10%;
+            background: radial-gradient(var(--secondary), transparent 70%);
+        }
+
+        /* Responsive design */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="app card" role="application" aria-label="تطبيق Vivk AI للدردشة">
-    <!-- SIDEBAR -->
-    <aside class="sidebar" aria-label="الشريط الجانبي">
-      <div class="brand">
-        <div class="logo">V</div>
-        <div>
-          <h1>Vivk AI <span class="small">شات</span></h1>
-          <div class="small">شات ذكي | تصميم متطور</div>
-        </div>
-      </div>
-
-      <div class="controls">
-        <button id="newSession" class="btn">محادثة جديدة</button>
-        <button id="importBtn" class="btn ghost">استيراد</button>
-      </div>
-
-      <div class="sessions" id="sessions" aria-live="polite"></div>
-
-      <div style="margin-top:8px">
-        <label class="small">اللغة</label>
-        <select id="lang" class="lang-select" aria-label="اختيار اللغة">
-          <option value="ar">العربية</option>
-          <option value="en">English</option>
-          <option value="es">Español</option>
-        </select>
-      </div>
-
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button id="clearAll" class="btn ghost">مسح المحفوظ</button>
-        <button id="voiceToggle" class="btn ghost">تشغيل صوتي</button>
-      </div>
-
-      <div class="spacer" style="flex:1"></div>
-      <div class="footer-note">تم تصميم الواجهة لتعمل مع /api/chat — ضع مفتاح OPENAI_API_KEY في إعدادات الخادم.</div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main" aria-live="polite">
-      <header class="header">
-        <div>
-          <div class="title">محادثتك الذكية — Vivk AI</div>
-          <div class="small">تتكلم، تُقرأ، وتحفظ محادثاتك تلقائياً</div>
-        </div>
-        <div class="meta-actions">
-          <div class="badge" id="statusBadge">جاهز</div>
-          <button id="exportPDF" class="btn">تصدير PDF</button>
-          <button id="exportTxt" class="btn ghost">تنزيل نص</button>
-        </div>
-      </header>
-
-      <section class="chat-area">
-        <div class="messages" id="messages" role="log"></div>
-      </section>
-
-      <form id="composer" class="composer" onsubmit="return false;">
-        <textarea id="input" placeholder="اكتب سؤالك... (Ctrl+Enter لإرسال)" aria-label="مربع الكتابة"></textarea>
-        <div class="composer-right">
-          <button id="sendBtn" class="btn">إرسال</button>
-          <div class="tiny">⇧ Enter للسطور الجديدة • Ctrl+Enter للإرسال</div>
-        </div>
-      </form>
-    </main>
-  </div>
-
-  <script>
-    /* ====== Vivk AI SuperChat — Frontend (single file) ======
-       Features:
-       - Local sessions (localStorage)
-       - Streaming display (SSE parsing) from /api/chat
-       - Export PDF / TXT / JSON
-       - Voice output (SpeechSynthesis)
-       - Multilingual system prompt (lang select)
-       - Typing indicator, graceful error handling
-    ====================================================== */
-
-    // Elements
-    const sessionsEl = document.getElementById('sessions');
-    const newSessionBtn = document.getElementById('newSession');
-    const clearAllBtn = document.getElementById('clearAll');
-    const messagesEl = document.getElementById('messages');
-    const inputEl = document.getElementById('input');
-    const sendBtn = document.getElementById('sendBtn');
-    const langEl = document.getElementById('lang');
-    const statusBadge = document.getElementById('statusBadge');
-    const exportPDFBtn = document.getElementById('exportPDF');
-    const exportTxtBtn = document.getElementById('exportTxt');
-    const voiceToggleBtn = document.getElementById('voiceToggle');
-    const importBtn = document.getElementById('importBtn');
-
-    // State
-    let sessions = JSON.parse(localStorage.getItem('vivk_sessions_v1') || '[]');
-    let currentId = localStorage.getItem('vivk_current_id') || null;
-    let voiceEnabled = false;
-    let isProcessing = false;
-
-    function save() { 
-      localStorage.setItem('vivk_sessions_v1', JSON.stringify(sessions)); 
-      localStorage.setItem('vivk_current_id', currentId); 
-    }
-
-    // Helpers
-    function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
-
-    function escapeHtml(text) {
-      if (!text) return '';
-      const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      };
-      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-    }
-
-    function createSession(initialTitle){
-      const id = uid();
-      const s = { id, title: initialTitle || 'جلسة جديدة', messages: [], createdAt: new Date().toISOString() };
-      sessions.unshift(s);
-      currentId = id;
-      save();
-      renderSessions();
-      renderMessages();
-      return s;
-    }
-
-    function renderSessions(){
-      sessionsEl.innerHTML = '';
-      if (sessions.length === 0) {
-        sessionsEl.innerHTML = '<div class="small" style="text-align:center;padding:20px">لا توجد جلسات</div>';
-        return;
-      }
-      
-      sessions.forEach(s => {
-        const div = document.createElement('div');
-        div.className = 'session-item' + (s.id === currentId ? ' active' : '');
-        div.innerHTML = `
-          <div style="flex:1">
-            <strong>${escapeHtml(s.title || 'جلسة')}</strong>
-            <div class="small">${new Date(s.createdAt).toLocaleString('ar-SA')}</div>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center">
-            <button title="حذف" class="btn ghost" data-delete="${s.id}">حذف</button>
-          </div>
-        `;
+    <div class="glow-effect glow-1"></div>
+    <div class="glow-effect glow-2"></div>
+    
+    <div class="container">
+        <!-- الشريط الجانبي -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-img">V</div>
+                <div>
+                    <div class="logo-text">vivk.ai</div>
+                    <div class="brand-subtitle">الذكاء الاصطناعي المتقدم</div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn"><i class="fas fa-plus"></i> محادثة جديدة</button>
+                <button class="btn ghost"><i class="fas fa-file-import"></i> استيراد محادثة</button>
+            </div>
+            
+            <div class="sessions-container">
+                <div class="session-item active">
+                    <div class="session-title">مناقشة حول الذكاء الاصطناعي</div>
+                    <div class="session-date">٢٥ نوفمبر ٢٠٢٣</div>
+                </div>
+                <div class="session-item">
+                    <div class="session-title">أسئلة حول البرمجة</div>
+                    <div class="session-date">٢٣ نوفمبر ٢٠٢٣</div>
+                </div>
+                <div class="session-item">
+                    <div class="session-title">استفسارات علمية</div>
+                    <div class="session-date">٢٠ نوفمبر ٢٠٢٣</div>
+                </div>
+                <div class="session-item">
+                    <div class="session-title">نقاش أدبي</div>
+                    <div class="session-date">١٨ نوفمبر ٢٠٢٣</div>
+                </div>
+            </div>
+            
+            <div class="settings">
+                <div class="setting-item">
+                    <label class="setting-label">اللغة</label>
+                    <select>
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label class="setting-label">جودة الردود</label>
+                    <select>
+                        <option value="standard">قياسي</option>
+                        <option value="creative">إبداعي</option>
+                        <option value="precise">دقيق</option>
+                    </select>
+                </div>
+                
+                <button class="btn ghost" style="margin-top: 10px;"><i class="fas fa-robot"></i> إعدادات الذكاء الاصطناعي</button>
+            </div>
+        </aside>
         
-        div.onclick = (e) => { 
-          if (e.target?.dataset?.delete) return; 
-          currentId = s.id; 
-          save(); 
-          renderSessions(); 
-          renderMessages(); 
-        };
+        <!-- المنطقة الرئيسية -->
+        <main class="main">
+            <header class="header">
+                <div>
+                    <div class="header-title">محادثة Vivk AI</div>
+                    <div class="header-subtitle">اسأل أي شيء وسأجيبك بإبداع</div>
+                </div>
+                <div class="export-actions">
+                    <button class="btn ghost"><i class="fas fa-download"></i> تصدير</button>
+                    <button class="btn"><i class="fas fa-share-alt"></i> مشاركة</button>
+                </div>
+            </header>
+            
+            <div class="chat-area">
+                <div class="message bot">
+                    مرحبًا! أنا مساعدك الذكي Vivk AI. كيف يمكنني مساعدتك اليوم؟
+                    <div class="message-meta">Vivk AI • الآن</div>
+                </div>
+                
+                <div class="message user">
+                    أريد معرفة المزيد عن الذكاء الاصطناعي وتطبيقاته في الحياة الحديثة
+                    <div class="message-meta">أنت • الآن</div>
+                </div>
+                
+                <div class="message bot">
+                    الذكاء الاصطناعي يحول عالمنا بطرق مذهلة! من التوصيات الشخصية في منصات البث إلى السيارات ذاتية القيادة، ومن التشخيص الطبي الدقيق إلى المساعدين الافتراضيين الأذكياء. 
+
+                    أشهر تطبيقات الذكاء الاصطناعي تشمل:
+                    • معالجة اللغة الطبيعية (مثل ChatGPT)
+                    • الرؤية الحاسوبية (التعرف على الصور)
+                    • أنظمة التوصية (مثل Netflix وAmazon)
+                    • الروبوتات والتحكم الذكي
+                    
+                    هل تريد معرفة المزيد عن مجال محدد؟
+                    <div class="message-meta">Vivk AI • الآن</div>
+                </div>
+                
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+            
+            <form class="composer">
+                <div class="input-container">
+                    <textarea placeholder="اكتب رسالتك هنا... (Ctrl+Enter للإرسال)"></textarea>
+                    <div class="input-hint">⇧ + Enter للسطر الجديد</div>
+                </div>
+                <button type="submit" class="btn"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // تأثيرات للكتابة في حقل النص
+        const textarea = document.querySelector('textarea');
+        const composer = document.querySelector('.composer');
         
-        // delete button
-        const deleteBtn = div.querySelector('[data-delete]');
-        if (deleteBtn) {
-          deleteBtn.addEventListener('click', (ev) => {
-            ev.stopPropagation();
-            if(confirm('حذف هذه الجلسة؟')){ 
-              sessions = sessions.filter(x => x.id !== s.id); 
-              if(currentId === s.id) currentId = sessions[0]?.id || null; 
-              save(); 
-              renderSessions(); 
-              renderMessages(); 
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            
+            if (this.value.trim() !== '') {
+                composer.classList.add('active');
+            } else {
+                composer.classList.remove('active');
             }
-          });
-        }
-        
-        sessionsEl.appendChild(div);
-      });
-    }
-
-    function getCurrent(){ return sessions.find(s => s.id === currentId); }
-
-    function appendMessage(role, text, opts = {}) {
-      const wrap = document.createElement('div');
-      wrap.className = 'message ' + (role === 'user' ? 'user' : 'bot');
-      if(opts.meta) {
-        wrap.innerHTML = `<div class="meta">${escapeHtml(opts.meta)}</div>` + `<div class="body">${text}</div>`;
-      } else {
-        wrap.innerHTML = `<div class="body">${text}</div>`;
-      }
-      messagesEl.appendChild(wrap);
-      setTimeout(() => {
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-      }, 0);
-      return wrap;
-    }
-
-    function addToSession(role, text){
-      if(!currentId) createSession();
-      const s = getCurrent();
-      s.messages.push({role, text, t: new Date().toISOString()});
-      // update title from first user message
-      const firstUser = s.messages.find(m => m.role === 'user');
-      if (firstUser && !s.title || s.title === 'جلسة جديدة') {
-        s.title = firstUser.text.slice(0, 60) || s.title;
-      }
-      save();
-    }
-
-    function renderMessages(){
-      messagesEl.innerHTML = '';
-      const s = getCurrent();
-      if(!s) return;
-      s.messages.forEach(m => {
-        appendMessage(m.role, escapeHtml(m.text), {meta: new Date(m.t).toLocaleString('ar-SA')});
-      });
-    }
-
-    // Initial load
-    if(!sessions.length) {
-      createSession();
-    } else if(!currentId) {
-      currentId = sessions[0].id;
-    }
-    renderSessions();
-    renderMessages();
-
-    // Composer interactions
-    sendBtn.addEventListener('click', () => attemptSend());
-    inputEl.addEventListener('keydown', (e) => {
-      if(e.ctrlKey && e.key === 'Enter'){ 
-        attemptSend(); 
-        e.preventDefault(); 
-      }
-      // allow shift+enter for newline
-    });
-
-    newSessionBtn.addEventListener('click', () => { 
-      createSession(); 
-      renderSessions(); 
-      renderMessages(); 
-      inputEl.focus(); 
-    });
-
-    clearAllBtn.addEventListener('click', () => { 
-      if(confirm('مسح كل المحادثات المحفوظة محليًا؟')){ 
-        sessions = []; 
-        currentId = null; 
-        save(); 
-        renderSessions(); 
-        renderMessages(); 
-      } 
-    });
-
-    importBtn.addEventListener('click', async () => {
-      // Quick import a JSON file containing sessions
-      const inp = document.createElement('input'); 
-      inp.type = 'file'; 
-      inp.accept = 'application/json';
-      inp.onchange = async () => { 
-        const f = inp.files[0]; 
-        if(!f) return; 
-        const txt = await f.text(); 
-        try { 
-          const data = JSON.parse(txt); 
-          if(Array.isArray(data)){ 
-            sessions = data; 
-            currentId = sessions[0]?.id || null; 
-            save(); 
-            renderSessions(); 
-            renderMessages(); 
-            alert('تم الاستيراد'); 
-          } else {
-            alert('ملف غير صالح'); 
-          }
-        } catch(e) { 
-          alert('فشل قراءة الملف'); 
-        } 
-      };
-      inp.click();
-    });
-
-    // Export functions
-    exportTxtBtn.addEventListener('click', () => {
-      const s = getCurrent(); 
-      if(!s){ alert('لا توجد جلسة'); return; }
-      const lines = s.messages.map(m => (m.role === 'user' ? 'أنت: ' : 'البوت: ') + m.text);
-      downloadBlob(new Blob([lines.join('\n\n')], {type:'text/plain'}), `vivk-session-${s.id}.txt`);
-    });
-
-    exportPDFBtn.addEventListener('click', async () => {
-      const s = getCurrent(); 
-      if(!s){ alert('لا توجد جلسة'); return; }
-      statusBadge.textContent = 'جارٍ تجهيز PDF...';
-      
-      try {
-        // Check if jsPDF is available
-        if (typeof window.jspdf === 'undefined') {
-          throw new Error('لم يتم تحميل مكتبة jsPDF بعد. يرجى الانتظار قليلاً ثم المحاولة مرة أخرى.');
-        }
-        
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-        const margin = 40;
-        const lineHeight = 14;
-        let y = 60;
-        
-        // Set font for Arabic support
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(14); 
-        doc.text(`جلسة: ${s.title}`, margin, y); 
-        y += 26;
-        doc.setFontSize(11);
-        
-        for(const m of s.messages){
-          const prefix = m.role === 'user' ? 'أنت: ' : 'البوت: ';
-          const text = prefix + m.text;
-          const split = doc.splitTextToSize(text, 520);
-          doc.text(split, margin, y);
-          y += split.length * lineHeight + 8;
-          if(y > 750){ doc.addPage(); y = 40; }
-        }
-        
-        const filename = `vivk-session-${s.id}.pdf`;
-        doc.save(filename);
-        statusBadge.textContent = 'جاهز';
-      } catch(err) { 
-        console.error(err); 
-        statusBadge.textContent = 'خطأ PDF'; 
-        alert('فشل إنشاء PDF: ' + err.message); 
-      }
-    });
-
-    function downloadBlob(blob, filename){
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); 
-      a.href = url; 
-      a.download = filename; 
-      a.click(); 
-      URL.revokeObjectURL(url);
-    }
-
-    // Voice toggle
-    voiceToggleBtn.addEventListener('click', () => {
-      voiceEnabled = !voiceEnabled;
-      voiceToggleBtn.textContent = voiceEnabled ? 'صوتي ✅' : 'تشغيل صوتي';
-      if (voiceEnabled && 'speechSynthesis' in window) {
-        // Test voice synthesis
-        const u = new SpeechSynthesisUtterance('تم تفعيل الصوت');
-        u.lang = 'ar-SA';
-        speechSynthesis.speak(u);
-      }
-    });
-
-    // SEND (with streaming)
-    async function attemptSend(){
-      if (isProcessing) return;
-      
-      const text = inputEl.value.trim();
-      if(!text) return;
-      
-      isProcessing = true;
-      inputEl.value = '';
-      inputEl.disabled = true;
-      sendBtn.disabled = true;
-      statusBadge.textContent = 'جارٍ المعالجة...';
-      
-      addToSession('user', text);
-      appendMessage('user', escapeHtml(text), {meta: new Date().toLocaleString('ar-SA')});
-      renderSessions();
-
-      // show placeholder for bot
-      const placeholder = appendMessage('bot', '', {meta: '...'});
-
-      try {
-        statusBadge.textContent = 'يتواصل مع الخادم...';
-        
-        // call server route /api/chat which should forward to OpenAI with stream=true
-        const controller = new AbortController();
-        const resp = await fetch('/api/chat', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ message: text, lang: langEl.value }),
-          signal: controller.signal,
         });
-
-        if(!resp.ok){
-          const txt = await resp.text();
-          throw new Error('خطأ من الخادم: ' + (txt || resp.status));
-        }
-
-        // handle streaming: try to parse SSE-style chunks; otherwise append raw chunks
-        const reader = resp.body.getReader();
-        const decoder = new TextDecoder();
-        let done = false; 
-        let full = '';
         
-        // show typing indicator
-        const typingEl = document.createElement('span'); 
-        typingEl.className='typing'; 
-        placeholder.querySelector('.body').appendChild(typingEl);
-
-        while(!done){
-          const { value, done: d } = await reader.read();
-          done = d;
-          if(value){
-            const chunk = decoder.decode(value, {stream:true});
-            // OpenAI sends "data: ..." lines in SSE; try to extract JSON "content"
-            // We'll do a best-effort: strip "data: " prefixes and parse JSON blocks
-            const parts = chunk.split(/\n\n/).filter(Boolean);
-            for(const p of parts){
-              let line = p.trim();
-              if(line.startsWith('data:')) line = line.replace(/^data:\s*/, '');
-              if(line === '[DONE]') { done = true; continue; }
-              try{
-                const j = JSON.parse(line);
-                // For chat completions v1 stream: accumulate choices delta
-                // Try multiple paths depending on API shape:
-                const delta = j.choices?.[0]?.delta?.content || j.choices?.[0]?.text;
-                if(delta){
-                  full += delta;
-                } else {
-                  // fallback: scan for content-like fields
-                  const maybe = JSON.stringify(j).match(/"content":"([^"]+)"/);
-                  if(maybe) full += maybe[1];
-                }
-              }catch(err){
-                // not JSON -> append raw
-                full += line;
-              }
-            }
-            // update placeholder text
-            if (placeholder.querySelector('.body')) {
-              placeholder.querySelector('.body').textContent = full;
-            }
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-          }
-        }
-
-        // remove typing indicator
-        placeholder.querySelector('.typing')?.remove();
-        if(!full) full = '(لم يرد النظام)';
+        // تأثيرات للتمرير السلس
+        const chatArea = document.querySelector('.chat-area');
+        chatArea.scrollTop = chatArea.scrollHeight;
         
-        // finalize
-        addToSession('bot', full);
-        // update placeholder content with meta/timestamp
-        placeholder.innerHTML = `<div class="meta">${new Date().toLocaleString('ar-SA')}</div><div class="body">${escapeHtml(full)}</div>`;
-        renderSessions();
-        statusBadge.textContent = 'جاهز';
-
-        // voice
-        if(voiceEnabled && 'speechSynthesis' in window){
-          const u = new SpeechSynthesisUtterance(full);
-          // pick voice by language
-          u.lang = langEl.value === 'ar' ? 'ar-SA' : (langEl.value === 'es' ? 'es-ES' : 'en-US');
-          speechSynthesis.cancel(); 
-          speechSynthesis.speak(u);
-        }
-
-      } catch(err) {
-        console.error(err);
-        placeholder.innerHTML = `<div class="meta">خطأ</div><div class="body">حصل خطأ: ${escapeHtml(String(err.message || err))}</div>`;
-        addToSession('bot', 'حصل خطأ: ' + String(err.message || err));
-        statusBadge.textContent = 'خطأ';
-      } finally {
-        isProcessing = false;
-        inputEl.disabled = false;
-        sendBtn.disabled = false;
-        inputEl.focus();
-      }
-    }
-
-    // Accessibility: keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      if((e.ctrlKey || e.metaKey) && e.key === 'k'){ 
-        inputEl.focus(); 
-        e.preventDefault(); 
-      }
-    });
-
-    // Utility: show initial greeting (only once per session)
-    (function initialGreeting(){
-      const s = getCurrent();
-      if(s && s.messages.length === 0){
-        const greeting = {
-          ar: 'أهلًا! أنا مساعدك الذكي — اسألني أي شيء، أو اضغط "محادثة جديدة" لبدء موضوع جديد.',
-          en: 'Hi! I am your smart assistant — ask me anything or start a new chat.',
-          es: '¡Hola! Soy tu asistente inteligente — pregúntame lo que quieras o inicia un chat nuevo.'
-        }[langEl.value || 'ar'];
-        addToSession('bot', greeting);
-        appendMessage('bot', greeting, {meta: new Date().toLocaleString('ar-SA')});
-      }
-    })();
-
-    // save before unload
-    window.addEventListener('beforeunload', () => save());
-
-    // END frontend
-  </script>
+        // إضافة رسائل جديدة عند الإرسال (للتجربة)
+        composer.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (textarea.value.trim() === '') return;
+            
+            // إضافة رسالة المستخدم
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.innerHTML = `
+                ${textarea.value}
+                <div class="message-meta">أنت • الآن</div>
+            `;
+            
+            chatArea.appendChild(userMessage);
+            
+            // مسح حقل الإدخال
+            textarea.value = '';
+            textarea.style.height = 'auto';
+            composer.classList.remove('active');
+            
+            // إظهار مؤشر الكتابة
+            const typingIndicator = document.querySelector('.typing-indicator');
+            typingIndicator.style.display = 'flex';
+            
+            chatArea.scrollTop = chatArea.scrollHeight;
+            
+            // محاكاة رد المساعد بعد فترة
+            setTimeout(() => {
+                typingIndicator.style.display = 'none';
+                
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot';
+                botMessage.innerHTML = `
+                    هذا رد رائع من الذكاء الاصطناعي الذي يظهر قدراته المتطورة في فهم اللغة الطبيعية وتوليد الردود المناسبة والسياقية.
+                    <div class="message-meta">Vivk AI • الآن</div>
+                `;
+                
+                chatArea.appendChild(botMessage);
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 2000);
+        });
+        
+        // تأثيرات عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+            
+            // تأثيرات ظهور العناصر
+            const elements = document.querySelectorAll('.sidebar, .main');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + (index * 100));
+            });
+        });
+    </script>
 </body>
 </html>
