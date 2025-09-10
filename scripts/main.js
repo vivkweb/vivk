@@ -1,66 +1,109 @@
-// وظائف عامة للموقع
-function showLoginModal() {
-    document.getElementById('loginModal').style.display = 'block';
-}
+// عناصر واجهة المستخدم
+const chatMessages = document.getElementById('chatMessages');
+const userInput = document.getElementById('userInput');
+const sendButton = document.getElementById('sendMessage');
+const statusText = document.getElementById('statusText');
 
-function showSignupModal() {
-    document.getElementById('signupModal').style.display = 'block';
-}
+// إرسال رسالة عند النقر على الزر
+sendButton.addEventListener('click', sendMessage);
 
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
-
-function showDemo() {
-    alert('عرض توضيحي لـ Vivk AI سيبدأ قريباً...');
-}
-
-// إغلاق النافذة عند النقر خارجها
-window.onclick = function(event) {
-    const modals = document.getElementsByClassName('modal');
-    for (let i = 0; i < modals.length; i++) {
-        if (event.target == modals[i]) {
-            modals[i].style.display = 'none';
-        }
+// إرسال رسالة عند الضغط على Enter
+userInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
     }
+});
+
+// دالة إرسال الرسالة
+function sendMessage() {
+    const message = userInput.value.trim();
+    if (!message) return;
+    
+    // إضافة رسالة المستخدم
+    addMessage(message, 'user');
+    userInput.value = '';
+    
+    // إظهار مؤشر الكتابة
+    const typingIndicator = showTypingIndicator();
+    
+    // الحصول على رد من الذكاء الاصطناعي (بعد تأخير لمحاكاة المعالجة)
+    setTimeout(() => {
+        // إزالة مؤشر الكتابة
+        if (typingIndicator) {
+            chatMessages.removeChild(typingIndicator);
+        }
+        
+        // الحصول على رد الذكاء الاصطناعي
+        const response = getAIResponse(message);
+        
+        // إضافة الرد
+        addMessage(response, 'ai');
+    }, 1000);
 }
 
-// تأثيرات التمرير
-window.addEventListener('scroll', () => {
-    const features = document.querySelectorAll('.feature-card');
-    features.forEach(feature => {
-        const position = feature.getBoundingClientRect();
-        if (position.top < window.innerHeight - 50) {
-            feature.style.opacity = 1;
-            feature.style.transform = 'translateY(0)';
-        }
-    });
-});
+// دالة إضافة رسالة إلى الدردشة
+function addMessage(text, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message');
+    messageDiv.classList.add(sender);
+    
+    const avatar = document.createElement('div');
+    avatar.classList.add('message-avatar');
+    avatar.innerHTML = `<i class="fas fa-${sender === 'user' ? 'user' : 'robot'}"></i>`;
+    
+    const content = document.createElement('div');
+    content.classList.add('message-content');
+    
+    const textDiv = document.createElement('div');
+    textDiv.classList.add('message-text');
+    textDiv.textContent = text;
+    
+    content.appendChild(textDiv);
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(content);
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    return messageDiv;
+}
 
-// تهيئة تأثيرات عند التحميل
-document.addEventListener('DOMContentLoaded', () => {
-    // إعداد الشفافية الأولية للبطاقات
-    const features = document.querySelectorAll('.feature-card');
-    features.forEach(feature => {
-        feature.style.opacity = 0;
-        feature.style.transform = 'translateY(20px)';
-        feature.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    });
+// دالة إظهار مؤشر الكتابة
+function showTypingIndicator() {
+    const typingDiv = document.createElement('div');
+    typingDiv.classList.add('message', 'ai');
+    typingDiv.id = 'typingIndicator';
     
-    // تأثير للشعار
-    const logo = document.querySelector('.logo');
-    logo.classList.add('pulse');
+    const avatar = document.createElement('div');
+    avatar.classList.add('message-avatar');
+    avatar.innerHTML = '<i class="fas fa-robot"></i>';
     
-    // تعطيل إرسال النماذج (لمنع إعادة تحميل الصفحة)
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('تم محاكاة عملية تسجيل الدخول بنجاح!');
-        closeModal('loginModal');
-    });
+    const content = document.createElement('div');
+    content.classList.add('message-content');
     
-    document.getElementById('signupForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('تم محاكاة عملية إنشاء حساب بنجاح!');
-        closeModal('signupModal');
-    });
-});
+    const loadingDiv = document.createElement('div');
+    loadingDiv.classList.add('typing-indicator');
+    
+    const text = document.createElement('span');
+    text.textContent = 'يكتب';
+    
+    const dots = document.createElement('div');
+    dots.classList.add('typing-dots');
+    
+    for (let i = 0; i < 3; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('typing-dot');
+        dots.appendChild(dot);
+    }
+    
+    loadingDiv.appendChild(text);
+    loadingDiv.appendChild(dots);
+    content.appendChild(loadingDiv);
+    typingDiv.appendChild(avatar);
+    typingDiv.appendChild(content);
+    
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    return typingDiv;
+}
