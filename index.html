@@ -3,487 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع الذكاء الاصطناعي المجاني</title>
+    <title>Vivk AI - ذكاء اصطناعي متقدم</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3a0ca3;
-            --accent: #7209b7;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #4cc9f0;
-            --warning: #f72585;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        header {
-            background: linear-gradient(90deg, var(--secondary), var(--primary));
-            color: white;
-            padding: 30px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .logo {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        nav {
-            background: var(--dark);
-            display: flex;
-            justify-content: center;
-            padding: 15px;
-            flex-wrap: wrap;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 12px 25px;
-            margin: 5px;
-            border-radius: 30px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-        }
-        
-        nav a i {
-            margin-left: 8px;
-        }
-        
-        nav a:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .main-content {
-            display: flex;
-            padding: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .sidebar {
-            flex: 1;
-            min-width: 250px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin-left: 20px;
-        }
-        
-        .content {
-            flex: 3;
-            min-width: 300px;
-            padding: 20px;
-        }
-        
-        .ai-chat-container {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-        }
-        
-        .chat-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-        
-        .chat-header i {
-            font-size: 24px;
-            color: var(--primary);
-            margin-left: 10px;
-        }
-        
-        .chat-box {
-            height: 350px;
-            border: 1px solid #e9ecef;
-            border-radius: 12px;
-            padding: 20px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            background: #fafafa;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .message {
-            padding: 12px 18px;
-            margin: 10px 0;
-            border-radius: 18px;
-            max-width: 80%;
-            animation: fadeIn 0.3s ease;
-            position: relative;
-        }
-        
-        .user-message {
-            background: var(--primary);
-            color: white;
-            margin-left: auto;
-            text-align: right;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .ai-message {
-            background: #e9ecef;
-            color: var(--dark);
-            margin-right: auto;
-            border-bottom-left-radius: 5px;
-        }
-        
-        .message-typing {
-            display: flex;
-            align-items: center;
-            padding: 12px 18px;
-            background: #e9ecef;
-            border-radius: 18px;
-            margin: 10px 0;
-            max-width: 40%;
-            border-bottom-left-radius: 5px;
-        }
-        
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #6c757d;
-            border-radius: 50%;
-            margin: 0 3px;
-            animation: typingAnimation 1.5s infinite;
-        }
-        
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-        
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.6s;
-        }
-        
-        .chat-input {
-            display: flex;
-            margin-top: 15px;
-        }
-        
-        .chat-input input {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 30px;
-            margin-left: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        .chat-input input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .chat-input button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        
-        .chat-input button i {
-            margin-right: 8px;
-        }
-        
-        .chat-input button:hover {
-            background: var(--secondary);
-            transform: scale(1.05);
-        }
-        
-        .free-badge {
-            background: var(--success);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin-right: 10px;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 25px;
-            background: var(--dark);
-            color: white;
-            margin-top: auto;
-            width: 100%;
-        }
-        
-        .social-icons {
-            margin-top: 15px;
-        }
-        
-        .social-icons a {
-            color: white;
-            font-size: 20px;
-            margin: 0 10px;
-            transition: color 0.3s;
-        }
-        
-        .social-icons a:hover {
-            color: var(--success);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes typingAnimation {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                margin-left: 0;
-                margin-bottom: 20px;
-            }
-            
-            .message {
-                max-width: 90%;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
             <div class="logo">
-                <i class="fas fa-robot"></i>
-            </div>
-            <h1>مرحباً بك في موقع الذكاء الاصطناعي المجاني</h1>
-            <p>موقع متكامل يعمل بالذكاء الاصطناعي بدون أي تكاليف أو اشتراكات</p>
-        </header>
-        
-        <nav>
-            <a href="#"><i class="fas fa-home"></i> الرئيسية</a>
-            <a href="#"><i class="fas fa-info-circle"></i> من نحن</a>
-            <a href="#"><i class="fas fa-concierge-bell"></i> الخدمات</a>
-            <a href="#"><i class="fas fa-blog"></i> المدونة</a>
-            <a href="#"><i class="fas fa-envelope"></i> اتصل بنا</a>
-        </nav>
-        
-        <div class="main-content">
-            <div class="content">
-                <h2>مرحباً بك في موقعنا المجاني!</h2>
-                <p>هذا موقع يعمل بالذكاء الاصطناعي بشكل كامل ومجاني تماماً. لا حاجة لأي اشتراكات مدفوعة أو مفاتيح API. جرب بنفسك!</p>
-                
-                <div class="ai-chat-container">
-                    <div class="chat-header">
-                        <i class="fas fa-robot"></i>
-                        <h3>دردشة الذكاء الاصطناعي المجانية</h3>
-                        <span class="free-badge">مجاني</span>
-                    </div>
-                    <div class="chat-box" id="chatBox">
-                        <div class="message ai-message">
-                            مرحباً! أنا مساعدك الافتراضي المجاني. كيف يمكنني مساعدتك اليوم؟
-                        </div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
-                        <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> إرسال</button>
-                    </div>
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
                 </div>
+                <div class="logo-text">Vivk AI</div>
             </div>
             
-            <div class="sidebar">
-                <h3><i class="fas fa-cog"></i> خيارات الذكاء الاصطناعي</h3>
-                <p>اختر نوع المساعد:</p>
-                <select id="aiType" onchange="changeAIType()" class="select-box">
-                    <option value="general">مساعد عام</option>
-                    <option value="tech">مساعد تقني</option>
-                    <option value="creative">مساعد إبداعي</option>
-                    <option value="business">مساعد أعمال</option>
-                </select>
-                
-                <div style="margin-top: 20px;">
-                    <h3><i class="fas fa-info-circle"></i> معلومات عنا</h3>
-                    <p>نحن نقدم حلول ويب متكاملة مع دعم للذكاء الاصطناعي المجاني لتحسين تجربة المستخدم.</p>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" onclick="showLoginModal()">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </button>
+                <button class="auth-btn signup-btn" onclick="showSignupModal()">
+                    <i class="fas fa-user-plus"></i>
+                    إنشاء حساب
+                </button>
+            </div>
+        </header>
+        
+        <section class="hero">
+            <div class="hero-content">
+                <h1>ذكاء اصطناعي متقدم لمستقبل أفضل</h1>
+                <p>اكتشف قوة الذكاء الاصطناعي مع Vivk AI. محادثات ذكية، إجابات دقيقة، وتجربة فريدة من نوعها.</p>
+                <div class="hero-buttons">
+                    <button class="primary-btn" onclick="location.href='pages/chat.html'">
+                        ابدأ المحادثة الآن
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button class="secondary-btn" onclick="showDemo()">
+                        شاهد العرض التوضيحي
+                        <i class="fas fa-play-circle"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="ai-orb"></div>
+            </div>
+        </section>
+        
+        <section class="features">
+            <h2>مميزات Vivk AI</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>محادثات ذكية</h3>
+                    <p>تجربة محادثة طبيعية مع ذكاء اصطناعي متقدم يفهم سياق الحديث.</p>
                 </div>
                 
-                <div style="margin-top: 20px;">
-                    <h3><i class="fas fa-gift"></i> لماذا مجاني؟</h3>
-                    <p>نحن نستخدم تقنيات ذكاء اصطناعي مفتوحة المصدر لا تتطلب أي تكاليف أو اشتراكات.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>مساعد برمجي</h3>
+                    <p>احصل على مساعدة في كتابة وتصحيح الأكواد البرمجية بلغات متعددة.</p>
                 </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>ترجمة متقدمة</h3>
+                    <p>ترجمة نصوص بدقة عالية مع الحفاظ على السياق والمعنى الأصلي.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>نماذج متعددة</h3>
+                    <p>اختر من بين نماذج ذكاء اصطناعي متخصصة لمختلف الاحتياجات.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta-section">
+            <h2>جاهز للبدء مع Vivk AI؟</h2>
+            <p>انضم إلى آلاف المستخدمين الذين يثقون بنا لتلبية احتياجاتهم في الذكاء الاصطناعي.</p>
+            <button class="primary-btn large" onclick="showSignupModal()">
+                إنشاء حساب مجاني
+                <i class="fas fa-user-plus"></i>
+            </button>
+        </section>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="logo-text">Vivk AI</div>
+                    </div>
+                    <p>منصة ذكاء اصطناعي متقدمة تقدم حلولًا مبتكرة للمستخدمين.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="pages/chat.html">المحادثة</a></li>
+                        <li><a href="#">الميزات</a></li>
+                        <li><a href="#">الأسعار</a></li>
+                        <li><a href="#">المساعدة</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>وسائل التواصل</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Vivk AI. جميع الحقوق محفوظة.</p>
+            </div>
+        </footer>
+        
+        <!-- نافذة تسجيل الدخول -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('loginModal')">&times;</span>
+                <h2>تسجيل الدخول</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">كلمة المرور</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="primary-btn full-width">تسجيل الدخول</button>
+                </form>
+                <div class="auth-divider">
+                    <span>أو</span>
+                </div>
+                <button class="google-auth-btn" onclick="loginWithGoogle()">
+                    <img src="assets/icons/google-icon.svg" alt="Google">
+                    تسجيل الدخول باستخدام جوجل
+                </button>
+                <p class="auth-switch">ليس لديك حساب؟ <a href="#" onclick="showSignupModal()">إنشاء حساب</a></p>
             </div>
         </div>
         
-        <footer>
-            <p>© 2023 موقع الذكاء الاصطناعي المجاني. جميع الحقوق محفوظة.</p>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+        <!-- نافذة إنشاء حساب -->
+        <div id="signupModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('signupModal')">&times;</span>
+                <h2>إنشاء حساب جديد</h2>
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="name">الاسم الكامل</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newEmail">البريد الإلكتروني</label>
+                        <input type="email" id="newEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">كلمة المرور</label>
+                        <input type="password" id="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">تأكيد كلمة المرور</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="primary-btn full-width">إنشاء حساب</button>
+                </form>
+                <div class="auth-divider">
+                    <span>أو</span>
+                </div>
+                <button class="google-auth-btn" onclick="signupWithGoogle()">
+                    <img src="assets/icons/google-icon.svg" alt="Google">
+                    إنشاء حساب باستخدام جوجل
+                </button>
+                <p class="auth-switch">لديك حساب بالفعل؟ <a href="#" onclick="showLoginModal()">تسجيل الدخول</a></p>
             </div>
-        </footer>
+        </div>
     </div>
 
-    <script>
-        // محاكاة للذكاء الاصطناعي المجاني
-        const aiResponses = {
-            general: [
-                "هذا رائع! هل يمكنك إخباري بالمزيد؟",
-                "أفهم ما تقصده. كيف يمكنني مساعدتك بشكل أفضل؟",
-                "شكراً لمشاركتك هذا معي. هل هناك شيء آخر تريد الحديث عنه؟",
-                "أنا هنا للمساعدة. ما هو سؤالك بالتحديد؟",
-                "هذا مثير للاهتمام! هل تريد مني مساعدتك في هذا الموضوع؟"
-            ],
-            tech: [
-                "هل تتحدث عن قضية تقنية محددة؟",
-                "كمطور، أنصحك بالتحقق من التوثيق الرسمي لهذه التقنية.",
-                "هناك عدة طرق لمعالجة هذه المشكلة. هل تفضل حلًا بسيطًا أم متقدمًا؟",
-                "لحل هذه المشكلة، قد تحتاج إلى تحديث المكتبات الخاصة بك.",
-                "هذه التقنية تعمل بشكل أفضل عندما تقوم بتهيئتها بشكل صحيح."
-            ],
-            creative: [
-                "هذه فكرة مبدعة! هل فكرت في تطويرها أكثر؟",
-                "الإبداع يتطلب أحيانًا الخروج عن المألوف. جرب شيئًا جديدًا!",
-                "لطالما كانت الأفكار الإبداعية هي التي تقود التغيير. تابع عملك!",
-                "ما الذي يلهمك؟ قد تجد فيه مصدرًا لأفكار إبداعية أكثر.",
-                "الإبداع هو رحلة وليس وجهة. استمتع بالعملية!"
-            ],
-            business: [
-                "هذا قرار استراتيجي جيد. هل درست جميع خياراتك؟",
-                "السوق الحالي يتجه نحو الرقمنة. كيف تستعد لهذا التحول؟",
-                "لتحسين أرباحك، قد تحتاج إلى التركيز على تجربة العملاء.",
-                "الابتكار هو مفتاح النجاح في عالم الأعمال اليوم.",
-                "تحليل البيانات يمكن أن يساعدك في اتخاذ قرارات أفضل لأعمالك."
-            ]
-        };
-        
-        let currentAI = "general";
-        
-        function changeAIType() {
-            currentAI = document.getElementById("aiType").value;
-            addMessage("تم تغيير نوع المساعد إلى: " + 
-                      (currentAI === "general" ? "مساعد عام" : 
-                       currentAI === "tech" ? "مساعد تقني" : 
-                       currentAI === "creative" ? "مساعد إبداعي" : "مساعد أعمال"), "ai");
-        }
-        
-        function addMessage(message, sender) {
-            const chatBox = document.getElementById("chatBox");
-            const messageDiv = document.createElement("div");
-            messageDiv.classList.add("message");
-            messageDiv.classList.add(sender === "user" ? "user-message" : "ai-message");
-            messageDiv.textContent = message;
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-        
-        function showTypingIndicator() {
-            const chatBox = document.getElementById("chatBox");
-            const typingDiv = document.createElement("div");
-            typingDiv.classList.add("message-typing");
-            typingDiv.id = "typingIndicator";
-            
-            for (let i = 0; i < 3; i++) {
-                const dot = document.createElement("div");
-                dot.classList.add("typing-dot");
-                typingDiv.appendChild(dot);
-            }
-            
-            chatBox.appendChild(typingDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-        
-        function hideTypingIndicator() {
-            const typingIndicator = document.getElementById("typingIndicator");
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-        
-        function getAIResponse(userMessage) {
-            // استخدام الردود المحلية المجانية
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    const responses = aiResponses[currentAI];
-                    const response = responses[Math.floor(Math.random() * responses.length)];
-                    resolve(response);
-                }, 1500);
-            });
-        }
-        
-        async function sendMessage() {
-            const userInput = document.getElementById("userInput");
-            const message = userInput.value.trim();
-            
-            if (message === "") return;
-            
-            addMessage(message, "user");
-            userInput.value = "";
-            
-            showTypingIndicator();
-            
-            try {
-                const response = await getAIResponse(message);
-                hideTypingIndicator();
-                addMessage(response, "ai");
-            } catch (error) {
-                hideTypingIndicator();
-                addMessage("عذراً، حدث خطأ في النظام. يرجى المحاولة مرة أخرى.", "ai");
-            }
-        }
-        
-        // للسماح بإرسال الرسالة بالضغط على Enter
-        document.getElementById("userInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                sendMessage();
-            }
-        });
-    </script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/auth.js"></script>
 </body>
 </html>
