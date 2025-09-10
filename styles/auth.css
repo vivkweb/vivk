@@ -1,0 +1,131 @@
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--dark-card);
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--dark-border);
+}
+
+.close {
+    color: var(--text-secondary);
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: var(--text-primary);
+}
+
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--dark-border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Auth Divider */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+    color: var(--text-secondary);
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--dark-border);
+}
+
+.auth-divider span {
+    padding: 0 15px;
+}
+
+/* Google Auth Button */
+.google-auth-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--dark-border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+}
+
+.google-auth-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.google-auth-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-secondary);
+}
+
+.auth-switch a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
