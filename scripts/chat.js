@@ -1,197 +1,128 @@
-class VivkAIChat {
-  constructor() {
-    this.chatContainer = null;
-    this.messagesContainer = null;
-    this.inputField = null;
-    this.sendButton = null;
-    this.isProcessing = false;
-    this.conversationHistory = [];
+// محاكاة نظام الدردشة بالذكاء الاصطناعي
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendButton = document.getElementById('sendMessage');
     
-    this.init();
-  }
-
-  init() {
-    this.createChatInterface();
-    this.setupEventListeners();
-    this.showWelcomeMessage();
-  }
-
-  createChatInterface() {
-    // إنشاء واجهة الدردشة
-    this.chatContainer = document.createElement('div');
-    this.chatContainer.className = 'chat-container-advanced';
-    this.chatContainer.innerHTML = `
-      <div class="chat-header" style="
-        background: linear-gradient(135deg, #6E3AFF, #00D4FF);
-        padding: 20px;
-        text-align: center;
-        color: white;
-        font-weight: bold;
-        font-size: 18px;
-      ">
-        Vivk.Ai Assistant
-      </div>
-      <div class="chat-messages" style="
-        height: 400px;
-        overflow-y: auto;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      "></div>
-      <div class="chat-input" style="
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.05);
-        display: flex;
-        gap: 10px;
-      ">
-        <input type="text" placeholder="اكتب رسالتك هنا..." style="
-          flex: 1;
-          padding: 15px;
-          border-radius: 25px;
-          border: 1px solid rgba(110, 58, 255, 0.3);
-          background: rgba(255, 255, 255, 0.1);
-          color: white;
-          font-size: 16px;
-        ">
-        <button style="
-          background: #6E3AFF;
-          color: white;
-          border: none;
-          border-radius: 50%;
-          width: 50px;
-          height: 50px;
-          cursor: pointer;
-          font-size: 18px;
-          transition: background 0.3s;
-        ">
-          <i class="fas fa-paper-plane"></i>
-        </button>
-      </div>
-    `;
-
-    document.body.appendChild(this.chatContainer);
+    // ردود الذكاء الاصطناعي
+    const aiResponses = [
+        "هذا سؤال ممتاز! يمكنني مساعدتك في ذلك.",
+        "أفهم استفسارك. دعني أوضح ذلك لك.",
+        "هذا موضوع شيق. إليك ما تحتاج إلى معرفته:",
+        "بناءً على طلبك، هذه هي أفضل الحلول المقترحة:",
+        "لقد قمت بتحليل سؤالك ووجدت أن الإجابة الأمثل هي:",
+        "شكراً لسؤالك. إليك المعلومات التي تحتاجها:",
+        "هذا استفسار مهم. دعني أقدم لك التفاصيل الكاملة:"
+    ];
     
-    this.messagesContainer = this.chatContainer.querySelector('.chat-messages');
-    this.inputField = this.chatContainer.querySelector('input');
-    this.sendButton = this.chatContainer.querySelector('button');
-  }
-
-  setupEventListeners() {
-    this.sendButton.addEventListener('click', () => this.sendMessage());
+    // إرسال رسالة عند النقر على زر الإرسال
+    sendButton.addEventListener('click', sendMessage);
     
-    this.inputField.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        this.sendMessage();
-      }
+    // إرسال رسالة عند الضغط على Enter
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
     });
-
-    // إغلاق الدردشة عند النقر خارجها
-    document.addEventListener('click', (e) => {
-      if (!this.chatContainer.contains(e.target) && 
-          !e.target.classList.contains('chat-toggle')) {
-        this.hideChat();
-      }
-    });
-  }
-
-  async sendMessage() {
-    const message = this.inputField.value.trim();
-    if (!message || this.isProcessing) return;
-
-    this.addMessage(message, 'user');
-    this.inputField.value = '';
-    this.isProcessing = true;
-
-    // محاكاة استجابة الذكاء الاصطناعي
-    setTimeout(() => {
-      const aiResponse = this.generateAIResponse(message);
-      this.addMessage(aiResponse, 'ai');
-      this.isProcessing = false;
-    }, 1000 + Math.random() * 1000); // وقت عشوائي لمحاكاة التفكير
-  }
-
-  addMessage(text, sender) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}`;
-    messageDiv.style.cssText = `
-      max-width: 70%;
-      padding: 15px;
-      border-radius: 20px;
-      align-self: ${sender === 'user' ? 'flex-end' : 'flex-start'};
-      background: ${sender === 'user' ? 
-        'rgba(0, 212, 255, 0.2)' : 
-        'rgba(110, 58, 255, 0.2)'};
-      border-bottom-${sender === 'user' ? 'right' : 'left'}-radius: 5px;
-      animation: fadeIn 0.3s ease-in;
-    `;
     
-    messageDiv.textContent = text;
-    this.messagesContainer.appendChild(messageDiv);
-    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-
-    // حفظ المحادثة في السجل
-    this.conversationHistory.push({
-      sender,
-      text,
-      timestamp: new Date().toISOString()
-    });
-  }
-
-  generateAIResponse(userMessage) {
-    const responses = {
-      'hello': 'مرحباً! كيف يمكنني مساعدتك اليوم؟',
-      'help': 'يمكنني مساعدتك في إنشاء المحتوى، الإجابة على الأسئلة، والكثير من الأشياء الأخرى. ما الذي تحتاج إليه؟',
-      'video': 'لإنشاء فيديو، أرسل لي النص أو الفكرة وسأقوم بإنشاء فيديو مذهل لك!',
-      'image': 'أحب إنشاء الصور! أخبرني ما الذي تريد رؤيته وسأصنعه لك.',
-      'default': 'هذا مثير للاهتمام! هل يمكنك إعطائي المزيد من التفاصيل؟'
-    };
-
-    const lowerMessage = userMessage.toLowerCase();
-    
-    if (lowerMessage.includes('مرحبا') || lowerMessage.includes('اهلا')) {
-      return responses['hello'];
-    } else if (lowerMessage.includes('مساعدة') || lowerMessage.includes('help')) {
-      return responses['help'];
-    } else if (lowerMessage.includes('فيديو') || lowerMessage.includes('video')) {
-      return responses['video'];
-    } else if (lowerMessage.includes('صورة') || lowerMessage.includes('image')) {
-      return responses['image'];
-    } else {
-      return responses['default'];
+    function sendMessage() {
+        const message = chatInput.value.trim();
+        
+        if (message === '') return;
+        
+        // إضافة رسالة المستخدم
+        addMessage(message, 'user');
+        chatInput.value = '';
+        
+        // محاكاة typing effect
+        simulateTyping();
     }
-  }
-
-  showWelcomeMessage() {
-    setTimeout(() => {
-      this.addMessage('مرحباً! أنا مساعد Vivk.Ai. كيف يمكنني مساعدتك اليوم؟', 'ai');
-    }, 500);
-  }
-
-  showChat() {
-    this.chatContainer.style.display = 'block';
-  }
-
-  hideChat() {
-    this.chatContainer.style.display = 'none';
-  }
-
-  toggleChat() {
-    if (this.chatContainer.style.display === 'none') {
-      this.showChat();
-    } else {
-      this.hideChat();
+    
+    function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+        messageDiv.classList.add(sender);
+        
+        const avatar = document.createElement('div');
+        avatar.classList.add('message-avatar');
+        avatar.innerHTML = `<i class="fas fa-${sender === 'user' ? 'user' : 'robot'}"></i>`;
+        
+        const content = document.createElement('div');
+        content.classList.add('message-content');
+        
+        const textDiv = document.createElement('div');
+        textDiv.classList.add('message-text');
+        textDiv.textContent = text;
+        
+        content.appendChild(textDiv);
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(content);
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-  }
-}
-
-// تهيئة الدردشة عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
-  window.vivkChat = new VivkAIChat();
+    
+    function simulateTyping() {
+        // إضافة مؤشر الكتابة
+        const typingIndicator = document.createElement('div');
+        typingIndicator.classList.add('message', 'ai');
+        typingIndicator.id = 'typing-indicator';
+        
+        const avatar = document.createElement('div');
+        avatar.classList.add('message-avatar');
+        avatar.innerHTML = '<i class="fas fa-robot"></i>';
+        
+        const content = document.createElement('div');
+        content.classList.add('message-content');
+        
+        const textDiv = document.createElement('div');
+        textDiv.classList.add('message-text');
+        textDiv.innerHTML = '<i class="fas fa-ellipsis-h"></i>';
+        
+        content.appendChild(textDiv);
+        typingIndicator.appendChild(avatar);
+        typingIndicator.appendChild(content);
+        
+        chatMessages.appendChild(typingIndicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // محاكاة وقت المعالجة ثم إضافة الرد
+        setTimeout(() => {
+            // إزالة مؤشر الكتابة
+            document.getElementById('typing-indicator').remove();
+            
+            // إضافة رد الذكاء الاصطناعي
+            const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+            addMessage(randomResponse, 'ai');
+        }, 2000);
+    }
+    
+    // تفعيل خيارات المحادثة الجانبية
+    const chatItems = document.querySelectorAll('.chat-item');
+    chatItems.forEach(item => {
+        item.addEventListener('click', function() {
+            chatItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            
+            // مسح المحادثة الحالية
+            chatMessages.innerHTML = '';
+            
+            // إضافة رسالة ترحيب جديدة
+            addMessage('مرحباً! أنا مساعدك الذكي Vivk AI. كيف يمكنني مساعدتك اليوم؟', 'ai');
+        });
+    });
+    
+    // تفعيل زر المحادثة الجديدة
+    const newChatBtn = document.querySelector('.new-chat-btn');
+    newChatBtn.addEventListener('click', function() {
+        chatItems.forEach(i => i.classList.remove('active'));
+        chatItems[0].classList.add('active');
+        
+        // مسح المحادثة الحالية
+        chatMessages.innerHTML = '';
+        
+        // إضافة رسالة ترحيب جديدة
+        addMessage('مرحباً! أنا مساعدك الذكي Vivk AI. كيف يمكنني مساعدتك اليوم؟', 'ai');
+    });
 });
-
-// دالة لربط الدردشة بذكاء اصطناعي حقيقي لاحقاً
-async function connectToRealAI(apiKey, model = 'gpt-3.5-turbo') {
-  console.log('تم ربط الدردشة بنموذج الذكاء الاصطناعي:', model);
-  // هنا سيتم إضافة كود الاتصال الفعلي بالذكاء الاصطناعي
-}
