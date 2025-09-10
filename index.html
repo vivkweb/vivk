@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vivk AI - ذكاء اصطناعي متطور</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder@1.3.3"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -42,15 +44,15 @@
         
         .container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             background: var(--dark-card);
             border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
             overflow: hidden;
             border: 1px solid var(--dark-border);
             display: flex;
             flex-direction: column;
-            height: 90vh;
+            height: 95vh;
         }
         
         header {
@@ -117,12 +119,13 @@
         }
         
         .sidebar {
-            width: 280px;
+            width: 300px;
             background: rgba(0, 0, 0, 0.1);
             border-right: 1px solid var(--dark-border);
-            padding: 20px;
+            padding: 25px 20px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
         }
         
         .sidebar-title {
@@ -130,6 +133,13 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sidebar-title i {
+            color: var(--primary);
         }
         
         .model-selector {
@@ -145,6 +155,7 @@
             color: var(--text-primary);
             font-size: 14px;
             margin-bottom: 15px;
+            cursor: pointer;
         }
         
         .model-option {
@@ -155,7 +166,7 @@
             border-radius: 8px;
             margin-bottom: 8px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
         
         .model-option:hover {
@@ -185,11 +196,12 @@
         }
         
         .chat-header {
-            padding: 15px 20px;
+            padding: 15px 25px;
             border-bottom: 1px solid var(--dark-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(0, 0, 0, 0.05);
         }
         
         .chat-title {
@@ -218,15 +230,17 @@
         
         .chat-action-btn:hover {
             background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
         
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            background: rgba(0, 0, 0, 0.03);
         }
         
         .message {
@@ -277,6 +291,23 @@
         
         .message-text {
             line-height: 1.7;
+        }
+        
+        .message-text pre {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .message-text code {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
         }
         
         .message-time {
@@ -334,6 +365,12 @@
             transform: scale(1.05);
         }
         
+        .chat-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         .suggestions {
             display: flex;
             flex-wrap: wrap;
@@ -386,6 +423,27 @@
             animation-delay: 0.4s;
         }
         
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
@@ -421,7 +479,7 @@
             background: var(--primary-dark);
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .main-content {
                 flex-direction: column;
             }
@@ -430,10 +488,30 @@
                 width: 100%;
                 border-right: none;
                 border-bottom: 1px solid var(--dark-border);
+                max-height: 200px;
             }
             
             .message {
                 max-width: 90%;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                height: 100vh;
+                border-radius: 0;
+            }
+            
+            body {
+                padding: 0;
+            }
+            
+            .chat-messages {
+                padding: 15px;
+            }
+            
+            .suggestions {
+                display: none;
             }
         }
     </style>
@@ -453,44 +531,44 @@
             
             <div class="ai-status">
                 <span class="status-dot"></span>
-                <span id="statusText">متصل وجاهز للمساعدة</span>
+                <span id="statusText">جاري التحميل...</span>
             </div>
         </header>
         
         <div class="main-content">
             <aside class="sidebar">
-                <h3 class="sidebar-title">نموذج الذكاء الاصطناعي</h3>
+                <h3 class="sidebar-title"><i class="fas fa-microchip"></i> نموذج الذكاء الاصطناعي</h3>
                 
                 <div class="model-selector">
                     <select class="model-select" id="modelSelect">
-                        <option>Vivk AI Pro - النموذج المتقدم</option>
-                        <option>Vivk AI Lite - النموذج الخفيف</option>
-                        <option>Vivk AI Creative - للإبداع والكتابة</option>
-                        <option>Vivk AI Code - للمبرمجين والمطورين</option>
+                        <option value="pro">Vivk AI Pro - النموذج المتقدم</option>
+                        <option value="creative">Vivk AI Creative - للإبداع والكتابة</option>
+                        <option value="code">Vivk AI Code - للمبرمجين</option>
+                        <option value="general">Vivk AI General - للأغراض العامة</option>
                     </select>
                     
-                    <div class="model-option active">
+                    <div class="model-option active" data-model="fast">
                         <div class="model-icon">
                             <i class="fas fa-bolt"></i>
                         </div>
                         <div>
                             <div>وضع سريع</div>
-                            <small>استجابة أسرع بتكلفة أقل</small>
+                            <small>استجابة أسرع</small>
                         </div>
                     </div>
                     
-                    <div class="model-option">
+                    <div class="model-option" data-model="detailed">
                         <div class="model-icon">
                             <i class="fas fa-gem"></i>
                         </div>
                         <div>
                             <div>وضع دقيق</div>
-                            <small>استجابة أكثر دقة وتفصيلاً</small>
+                            <small>استجابة مفصلة</small>
                         </div>
                     </div>
                 </div>
                 
-                <div class="sidebar-title">المحادثات الحديثة</div>
+                <h3 class="sidebar-title"><i class="fas fa-history"></i> المحادثات الحديثة</h3>
                 <div id="recentChats">
                     <div class="model-option">
                         <div class="model-icon">
@@ -519,14 +597,14 @@
                 <div class="chat-header">
                     <h2 class="chat-title">محادثة جديدة</h2>
                     <div class="chat-actions">
-                        <button class="chat-action-btn">
-                            <i class="fas fa-edit"></i>
+                        <button class="chat-action-btn" id="newChatBtn">
+                            <i class="fas fa-plus"></i>
                         </button>
                         <button class="chat-action-btn">
-                            <i class="fas fa-share"></i>
+                            <i class="fas fa-share-alt"></i>
                         </button>
                         <button class="chat-action-btn">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-ellipsis-v"></i>
                         </button>
                     </div>
                 </div>
@@ -548,15 +626,15 @@
                                 <br><br>
                                 كيف يمكنني مساعدتك اليوم؟
                             </div>
-                            <div class="message-time">الآن</div>
+                            <div class="message-time" id="currentTime">الآن</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="chat-input-container">
                     <div class="chat-input-box">
-                        <input type="text" class="chat-input" id="userInput" placeholder="اكتب رسالتك هنا...">
-                        <button class="chat-send-btn" id="sendMessage">
+                        <input type="text" class="chat-input" id="userInput" placeholder="اكتب رسالتك هنا..." disabled>
+                        <button class="chat-send-btn" id="sendMessage" disabled>
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
@@ -572,56 +650,387 @@
         </div>
     </div>
 
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">تم تحميل النموذج بنجاح!</span>
+    </div>
+
     <script>
         // عناصر واجهة المستخدم
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const sendButton = document.getElementById('sendMessage');
         const statusText = document.getElementById('statusText');
+        const currentTimeElement = document.getElementById('currentTime');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        const newChatBtn = document.getElementById('newChatBtn');
         
-        // نماذج الذكاء الاصطناعي
-        const aiModels = {
-            pro: "Vivk AI Pro - النموذج المتقدم",
-            lite: "Vivk AI Lite - النموذج الخفيف",
-            creative: "Vivk AI Creative - للإبداع والكتابة",
-            code: "Vivk AI Code - للمبرمجين والمطورين"
-        };
+        // تحديث الوقت الحالي
+        function updateCurrentTime() {
+            const now = new Date();
+            currentTimeElement.textContent = now.toLocaleTimeString('ar-SA', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+        
+        // تحديث الوقت كل دقيقة
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 60000);
+        
+        // إظهار الإشعار
+        function showNotification(message, isSuccess = true) {
+            notificationText.textContent = message;
+            notification.style.background = isSuccess ? 'var(--success)' : 'var(--warning)';
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // نموذج الذكاء الاصطناعي المتقدم
+        class AdvancedAIModel {
+            constructor() {
+                this.model = null;
+                this.conversationHistory = [];
+                this.isReady = false;
+            }
+            
+            async initialize() {
+                try {
+                    statusText.textContent = 'جاري تحميل النموذج...';
+                    
+                    // محاكاة تحميل نموذج الذكاء الاصطناعي
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    this.isReady = true;
+                    statusText.textContent = 'النموذج جاهز';
+                    userInput.disabled = false;
+                    sendButton.disabled = false;
+                    showNotification('تم تحميل النموذج بنجاح! يمكنك البدء بالمحادثة الآن.');
+                    
+                } catch (error) {
+                    console.error('Error loading model:', error);
+                    statusText.textContent = 'خطأ في التحميل';
+                    showNotification('حدث خطأ أثناء تحميل النموذج', false);
+                }
+            }
+            
+            async generateResponse(userMessage, modelType = 'pro') {
+                if (!this.isReady) {
+                    return "النموذج ليس جاهزاً بعد. يرجى الانتظار...";
+                }
+                
+                // إضافة الرسالة إلى سجل المحادثة
+                this.conversationHistory.push({ role: 'user', content: userMessage });
+                
+                // محاكاة معالجة النموذج
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // توليد رد بناءً على نوع النموذج
+                let response;
+                switch(modelType) {
+                    case 'creative':
+                        response = this.generateCreativeResponse(userMessage);
+                        break;
+                    case 'code':
+                        response = this.generateCodeResponse(userMessage);
+                        break;
+                    case 'general':
+                        response = this.generateGeneralResponse(userMessage);
+                        break;
+                    default:
+                        response = this.generateProResponse(userMessage);
+                }
+                
+                // إضافة الرد إلى سجل المحادثة
+                this.conversationHistory.push({ role: 'assistant', content: response });
+                
+                return response;
+            }
+            
+            generateProResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                // نمط المحادثة السياقية
+                if (this.conversationHistory.length > 2) {
+                    const lastUserMessage = this.conversationHistory[this.conversationHistory.length - 2].content.toLowerCase();
+                    
+                    if (lastUserMessage.includes('برمجة') && lowerMessage.includes('جافا')) {
+                        return `جافا سكريبت هي لغة برمجة قوية لتطوير الويب. إليك مثال بسيط:\n\n\`\`\`javascript
+function greet(name) {
+    return 'مرحباً ' + name + '!';
+}
+
+console.log(greet('مستخدم')); // => مرحباً مستخدم!
+\`\`\``;
+                    }
+                    
+                    if (lastUserMessage.includes('تعلم') && lowerMessage.includes('برمجة')) {
+                        return `لتعلم البرمجة effectively، ابدأ بهذه الخطوات:
+1. اختر لغة برمجة مناسبة للمبتدئين مثل Python أو JavaScript
+2. تعلم الأساسيات: المتغيرات، الشروط، الحلقات، الدوال
+3. practice regularly من خلال حل المشاكل البسيطة
+4. انضم لمجتمعات المبرمجين لطلب المساعدة
+5. ابني مشاريع صغيرة لتطبيق ما تعلمته
+
+ما اللغة التي تفضلها للبدء؟`;
+                    }
+                }
+                
+                // الرد على الأسئلة الشائعة
+                if (lowerMessage.includes('مرحبا') || lowerMessage.includes('اهلا') || lowerMessage.includes('السلام')) {
+                    return "مرحباً بك! كيف يمكنني مساعدتك اليوم؟";
+                }
+                
+                if (lowerMessage.includes('شكرا') || lowerMessage.includes('مشكور')) {
+                    return "على الرحب والسعة! سعيد لأنني استطعت المساعدة. هل هناك شيء آخر تريد معرفته؟";
+                }
+                
+                if (lowerMessage.includes('وقت') || lowerMessage.includes('الساعة')) {
+                    return `الوقت الحالي هو: ${new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' })}`;
+                }
+                
+                if (lowerMessage.includes('تاريخ') || lowerMessage.includes('اليوم')) {
+                    return `تاريخ اليوم هو: ${new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+                }
+                
+                if (lowerMessage.includes('اسمك') || lowerMessage.includes('من انت')) {
+                    return "أنا Vivk AI، مساعدك الذكي الذي يعتمد على تقنيات الذكاء الاصطناعي المتقدمة لمساعدتك في مختلف المهام والمجالات.";
+                }
+                
+                if (lowerMessage.includes('برمجة') || lowerMessage.includes('كود') || lowerMessage.includes('برمج')) {
+                    return "أحب الحديث عن البرمجة! أي لغة برمجة تفضل؟ أو هل تحتاج مساعدة في مشروع معين؟";
+                }
+                
+                if (lowerMessage.includes('ذكاء اصطناعي') || lowerMessage.includes('ai')) {
+                    return "الذكاء الاصطناعي هو مجال من مجالات علوم الكمبيوتر يركز على إنشاء أنظمة قادرة على أداء المهام التي تتطلب ذكاءً بشرياً. أشهر تقنياته حالياً هي تعلم الآلة والتعلم العميق.";
+                }
+                
+                if (lowerMessage.includes('python') || lowerMessage.includes('بايثون')) {
+                    return `بايثون هي لغة برمجة رائعة للمبتدئين والمحترفين. إليك مثال بسيط:\n\n\`\`\`python
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)
+
+print(factorial(5))  # => 120
+\`\`\``;
+                }
+                
+                if (lowerMessage.includes('javascript') || lowerMessage.includes('جافا')) {
+                    return `جافا سكريبت هي لغة أساسية لتطوير الويب. إليك مثال على دالة:\n\n\`\`\`javascript
+// دالة للتحقق من إذا كان الرقم أولياً
+function isPrime(num) {
+    if (num <= 1) return false;
+    if (num <= 3) return true;
+    
+    if (num % 2 === 0 || num % 3 === 0) return false;
+    
+    for (let i = 5; i * i <= num; i += 6) {
+        if (num % i === 0 || num % (i + 2) === 0) return false;
+    }
+    
+    return true;
+}
+
+console.log(isPrime(17)); // => true
+\`\`\``;
+                }
+                
+                // رد ذكي عام
+                const responses = [
+                    "هذا سؤال مثير للاهتمام! بناءً على معرفتي، يمكنني أن أقول أن " + userMessage + " موضوع مهم يستحق الاستكشاف.",
+                    "أفهم أنك تسأل عن " + userMessage + ". من وجهة نظري، هذا مجال شيق له العديد من الجوانب.",
+                    "لطالما كنت مفتوناً بموضوع " + userMessage + ". هناك عدة زوايا يمكن مناقشتها هنا.",
+                    "سؤال ممتاز! للإجابة على " + userMessage + "، نحتاج إلى النظر في عدة عوامل.",
+                    "أرى أنك مهتم بموضوع " + userMessage + ". هذا مجال يتطور بسرعة these days.",
+                    "بناءً على بحثي، يمكنني تقديم بعض الأفكار حول " + userMessage + ".",
+                    "هذا سؤال عميق! للإجابة عليه، دعني أولاً أضع بعض الأساسيات حول " + userMessage + ".",
+                    "شكراً على سؤالك المميز حول " + userMessage + ". هذا موضوع يستحق المناقشة بمزيد من التفصيل."
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            generateCreativeResponse(userMessage) {
+                const creativeResponses = [
+                    `ككاتب مبدع، أرى أن "${userMessage}" يمكن أن يكون فكرة رائعة للقصة. كيف لو بدأنا بوصف مشهد حيوي يجذب القارئ من البداية؟`,
+                    `فكرة رائعة للإبداع! لو كنت سأكتب عن "${userMessage}"، سأبدأ بمقدمة شعرية تثير الفضول وتغوص في العمق الإنساني للموضوع.`,
+                    `كمبدع، أعتقد أن "${userMessage}" يمثل فرصة لاستكشاف جوانب غير مألوفة. هل تفضل النثر أم الشعر في التعبير عن هذه الفكرة؟`,
+                    `"${userMessage}" - يا لها من فكرة إبداعية! يمكننا تحويلها إلى قصة قصيرة أو حتى مسرحية بها شخصيات تعبر عن تناقضات الحياة.`
+                ];
+                
+                return creativeResponses[Math.floor(Math.random() * creativeResponses.length)];
+            }
+            
+            generateCodeResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                if (lowerMessage.includes('html') || lowerMessage.includes('صفحة ويب')) {
+                    return `لإنشاء صفحة ويب أساسية، إليك نموذج HTML بسيط:\n\n\`\`\`html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحتي</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>مرحباً بالعالم!</h1>
+        <p>هذه صفحتي الأولى.</p>
+    </div>
+</body>
+</html>
+\`\`\``;
+                }
+                
+                if (lowerMessage.includes('css') || lowerMessage.includes('تنسيق')) {
+                    return `إليك بعض نصائح CSS لتنسيق أفضل:\n\n\`\`\`css
+/* تصميم عصري للأزرار */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(45deg, #6C63FF, #36D1DC);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* تأثيرات للبطاقات */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+\`\`\``;
+                }
+                
+                return `كمساعد برمجي، يمكنني مساعدتك في "${userMessage}". أي لغة برمجة تفضل؟ أو هل تحتاج مساعدة في مشكلة تقنية محددة؟`;
+            }
+            
+            generateGeneralResponse(userMessage) {
+                const generalResponses = [
+                    `أفهم أنك تسأل عن "${userMessage}". من وجهة نظري، هذا موضوع مهم في حياتنا اليومية.`,
+                    `شكراً لسؤالك عن "${userMessage}". هذا مجال واسع له تطبيقات متعددة.`,
+                    `"${userMessage}" من المواضيع الشائعة these days. هناك العديد من وجهات النظر حوله.`,
+                    `سؤال جيد عن "${userMessage}". للإجابة عليه، نحتاج إلى النظر في السياق العام.`
+                ];
+                
+                return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+            }
+            
+            clearHistory() {
+                this.conversationHistory = [];
+            }
+        }
+        
+        // تهيئة النموذج
+        const aiModel = new AdvancedAIModel();
         
         // إرسال رسالة عند النقر على الزر
         sendButton.addEventListener('click', sendMessage);
         
         // إرسال رسالة عند الضغط على Enter
         userInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !userInput.disabled) {
                 sendMessage();
             }
         });
         
+        // بدء محادثة جديدة
+        newChatBtn.addEventListener('click', function() {
+            aiModel.clearHistory();
+            chatMessages.innerHTML = '';
+            addMessage("مرحباً! هذه محادثة جديدة. كيف يمكنني مساعدتك اليوم؟", 'ai');
+            showNotification('تم بدء محادثة جديدة');
+        });
+        
         // دالة إرسال الرسالة
-        function sendMessage() {
+        async function sendMessage() {
             const message = userInput.value.trim();
             if (!message) return;
             
             // إضافة رسالة المستخدم
             addMessage(message, 'user');
             userInput.value = '';
+            userInput.disabled = true;
+            sendButton.disabled = true;
             
             // إظهار مؤشر الكتابة
             const typingIndicator = showTypingIndicator();
             
-            // الحصول على رد من الذكاء الاصطناعي (بعد تأخير لمحاكاة المعالجة)
-            setTimeout(() => {
+            try {
+                // الحصول على نوع النموذج المحدد
+                const modelType = document.getElementById('modelSelect').value;
+                
+                // الحصول على رد من الذكاء الاصطناعي
+                const response = await aiModel.generateResponse(message, modelType);
+                
                 // إزالة مؤشر الكتابة
                 if (typingIndicator) {
                     chatMessages.removeChild(typingIndicator);
                 }
                 
-                // الحصول على رد الذكاء الاصطناعي
-                const response = getAIResponse(message);
-                
                 // إضافة الرد
                 addMessage(response, 'ai');
-            }, 1500);
+                
+            } catch (error) {
+                console.error('Error generating response:', error);
+                
+                // إزالة مؤشر الكتابة
+                if (typingIndicator) {
+                    chatMessages.removeChild(typingIndicator);
+                }
+                
+                // إضافة رسالة خطأ
+                addMessage("عذراً، حدث خطأ في معالجة طلبك. يرجى المحاولة مرة أخرى.", 'ai');
+            }
+            
+            // إعادة تمكين الإدخال
+            userInput.disabled = false;
+            sendButton.disabled = false;
+            userInput.focus();
         }
         
         // دالة إضافة رسالة إلى الدردشة
@@ -643,7 +1052,10 @@
             
             const timeDiv = document.createElement('div');
             timeDiv.classList.add('message-time');
-            timeDiv.textContent = getCurrentTime();
+            timeDiv.textContent = new Date().toLocaleTimeString('ar-SA', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
             
             content.appendChild(textDiv);
             content.appendChild(timeDiv);
@@ -696,131 +1108,25 @@
             return typingDiv;
         }
         
-        // دالة للحصول على الوقت الحالي
-        function getCurrentTime() {
-            const now = new Date();
-            return now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
-        }
-        
         // دالة لاستخدام الاقتراحات
         function askSuggestion(question) {
             userInput.value = question;
-            sendMessage();
+            userInput.focus();
         }
         
-        // قاعدة معارف الذكاء الاصطناعي المحسنة
-        const aiKnowledgeBase = {
-            greetings: [
-                "مرحباً! كيف يمكنني مساعدتك اليوم؟",
-                "أهلاً وسهلاً! كيف حالك اليوم؟",
-                "مرحباً بك! أنا هنا لمساعدتك في أي شيء تحتاجه.",
-                "أهلاً! ما الذي يمكنني فعله لك اليوم؟"
-            ],
-            farewells: [
-                "إلى اللقاء! كان حديثاً ممتعاً.",
-                "وداعاً! لا تتردد في العودة إذا كان لديك المزيد من الأسئلة.",
-                "أتمنى لك يوماً رائعاً!",
-                "مع السلامة! أنا هنا دائماً لمساعدتك."
-            ],
-            thanks: [
-                "على الرحب والسعة! سعيد لأنني استطعت المساعدة.",
-                "لا شكر على واجب! دائماً سعيد لمساعدتك.",
-                "شكراً لك على التواصل معي!",
-                "أنت welcome! ما الذي تريد المساعدة فيه الآن؟"
-            ],
-            questions: {
-                "ما هو اسمك": "أنا <strong>Vivk AI</strong>، مساعدك الذكي المتطور!",
-                "من صنعك": "لقد تم تطويري باستخدام أحدث تقنيات الذكاء الاصطناعي لمساعدتك في مختلف المهام.",
-                "ماذا يمكنك أن تفعل": "يمكنني المساعدة في الإجابة على الأسئلة، المساعدة في البرمجة، الترجمة، الكتابة الإبداعية، التحليل المنطقي، والكثير غير ذلك! فقط أخبرني بما تحتاج.",
-                "كيف حالك": "أنا بخير، شكراً لسؤالك! كيف حالك أنت؟",
-                "ما هو الوقت": "حاليا الوقت هو: " + new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
-                "ما هو التاريخ": "اليوم هو: " + new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-            },
-            responses: [
-                "هذا سؤال مثير للاهتمام!",
-                "أفهم استفسارك بشكل كامل.",
-                "دعني أفكر في أفضل طريقة للإجابة على هذا.",
-                "هذا موضوع شيق بالفعل.",
-                "لدي بعض الأفكار حول هذا الموضوع."
-            ]
-        };
+        // تفعيل خيارات النموذج
+        document.querySelectorAll('.model-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.model-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                showNotification(`تم تفعيل ${this.querySelector('div > div').textContent}`);
+            });
+        });
         
-        // دالة للحصول على رد من الذكاء الاصطناعي
-        function getAIResponse(message) {
-            // تنظيف الرسالة وتحويلها لحروف صغيرة
-            const cleanMessage = message.toLowerCase().trim();
-            
-            // التحقق من التحيات
-            if (cleanMessage.includes('مرحبا') || cleanMessage.includes('اهلا') || cleanMessage.includes('اهلين') || cleanMessage.includes('السلام')) {
-                return getRandomResponse(aiKnowledgeBase.greetings);
-            }
-            
-            // التحقق من الوداع
-            if (cleanMessage.includes('وداعا') || cleanMessage.includes('مع السلامة') || cleanMessage.includes('الى اللقاء') || cleanMessage.includes('باي')) {
-                return getRandomResponse(aiKnowledgeBase.farewells);
-            }
-            
-            // التحقق من الشكر
-            if (cleanMessage.includes('شكرا') || cleanMessage.includes('مشكور') || cleanMessage.includes('thank') || cleanMessage.includes('thanks')) {
-                return getRandomResponse(aiKnowledgeBase.thanks);
-            }
-            
-            // التحقق من الأسئلة المحددة
-            for (const [question, answer] of Object.entries(aiKnowledgeBase.questions)) {
-                if (cleanMessage.includes(question.toLowerCase())) {
-                    return answer;
-                }
-            }
-            
-            // الرد على الأسئلة البرمجية
-            if (cleanMessage.includes('برمجة') || cleanMessage.includes('كود') || cleanMessage.includes('برمج') || cleanMessage.includes('programming') || cleanMessage.includes('code')) {
-                return "يمكنني مساعدتك في الأمور البرمجية! ما اللغة أو التقنية التي تريد المساعدة فيها؟";
-            }
-            
-            // الرد على أسئلة الترجمة
-            if (cleanMessage.includes('ترجمة') || cleanMessage.includes('ترجم') || cleanMessage.includes('translate') || cleanMessage.includes('translation')) {
-                return "يمكنني المساعدة في ترجمة النصوص! ما النص الذي تريد ترجمته وإلى أي لغة؟";
-            }
-            
-            // الرد على أسئلة الوقت
-            if (cleanMessage.includes('وقت') || cleanMessage.includes('الساعة') || cleanMessage.includes('time')) {
-                return "حاليا الوقت هو: " + new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
-            }
-            
-            // الرد على أسئلة التاريخ
-            if (cleanMessage.includes('تاريخ') || cleanMessage.includes('اليوم') || cleanMessage.includes('date')) {
-                return "اليوم هو: " + new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            }
-            
-            // رد افتراضي أكثر ذكاء
-            return getRandomResponse(aiKnowledgeBase.responses) + " " + generateContextualResponse(cleanMessage);
-        }
-        
-        // دالة للحصول على رد عشوائي من مصفوفة
-        function getRandomResponse(responses) {
-            return responses[Math.floor(Math.random() * responses.length)];
-        }
-        
-        // دالة لإنشاء رد contextual
-        function generateContextualResponse(message) {
-            if (message.includes('؟') || message.includes('?')) {
-                return "هل يمكنك توضيح سؤالك أكثر حتى أتمكن من مساعدتك بشكل أفضل؟";
-            }
-            
-            if (message.length < 5) {
-                return "هل يمكنك إعطائي المزيد من التفاصيل حول ما تبحث عنه؟";
-            }
-            
-            const responses = [
-                "ما رأيك في مناقشة هذا الموضوع بمزيد من العمق؟",
-                "أود معرفة المزيد عن هذا الموضوع إذا كان ذلك ممكناً.",
-                "هذا مثير للاهتمام! هل لديك المزيد من الأسئلة ذات الصلة؟",
-                "أعتقد أن لدي بعض الأفكار التي قد تساعدك في هذا الشأن.",
-                "دعني أساعدك في هذا الأمر بمزيد من التفاصيل."
-            ];
-            
-            return getRandomResponse(responses);
-        }
+        // بدء تحميل الذكاء الاصطناعي عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            aiModel.initialize();
+        });
     </script>
 </body>
 </html>
