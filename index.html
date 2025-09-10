@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vivk AI - الشات الذكي المتطور</title>
+    <title>Vivk AI - الذكاء الاصطناعي المتطور</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -244,6 +244,12 @@
             padding: 15px 20px;
             border-radius: 18px;
             line-height: 1.6;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message.user {
@@ -315,6 +321,7 @@
             align-self: flex-start;
             margin-bottom: 10px;
             border: 1px solid var(--card-border);
+            display: none;
         }
 
         .typing-dot {
@@ -392,33 +399,18 @@
             </div>
             
             <div class="controls">
-                <button class="btn"><i class="fas fa-plus"></i> محادثة جديدة</button>
-                <button class="btn ghost"><i class="fas fa-file-import"></i> استيراد محادثة</button>
+                <button class="btn" id="new-chat"><i class="fas fa-plus"></i> محادثة جديدة</button>
+                <button class="btn ghost" id="import-chat"><i class="fas fa-file-import"></i> استيراد محادثة</button>
             </div>
             
-            <div class="sessions-container">
-                <div class="session-item active">
-                    <div class="session-title">مناقشة حول الذكاء الاصطناعي</div>
-                    <div class="session-date">٢٥ نوفمبر ٢٠٢٣</div>
-                </div>
-                <div class="session-item">
-                    <div class="session-title">أسئلة حول البرمجة</div>
-                    <div class="session-date">٢٣ نوفمبر ٢٠٢٣</div>
-                </div>
-                <div class="session-item">
-                    <div class="session-title">استفسارات علمية</div>
-                    <div class="session-date">٢٠ نوفمبر ٢٠٢٣</div>
-                </div>
-                <div class="session-item">
-                    <div class="session-title">نقاش أدبي</div>
-                    <div class="session-date">١٨ نوفمبر ٢٠٢٣</div>
-                </div>
+            <div class="sessions-container" id="sessions-list">
+                <!-- سيتم ملؤها ديناميكياً -->
             </div>
             
             <div class="settings">
                 <div class="setting-item">
                     <label class="setting-label">اللغة</label>
-                    <select>
+                    <select id="language-select">
                         <option value="ar">العربية</option>
                         <option value="en">English</option>
                         <option value="es">Español</option>
@@ -426,15 +418,15 @@
                 </div>
                 
                 <div class="setting-item">
-                    <label class="setting-label">جودة الردود</label>
-                    <select>
+                    <label class="setting-label">نمط الردود</label>
+                    <select id="response-style">
                         <option value="standard">قياسي</option>
                         <option value="creative">إبداعي</option>
                         <option value="precise">دقيق</option>
                     </select>
                 </div>
                 
-                <button class="btn ghost" style="margin-top: 10px;"><i class="fas fa-robot"></i> إعدادات الذكاء الاصطناعي</button>
+                <button class="btn ghost" id="ai-settings"><i class="fas fa-robot"></i> إعدادات الذكاء الاصطناعي</button>
             </div>
         </aside>
         
@@ -442,135 +434,316 @@
         <main class="main">
             <header class="header">
                 <div>
-                    <div class="header-title">محادثة Vivk AI</div>
+                    <div class="header-title" id="chat-title">محادثة Vivk AI</div>
                     <div class="header-subtitle">اسأل أي شيء وسأجيبك بإبداع</div>
                 </div>
                 <div class="export-actions">
-                    <button class="btn ghost"><i class="fas fa-download"></i> تصدير</button>
-                    <button class="btn"><i class="fas fa-share-alt"></i> مشاركة</button>
+                    <button class="btn ghost" id="export-chat"><i class="fas fa-download"></i> تصدير</button>
+                    <button class="btn" id="share-chat"><i class="fas fa-share-alt"></i> مشاركة</button>
                 </div>
             </header>
             
-            <div class="chat-area">
-                <div class="message bot">
-                    مرحبًا! أنا مساعدك الذكي Vivk AI. كيف يمكنني مساعدتك اليوم؟
-                    <div class="message-meta">Vivk AI • الآن</div>
-                </div>
-                
-                <div class="message user">
-                    أريد معرفة المزيد عن الذكاء الاصطناعي وتطبيقاته في الحياة الحديثة
-                    <div class="message-meta">أنت • الآن</div>
-                </div>
-                
-                <div class="message bot">
-                    الذكاء الاصطناعي يحول عالمنا بطرق مذهلة! من التوصيات الشخصية في منصات البث إلى السيارات ذاتية القيادة، ومن التشخيص الطبي الدقيق إلى المساعدين الافتراضيين الأذكياء. 
-
-                    أشهر تطبيقات الذكاء الاصطناعي تشمل:
-                    • معالجة اللغة الطبيعية (مثل ChatGPT)
-                    • الرؤية الحاسوبية (التعرف على الصور)
-                    • أنظمة التوصية (مثل Netflix وAmazon)
-                    • الروبوتات والتحكم الذكي
-                    
-                    هل تريد معرفة المزيد عن مجال محدد؟
-                    <div class="message-meta">Vivk AI • الآن</div>
-                </div>
-                
-                <div class="typing-indicator">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
+            <div class="chat-area" id="chat-messages">
+                <!-- سيتم ملؤها ديناميكياً -->
             </div>
             
-            <form class="composer">
+            <form class="composer" id="message-form">
                 <div class="input-container">
-                    <textarea placeholder="اكتب رسالتك هنا... (Ctrl+Enter للإرسال)"></textarea>
+                    <textarea id="message-input" placeholder="اكتب رسالتك هنا... (Ctrl+Enter للإرسال)"></textarea>
                     <div class="input-hint">⇧ + Enter للسطر الجديد</div>
                 </div>
-                <button type="submit" class="btn"><i class="fas fa-paper-plane"></i></button>
+                <button type="submit" class="btn" id="send-button"><i class="fas fa-paper-plane"></i></button>
             </form>
         </main>
     </div>
 
     <script>
-        // تأثيرات للكتابة في حقل النص
-        const textarea = document.querySelector('textarea');
-        const composer = document.querySelector('.composer');
-        
-        textarea.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
+        // قاعدة معرفة الذكاء الاصطناعي - تحتوي على أنماط مختلفة من الردود
+        const aiKnowledgeBase = {
+            greetings: [
+                "مرحباً! أنا مساعدك الذكي Vivk AI. كيف يمكنني مساعدتك اليوم؟",
+                "أهلاً وسهلاً! أنا Vivk AI، جاهز للإجابة على جميع استفساراتك.",
+                "مرحباً بك! أنا Vivk AI، مساعدك الذكي المتخصص في مختلف المجالات."
+            ],
+            questions: {
+                "كيف حالك": ["أنا بخير، شكراً لسؤالك! كيف يمكنني مساعدتك اليوم؟", "أنا أعمل بشكل رائع، شكراً لاهتمامك! كيف يمكنني مساعدتك؟"],
+                "من أنت": ["أنا Vivk AI، مساعد ذكي يستخدم تقنيات الذكاء الاصطناعي المتقدمة لمساعدتك.", "أنا Vivk AI، نظام ذكاء اصطناعي مصمم لمساعدتك في مختلف المواضيع والمهام."],
+                "ما الذي تستطيع فعله": [
+                    "يمكنني مساعدتك في العديد من المجالات مثل الإجابة على الأسئلة، الشرح، الكتابة الإبداعية، التحليل، والكثير غير ذلك!",
+                    "أستطيع الإجابة على الأسئلة، المساعدة في البحث، توليد الأفكار، التحليل، والكثير من المهام الأخرى. ما الذي تحتاج إليه؟"
+                ]
+            },
+            topics: {
+                "التقنية": [
+                    "التقنية مجال رائع! من الذكاء الاصطناعي إلى البلوك تشين، هناك تطورات مذهلة تحدث كل يوم.",
+                    "أحدث التقنيات مثل الذكاء الاصطناعي والتعلم الآلي تغير شكل العالم من حولنا."
+                ],
+                "العلوم": [
+                    "العلوم هي مفتاح فهم عالمنا. من الفيزياء الكمية إلى البيولوجيا الجزيئية، هناك دائماً شيء جديد نتعلمه.",
+                    "العلم لا يتوقف عن إبهارنا باكتشافات جديدة توسع آفاق فهمنا للكون."
+                ],
+                "الفن": [
+                    "الفن هو تعبير عن الروح الإنسانية. سواء كان الرسم، الموسيقى أو الأدب، الفن يجعل الحياة أكثر جمالاً.",
+                    "الفن يتطور مع تطور التقنيات الجديدة، مما يفتح آفاقاً إبداعية لا حدود لها."
+                ],
+                "التعليم": [
+                    "التعليم هو أساس تقدم المجتمعات. مع التقنيات الحديثة، أصبح التعليم متاحاً للجميع وبطرق مبتكرة.",
+                    "الذكاء الاصطناعي يغير وجه التعليم من خلال توفير تجارب تعلم مخصصة للجميع."
+                ]
+            },
+            responses: {
+                default: [
+                    "هذا سؤال مثير للاهتمام! بناءً على معرفتي، يمكنني القول أن...",
+                    "أفهم استفسارك. من وجهة نظري التحليلية...",
+                    "هذا موضوع شيق. دعني أوضح وجهة نظري حول هذا...",
+                    "بناءً على تحليلي للبيانات والمعلومات المتاحة...",
+                    "أرى أنك تبحث عن معلومات قيمة. دعني أشاركك ما أعرفه..."
+                ],
+                creative: [
+                    "لنفكر خارج الصندوق قليلاً! ماذا لو...",
+                    "هذا يذكرني بفكرة إبداعية رائعة...",
+                    "لنستكشف هذا الموضوع من زاوية مختلفة ومبتكرة...",
+                    "هناك منظور مثير للاهتمام يمكننا استكشافه معاً...",
+                    "دعني أقدم لك رؤية إبداعية فريدة حول هذا الموضوع..."
+                ],
+                precise: [
+                    "بدقة شديدة، يمكنني القول أن...",
+                    "بناءً على التحليل الدقيق للبيانات...",
+                    "من الناحية التقنية والدقيقة...",
+                    "وفقاً لأحدث الأبحاث والدراسات...",
+                    "بتحليل دقيق للمعلومات المتاحة..."
+                ]
+            },
+            followUps: [
+                "هل تريد معرفة المزيد عن هذا الموضوع؟",
+                "هل هذا يجيب على سؤالك؟ يمكنني تقديم المزيد من التفاصيل إذا أردت.",
+                "هل هناك جانب محدد تريد التعمق فيه أكثر؟",
+                "أرى أن هذا الموضوع يهمك. هل تريد أن أشرح أي نقطة بشكل أوضح؟",
+                "هل لديك أي أسئلة أخرى مرتبطة بهذا الموضوع؟"
+            ]
+        };
+
+        // محاكاة ذاكرة المحادثة وسياقها
+        let conversationContext = {
+            topic: null,
+            mood: "neutral",
+            history: []
+        };
+
+        // عناصر DOM
+        const messageForm = document.getElementById('message-form');
+        const messageInput = document.getElementById('message-input');
+        const chatMessages = document.getElementById('chat-messages');
+        const typingIndicator = document.createElement('div');
+        typingIndicator.className = 'typing-indicator';
+        typingIndicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+
+        // تهيئة المحادثة
+        function initializeChat() {
+            // إضافة رسالة ترحيب من الذكاء الاصطناعي
+            addMessage('bot', getRandomResponse('greetings'));
             
-            if (this.value.trim() !== '') {
-                composer.classList.add('active');
-            } else {
-                composer.classList.remove('active');
+            // في بعض الأحيان يبدأ الذكاء الاصطناعي المحادثة بسؤال
+            setTimeout(() => {
+                if (Math.random() > 0.5) {
+                    addMessage('bot', "هل هناك موضوع محدد تود التحدث عنه اليوم؟");
+                }
+            }, 2000);
+        }
+
+        // إضافة رسالة إلى الدردشة
+        function addMessage(sender, text) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${sender}`;
+            
+            const messageText = document.createElement('div');
+            messageText.textContent = text;
+            
+            const messageMeta = document.createElement('div');
+            messageMeta.className = 'message-meta';
+            messageMeta.textContent = sender === 'user' ? 'أنت • الآن' : 'Vivk AI • الآن';
+            
+            messageElement.appendChild(messageText);
+            messageElement.appendChild(messageMeta);
+            
+            chatMessages.appendChild(messageElement);
+            
+            // إضافة إلى تاريخ المحادثة
+            conversationContext.history.push({ sender, text });
+            
+            // التمرير إلى الأسفل
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // الحصول على رد عشوائي من نوع محدد
+        function getRandomResponse(type) {
+            const responses = aiKnowledgeBase[type];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // محاكاة تفكير الذكاء الاصطناعي وتحليل الرسالة
+        function analyzeMessage(message) {
+            // تحليل المشاعر والمحتوى بشكل مبسط
+            const lowerMessage = message.toLowerCase();
+            
+            // اكتشاف إذا كانت رسالة ترحيب
+            if (lowerMessage.includes('مرحبا') || lowerMessage.includes('اهلا') || lowerMessage.includes('اهلاً')) {
+                return { type: 'greeting', topic: null };
             }
-        });
-        
-        // تأثيرات للتمرير السلس
-        const chatArea = document.querySelector('.chat-area');
-        chatArea.scrollTop = chatArea.scrollHeight;
-        
-        // إضافة رسائل جديدة عند الإرسال (للتجربة)
-        composer.addEventListener('submit', function(e) {
+            
+            // اكتشاف إذا كان سؤال عن الذكاء الاصطناعي نفسه
+            if (lowerMessage.includes('من انت') || lowerMessage.includes('ما اسمك') || lowerMessage.includes('من أنت')) {
+                return { type: 'self-inquiry', topic: null };
+            }
+            
+            // اكتشاف إذا كان سؤال عن القدرات
+            if (lowerMessage.includes('ماذا تستطيع') || lowerMessage.includes('ما الذي تستطيع') || lowerMessage.includes('قدراتك')) {
+                return { type: 'capabilities', topic: null };
+            }
+            
+            // اكتشاف الموضوعات الرئيسية
+            const topics = Object.keys(aiKnowledgeBase.topics);
+            for (const topic of topics) {
+                if (lowerMessage.includes(topic.toLowerCase())) {
+                    return { type: 'topic', topic: topic };
+                }
+            }
+            
+            // إذا لم يتم التعرف على نوع محدد
+            return { type: 'general', topic: null };
+        }
+
+        // توليد رد ذكي بناءً على تحليل الرسالة
+        function generateResponse(analysis) {
+            let response;
+            
+            switch(analysis.type) {
+                case 'greeting':
+                    response = getRandomResponse('greetings');
+                    break;
+                    
+                case 'self-inquiry':
+                    response = getRandomResponse(aiKnowledgeBase.questions['من أنت']);
+                    break;
+                    
+                case 'capabilities':
+                    response = getRandomResponse(aiKnowledgeBase.questions['ما الذي تستطيع فعله']);
+                    break;
+                    
+                case 'topic':
+                    response = getRandomResponse(aiKnowledgeBase.topics[analysis.topic]);
+                    // إضافة متابعة
+                    if (Math.random() > 0.3) {
+                        response += " " + getRandomResponse('followUps');
+                    }
+                    break;
+                    
+                default:
+                    // اختيار نمط الرد بناءً على الإعدادات
+                    const responseStyle = document.getElementById('response-style').value;
+                    response = getRandomResponse(aiKnowledgeBase.responses[responseStyle]);
+                    
+                    // في بعض الأحيان يضيف الذكاء الاصطناعي سؤال متابعة
+                    if (Math.random() > 0.5) {
+                        response += " " + getRandomResponse('followUps');
+                    }
+            }
+            
+            return response;
+        }
+
+        // معالجة إرسال الرسالة
+        messageForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            if (textarea.value.trim() === '') return;
+            const message = messageInput.value.trim();
+            if (!message) return;
             
             // إضافة رسالة المستخدم
-            const userMessage = document.createElement('div');
-            userMessage.className = 'message user';
-            userMessage.innerHTML = `
-                ${textarea.value}
-                <div class="message-meta">أنت • الآن</div>
-            `;
-            
-            chatArea.appendChild(userMessage);
+            addMessage('user', message);
             
             // مسح حقل الإدخال
-            textarea.value = '';
-            textarea.style.height = 'auto';
-            composer.classList.remove('active');
+            messageInput.value = '';
             
             // إظهار مؤشر الكتابة
-            const typingIndicator = document.querySelector('.typing-indicator');
+            chatMessages.appendChild(typingIndicator);
             typingIndicator.style.display = 'flex';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
             
-            chatArea.scrollTop = chatArea.scrollHeight;
+            // محاكاة وقت معالجة الذكاء الاصطناعي
+            const processingTime = 1000 + Math.random() * 2000;
             
-            // محاكاة رد المساعد بعد فترة
             setTimeout(() => {
+                // إخفاء مؤشر الكتابة
                 typingIndicator.style.display = 'none';
                 
-                const botMessage = document.createElement('div');
-                botMessage.className = 'message bot';
-                botMessage.innerHTML = `
-                    هذا رد رائع من الذكاء الاصطناعي الذي يظهر قدراته المتطورة في فهم اللغة الطبيعية وتوليد الردود المناسبة والسياقية.
-                    <div class="message-meta">Vivk AI • الآن</div>
-                `;
+                // تحليل الرسالة
+                const analysis = analyzeMessage(message);
                 
-                chatArea.appendChild(botMessage);
-                chatArea.scrollTop = chatArea.scrollHeight;
-            }, 2000);
+                // توليد الرد
+                const response = generateResponse(analysis);
+                
+                // إضافة رد الذكاء الاصطناعي
+                addMessage('bot', response);
+                
+                // في بعض الأحيان يضيف الذكاء الاصطناعي رسالة تلقائية بعد فترة
+                if (conversationContext.history.length >= 2 && Math.random() > 0.7) {
+                    setTimeout(() => {
+                        const autoResponses = [
+                            "هل تود أن أعطيك معلومات أكثر تفصيلاً عن هذا الموضوع؟",
+                            "لدي الكثير من المعلومات الشيقة حول هذا، هل تريد الاستمرار؟",
+                            "هذا الموضوع يتفرع إلى عدة اتجاهات مثيرة للاهتمام، هل تريد استكشافها؟"
+                        ];
+                        
+                        chatMessages.appendChild(typingIndicator);
+                        typingIndicator.style.display = 'flex';
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                        
+                        setTimeout(() => {
+                            typingIndicator.style.display = 'none';
+                            addMessage('bot', autoResponses[Math.floor(Math.random() * autoResponses.length)]);
+                        }, 1000);
+                    }, 3000);
+                }
+            }, processingTime);
         });
-        
-        // تأثيرات عند التحميل
-        document.addEventListener('DOMContentLoaded', function() {
-            document.body.classList.add('loaded');
+
+        // بدء المحادثة عند تحميل الصفحة
+        window.addEventListener('load', function() {
+            initializeChat();
             
-            // تأثيرات ظهور العناصر
-            const elements = document.querySelectorAll('.sidebar, .main');
-            elements.forEach((el, index) => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                }, 100 + (index * 100));
-            });
+            // في بعض الأحيان يبدأ الذكاء الاصطناعي بالمبادرة بسؤال
+            setTimeout(() => {
+                if (Math.random() > 0.5) {
+                    const initialQuestions = [
+                        "هل هناك موضوع معين تود التحدث عنه اليوم؟",
+                        "كيف يمكنني مساعدتك اليوم؟",
+                        "أنا هنا لمساعدتك في أي موضوع تريده. من أاذا نبدأ؟"
+                    ];
+                    
+                    chatMessages.appendChild(typingIndicator);
+                    typingIndicator.style.display = 'flex';
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    
+                    setTimeout(() => {
+                        typingIndicator.style.display = 'none';
+                        addMessage('bot', initialQuestions[Math.floor(Math.random() * initialQuestions.length)]);
+                    }, 1500);
+                }
+            }, 4000);
+        });
+
+        // تأثيرات للكتابة في حقل النص
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // السماح باستخدام Ctrl+Enter للإرسال
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                messageForm.dispatchEvent(new Event('submit'));
+            }
         });
     </script>
 </body>
