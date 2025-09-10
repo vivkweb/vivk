@@ -3,303 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vivk AI - ذكاء اصطناعي حقيقي يعمل بالمتصفح</title>
-    <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.1"></script>
-    <style>
-        :root {
-            --primary: #6C63FF;
-            --primary-dark: #564FC9;
-            --secondary: #36D1DC;
-            --accent: #FF6584;
-            --light: #F8F9FA;
-            --dark: #121826;
-            --dark-card: #1E293B;
-            --dark-border: #334155;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --text-primary: #F1F5F9;
-            --text-secondary: #CBD5E1;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, var(--dark), #0F172A);
-            color: var(--text-primary);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background: var(--dark-card);
-            border-radius: 15px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            overflow: hidden;
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #333;
-        }
-        
-        header {
-            background: linear-gradient(90deg, var(--secondary), var(--primary));
-            color: white;
-            padding: 25px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-        
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: var(--primary);
-        }
-        
-        .logo-text {
-            font-size: 28px;
-            font-weight: 700;
-        }
-        
-        .tagline {
-            font-size: 16px;
-            opacity: 0.9;
-            margin-top: 5px;
-        }
-        
-        .ai-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 20px;
-            font-size: 14px;
-        }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--success);
-        }
-        
-        .chat-container {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            height: 500px;
-            overflow: hidden;
-        }
-        
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .message {
-            display: flex;
-            gap: 12px;
-            max-width: 85%;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-        
-        .message-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .ai .message-avatar {
-            background: linear-gradient(to right, var(--primary), var(--primary-dark));
-        }
-        
-        .user .message-avatar {
-            background: linear-gradient(to right, var(--secondary), var(--accent));
-        }
-        
-        .message-content {
-            padding: 15px 20px;
-            border-radius: 18px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .ai .message-content {
-            background: rgba(255, 255, 255, 0.05);
-            border-top-left-radius: 5px;
-        }
-        
-        .user .message-content {
-            background: linear-gradient(to right, var(--primary-dark), var(--primary));
-            border-top-right-radius: 5px;
-        }
-        
-        .message-text {
-            line-height: 1.6;
-        }
-        
-        .chat-input-container {
-            display: flex;
-            gap: 10px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 1px solid var(--dark-border);
-        }
-        
-        .chat-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            padding: 12px 15px;
-            font-size: 16px;
-            outline: none;
-        }
-        
-        .chat-send-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background: linear-gradient(to right, var(--primary), var(--primary-dark));
-            border: none;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .chat-send-btn:hover {
-            opacity: 0.9;
-            transform: rotate(15deg);
-        }
-        
-        .chat-send-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .model-info {
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            border-top: 1px solid var(--dark-border);
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-align: center;
-        }
-        
-        .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px;
-            color: var(--text-secondary);
-        }
-        
-        .loading-dots {
-            display: flex;
-            gap: 4px;
-        }
-        
-        .loading-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--primary);
-            animation: bounce 1.5s infinite;
-        }
-        
-        .loading-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .loading-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
-        
-        @media (max-width: 768px) {
-            .message {
-                max-width: 90%;
-            }
-            
-            .logo-text {
-                font-size: 24px;
-            }
-        }
-    </style>
+    <title>Vivk AI - ذكاء اصطناعي متقدم</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -310,10 +17,10 @@
                 </div>
                 <div class="logo-text">Vivk AI</div>
             </div>
-            <div class="tagline">ذكاء اصطناعي حقيقي يعمل مباشرة في متصفحك</div>
+            
             <div class="ai-status">
                 <span class="status-dot"></span>
-                <span id="statusText">جاري تحميل النموذج...</span>
+                <span id="statusText">جاهز للاستخدام</span>
             </div>
         </header>
         
@@ -325,217 +32,52 @@
                     </div>
                     <div class="message-content">
                         <div class="message-text">
-                            مرحباً! أنا Vivk AI، ذكاء اصطناعي حقيقي يعمل مباشرة في متصفحك.<br><br>
-                            لا حاجة لخوادم خارجية أو اشتراكات مدفوعة. جربني الآن!
+                            مرحباً! أنا Vivk AI، مساعدك الذكي.<br><br>
+                            يمكنني مساعدتك في answering questions, generating text, translation, and more!
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="chat-input-container">
-                <input type="text" class="chat-input" id="userInput" placeholder="اكتب رسالتك هنا..." disabled>
-                <button class="chat-send-btn" id="sendMessage" disabled>
+                <input type="text" class="chat-input" id="userInput" placeholder="اكتب رسالتك هنا...">
+                <button class="chat-send-btn" id="sendMessage">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
         </div>
         
-        <div class="model-info">
-            النموذج: Microsoft DialoGPT-medium (يعمل محلياً بالمتصفح)
+        <div class="features">
+            <h2>إمكانيات Vivk AI</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>محادثات ذكية</h3>
+                    <p>تحدث مع ذكاء اصطناعي متقدم يفهم طلباتك</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>مساعد برمجي</h3>
+                    <p>احصل على مساعدة في كتابة وتصحيح الأكواد</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>ترجمة فورية</h3>
+                    <p>ترجمة النصوص بين múltiples اللغات</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script>
-        // عناصر واجهة المستخدم
-        const chatMessages = document.getElementById('chatMessages');
-        const userInput = document.getElementById('userInput');
-        const sendButton = document.getElementById('sendMessage');
-        const statusText = document.getElementById('statusText');
-        
-        // متغيرات الذكاء الاصطناعي
-        let pipeline = null;
-        let conversationContext = [];
-        
-        // تهيئة الذكاء الاصطناعي
-        async function initializeAI() {
-            try {
-                statusText.textContent = 'جاري تحميل النموذج (قد يستغرق دقائق)...';
-                
-                // تحميل نموذج معالجة اللغة الطبيعي
-                const { pipeline: conversationalPipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.1/dist/transformers.min.js');
-                
-                // إنشاء خط أنابيب للمحادثة
-                pipeline = await conversationalPipeline(
-                    'conversational',
-                    'Xenova/microsoft-DialoGPT-medium',
-                    { progress_callback: onModelProgress }
-                );
-                
-                // تم تحميل النموذج بنجاح
-                statusText.textContent = 'النموذج جاهز للاستخدام!';
-                userInput.disabled = false;
-                sendButton.disabled = false;
-                userInput.placeholder = 'اكتب رسالتك هنا...';
-                
-                // إضافة رسالة ترحيب
-                addMessage('تهانينا! تم تحميل النموذج بنجاح. يمكنك البدء في المحادثة الآن.', 'ai');
-                
-            } catch (error) {
-                console.error('Error loading model:', error);
-                statusText.textContent = 'حدث خطأ في تحميل النموذج';
-                addMessage('عذراً، حدث خطأ في تحميل نموذج الذكاء الاصطناعي. يرجى تحديث الصفحة والمحاولة مرة أخرى.', 'ai');
-            }
-        }
-        
-        // دالة لتتبع تقدم تحميل النموذج
-        function onModelProgress(data) {
-            const { progress, file, files } = data;
-            if (files && files.length > 0) {
-                const percentage = Math.round(progress * 100);
-                statusText.textContent = `جاري تحميل النموذج: ${percentage}%`;
-            }
-        }
-        
-        // إرسال رسالة إلى الذكاء الاصطناعي
-        async function sendMessage() {
-            const message = userInput.value.trim();
-            if (!message || !pipeline) return;
-            
-            // إضافة رسالة المستخدم
-            addMessage(message, 'user');
-            userInput.value = '';
-            userInput.disabled = true;
-            sendButton.disabled = true;
-            
-            // إظهار مؤشر الكتابة
-            const typingIndicator = addTypingIndicator();
-            
-            try {
-                // إنشاء محادثة مع السياق
-                const conversation = {
-                    past_user_inputs: conversationContext.filter((_, i) => i % 2 === 0),
-                    generated_responses: conversationContext.filter((_, i) => i % 2 === 1)
-                };
-                
-                // إضافة الرسالة الحالية إلى المحادثة
-                conversation.past_user_inputs.push(message);
-                
-                // الحصول على رد من الذكاء الاصطناعي
-                const startTime = Date.now();
-                const response = await pipeline(message, conversation);
-                const endTime = Date.now();
-                
-                // إزالة مؤشر الكتابة
-                chatMessages.removeChild(typingIndicator);
-                
-                // إضافة الرد إلى المحادثة
-                conversation.generated_responses.push(response.generated_responses[0]);
-                
-                // تحديث سياق المحادثة
-                conversationContext = [
-                    ...conversation.past_user_inputs.slice(-4), // الاحتفاظ بآخر 4 مدخلات
-                    ...conversation.generated_responses.slice(-4) // الاحتفاظ بآخر 4 ردود
-                ].flat();
-                
-                // إضافة رد الذكاء الاصطناعي
-                addMessage(response.generated_responses[0], 'ai');
-                
-                // تسجيل وقت الاستجابة
-                console.log(`Response time: ${endTime - startTime}ms`);
-                
-            } catch (error) {
-                console.error('Error generating response:', error);
-                
-                // إزالة مؤشر الكتابة
-                chatMessages.removeChild(typingIndicator);
-                
-                // إضافة رسالة خطأ
-                addMessage('عذراً، حدث خطأ في معالجة طلبك. يرجى المحاولة مرة أخرى.', 'ai');
-            }
-            
-            // إعادة تمكين الإدخال
-            userInput.disabled = false;
-            sendButton.disabled = false;
-            userInput.focus();
-        }
-        
-        // إضافة رسالة إلى الدردشة
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.classList.add(sender);
-            
-            const avatar = document.createElement('div');
-            avatar.classList.add('message-avatar');
-            avatar.innerHTML = `<i class="fas fa-${sender === 'user' ? 'user' : 'robot'}"></i>`;
-            
-            const content = document.createElement('div');
-            content.classList.add('message-content');
-            
-            const textDiv = document.createElement('div');
-            textDiv.classList.add('message-text');
-            textDiv.textContent = text;
-            
-            content.appendChild(textDiv);
-            messageDiv.appendChild(avatar);
-            messageDiv.appendChild(content);
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            return messageDiv;
-        }
-        
-        // إضافة مؤشر الكتابة
-        function addTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.classList.add('message', 'ai');
-            typingDiv.id = 'typingIndicator';
-            
-            const avatar = document.createElement('div');
-            avatar.classList.add('message-avatar');
-            avatar.innerHTML = '<i class="fas fa-robot"></i>';
-            
-            const content = document.createElement('div');
-            content.classList.add('message-content');
-            
-            const loadingDiv = document.createElement('div');
-            loadingDiv.classList.add('loading');
-            
-            const text = document.createElement('span');
-            text.textContent = 'يكتب';
-            
-            const dots = document.createElement('div');
-            dots.classList.add('loading-dots');
-            
-            for (let i = 0; i < 3; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('loading-dot');
-                dots.appendChild(dot);
-            }
-            
-            loadingDiv.appendChild(text);
-            loadingDiv.appendChild(dots);
-            content.appendChild(loadingDiv);
-            typingDiv.appendChild(avatar);
-            typingDiv.appendChild(content);
-            
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            return typingDiv;
-        }
-        
-        // تفعيل إرسال الرسالة بالضغط على Enter
-        userInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !userInput.disabled) {
-                sendMessage();
-            }
-        });
-        
-        // بدء تحميل الذكاء الاصطناعي عند فتح الصفحة
-        document.addEventListener('DOMContentLoaded', initializeAI);
-    </script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/ai.js"></script>
 </body>
 </html>
