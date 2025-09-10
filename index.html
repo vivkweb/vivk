@@ -1,203 +1,208 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vivk AI - ذكاء اصطناعي متقدم</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/auth.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Vivk AI - ذكاء اصطناعي حقيقي</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .chat-container {
+            height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: fadeIn 0.3s;
+        }
+        
+        .user-message {
+            background: #4361ee;
+            margin-left: auto;
+            text-align: left;
+        }
+        
+        .ai-message {
+            background: #3a0ca3;
+            margin-right: auto;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background: #4361ee;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #3a0ca3;
+        }
+        
+        .api-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
-                <div class="logo-text">Vivk AI</div>
-            </div>
-            
-            <div class="auth-buttons">
-                <button class="auth-btn login-btn" onclick="showLoginModal()">
-                    <i class="fas fa-sign-in-alt"></i>
-                    تسجيل الدخول
-                </button>
-                <button class="auth-btn signup-btn" onclick="showSignupModal()">
-                    <i class="fas fa-user-plus"></i>
-                    إنشاء حساب
-                </button>
-            </div>
-        </header>
+        <h1>Vivk AI - ذكاء اصطناعي حقيقي</h1>
         
-        <section class="hero">
-            <div class="hero-content">
-                <h1>ذكاء اصطناعي متقدم لمستقبل أفضل</h1>
-                <p>اكتشف قوة الذكاء الاصطناعي مع Vivk AI. محادثات ذكية، إجابات دقيقة، وتجربة فريدة من نوعها.</p>
-                <div class="hero-buttons">
-                    <button class="primary-btn" onclick="location.href='pages/chat.html'">
-                        ابدأ المحادثة الآن
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <button class="secondary-btn" onclick="showDemo()">
-                        شاهد العرض التوضيحي
-                        <i class="fas fa-play-circle"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="ai-orb"></div>
-            </div>
-        </section>
-        
-        <section class="features">
-            <h2>مميزات Vivk AI</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>محادثات ذكية</h3>
-                    <p>تجربة محادثة طبيعية مع ذكاء اصطناعي متقدم يفهم سياق الحديث.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>مساعد برمجي</h3>
-                    <p>احصل على مساعدة في كتابة وتصحيح الأكواد البرمجية بلغات متعددة.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <h3>ترجمة متقدمة</h3>
-                    <p>ترجمة نصوص بدقة عالية مع الحفاظ على السياق والمعنى الأصلي.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>نماذج متعددة</h3>
-                    <p>اختر من بين نماذج ذكاء اصطناعي متخصصة لمختلف الاحتياجات.</p>
-                </div>
-            </div>
-        </section>
-        
-        <section class="cta-section">
-            <h2>جاهز للبدء مع Vivk AI؟</h2>
-            <p>انضم إلى آلاف المستخدمين الذين يثقون بنا لتلبية احتياجاتهم في الذكاء الاصطناعي.</p>
-            <button class="primary-btn large" onclick="showSignupModal()">
-                إنشاء حساب مجاني
-                <i class="fas fa-user-plus"></i>
-            </button>
-        </section>
-        
-        <footer>
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="logo">
-                        <div class="logo-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <div class="logo-text">Vivk AI</div>
-                    </div>
-                    <p>منصة ذكاء اصطناعي متقدمة تقدم حلولًا مبتكرة للمستخدمين.</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>روابط سريعة</h4>
-                    <ul>
-                        <li><a href="pages/chat.html">المحادثة</a></li>
-                        <li><a href="#">الميزات</a></li>
-                        <li><a href="#">الأسعار</a></li>
-                        <li><a href="#">المساعدة</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>وسائل التواصل</h4>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 Vivk AI. جميع الحقوق محفوظة.</p>
-            </div>
-        </footer>
-        
-        <!-- نافذة تسجيل الدخول -->
-        <div id="loginModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal('loginModal')">&times;</span>
-                <h2>تسجيل الدخول</h2>
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="email">البريد الإلكتروني</label>
-                        <input type="email" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">كلمة المرور</label>
-                        <input type="password" id="password" required>
-                    </div>
-                    <button type="submit" class="primary-btn full-width">تسجيل الدخول</button>
-                </form>
-                <div class="auth-divider">
-                    <span>أو</span>
-                </div>
-                <button class="google-auth-btn" onclick="loginWithGoogle()">
-                    <img src="assets/icons/google-icon.svg" alt="Google">
-                    تسجيل الدخول باستخدام جوجل
-                </button>
-                <p class="auth-switch">ليس لديك حساب؟ <a href="#" onclick="showSignupModal()">إنشاء حساب</a></p>
+        <div class="chat-container" id="chatContainer">
+            <div class="message ai-message">
+                مرحباً! أنا مساعدك الذكي Vivk AI. كيف يمكنني مساعدتك اليوم؟
             </div>
         </div>
         
-        <!-- نافذة إنشاء حساب -->
-        <div id="signupModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal('signupModal')">&times;</span>
-                <h2>إنشاء حساب جديد</h2>
-                <form id="signupForm">
-                    <div class="form-group">
-                        <label for="name">الاسم الكامل</label>
-                        <input type="text" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="newEmail">البريد الإلكتروني</label>
-                        <input type="email" id="newEmail" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="newPassword">كلمة المرور</label>
-                        <input type="password" id="newPassword" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmPassword">تأكيد كلمة المرور</label>
-                        <input type="password" id="confirmPassword" required>
-                    </div>
-                    <button type="submit" class="primary-btn full-width">إنشاء حساب</button>
-                </form>
-                <div class="auth-divider">
-                    <span>أو</span>
-                </div>
-                <button class="google-auth-btn" onclick="signupWithGoogle()">
-                    <img src="assets/icons/google-icon.svg" alt="Google">
-                    إنشاء حساب باستخدام جوجل
-                </button>
-                <p class="auth-switch">لديك حساب بالفعل؟ <a href="#" onclick="showLoginModal()">تسجيل الدخول</a></p>
-            </div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
+            <button onclick="sendMessage()">إرسال</button>
+        </div>
+        
+        <div class="api-section">
+            <h3>إعدادات API</h3>
+            <input type="password" id="apiKey" placeholder="أدخل مفتاح OpenAI API هنا" style="width: 100%; margin-bottom: 10px;">
+            <p style="font-size: 12px; opacity: 0.7;">احصل على مفتاح API من <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #4cc9f0;">OpenAI</a></p>
         </div>
     </div>
 
-    <script src="scripts/main.js"></script>
-    <script src="scripts/auth.js"></script>
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+        const apiKeyInput = document.getElementById('apiKey');
+        
+        // دالة لإرسال رسالة إلى الذكاء الاصطناعي
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            // إضافة رسالة المستخدم للدردشة
+            addMessage(message, 'user');
+            userInput.value = '';
+            
+            // إظهار مؤشر typing
+            const typingIndicator = addMessage('يكتب...', 'ai', true);
+            
+            try {
+                // الحصول على رد من الذكاء الاصطناعي
+                const response = await getAIResponse(message);
+                
+                // إزالة مؤشر typing وإضافة الرد
+                chatContainer.removeChild(typingIndicator);
+                addMessage(response, 'ai');
+            } catch (error) {
+                // إزالة مؤشر typing وإظهار رسالة الخطأ
+                chatContainer.removeChild(typingIndicator);
+                addMessage('عذراً، حدث خطأ في الاتصال. يرجى التأكد من صحة مفتاح API.', 'ai');
+                console.error('Error:', error);
+            }
+        }
+        
+        // دالة للاتصال بـ OpenAI API
+        async function getAIResponse(userMessage) {
+            const apiKey = apiKeyInput.value.trim();
+            
+            if (!apiKey) {
+                throw new Error('لم يتم إدخال مفتاح API');
+            }
+            
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-3.5-turbo',
+                    messages: [{role: 'user', content: userMessage}],
+                    max_tokens: 500
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`خطأ في API: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            return data.choices[0].message.content;
+        }
+        
+        // دالة لإضافة رسالة إلى الدردشة
+        function addMessage(text, sender, isTyping = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender + '-message');
+            messageDiv.textContent = text;
+            
+            if (isTyping) {
+                messageDiv.id = 'typingIndicator';
+                messageDiv.style.fontStyle = 'italic';
+                messageDiv.style.opacity = '0.7';
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            return messageDiv;
+        }
+        
+        // السماح بإرسال الرسالة بالضغط على Enter
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
 </body>
 </html>
