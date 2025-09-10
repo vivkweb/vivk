@@ -1,90 +1,333 @@
-<!doctype html>
-<!--
-  Single-file: vivk-superchat (Arabic RTL) — جاهز للرفع.
-  مهم: هذا ملف فرونت-إند فقط. يجب أن تضيف مساراً خلفياً /api/chat يقرأ متغير البيئة OPENAI_API_KEY
-  لإرسال الطلبات إلى OpenAI. داخل الملف يوجد تعليق بمثال بسيط لمسار Node.js (Vercel).
--->
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>vivk — الشات الذكي (نسخة مذهلة)</title>
-  <meta name="description" content="واجهة دردشة ذكية – بث الردود، جلسات محفوظة، تصدير، دعم لغات، قراءة صوتية." />
+  <title>Vivk AI — الشات الذكي المتطور</title>
+  <meta name="description" content="واجهة دردشة ذكية متطورة – بث الردود، جلسات محفوظة، تصدير، دعم لغات، قراءة صوتية." />
   <style>
     /* ====== Stylish dark RTL layout (compact, modern) ====== */
-    :root{
-      --bg:#061025; --card:#081224; --glass:rgba(255,255,255,0.03);
-      --accent1:#06b6d4; --accent2:#7c3aed; --muted:#9fb1bb; --success:#10b981;
-      --radius:14px; --shadow: 0 10px 30px rgba(2,6,23,0.6);
-      --glass-2: rgba(255,255,255,0.02);
+    :root {
+      --bg: #061025;
+      --card: #081224;
+      --glass: rgba(255, 255, 255, 0.03);
+      --accent1: #06b6d4;
+      --accent2: #7c3aed;
+      --muted: #9fb1bb;
+      --success: #10b981;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+      --glass-2: rgba(255, 255, 255, 0.02);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Tahoma, Arial, sans-serif;background:
-      radial-gradient(800px 400px at 10% 10%, rgba(7,29,54,0.6), transparent),
-      linear-gradient(180deg,#061025 0%, #02101a 100%); color:#e6f1f5}
-    a{color:inherit}
-    .app{max-width:1200px;margin:28px auto;padding:18px;display:flex;gap:18px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; display:flex}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      background: radial-gradient(800px 400px at 10% 10%, rgba(7, 29, 54, 0.6), transparent),
+                  linear-gradient(180deg, #061025 0%, #02101a 100%);
+      color: #e6f1f5;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .app {
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 18px;
+      display: flex;
+      gap: 18px;
+      height: calc(100vh - 56px);
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex: 1;
+    }
     /* sidebar */
-    .sidebar{width:300px;padding:18px;display:flex;flex-direction:column;gap:12px;border-right:1px solid var(--glass-2)}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#002427}
-    .brand h1{margin:0;font-size:18px}
-    .controls{display:flex;gap:8px;flex-wrap:wrap}
-    .btn{background:var(--accent1);color:#052224;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted)}
-    .sessions{flex:1;overflow:auto;margin-top:8px;padding-right:4px}
-    .session-item{padding:10px;border-radius:10px;margin-bottom:8px;background:transparent;border:1px solid rgba(255,255,255,0.02);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-    .session-item.active{background:linear-gradient(90deg, rgba(6,182,212,0.08), rgba(124,58,237,0.04))}
-    .small{font-size:13px;color:var(--muted)}
-    .footer-note{font-size:12px;color:var(--muted);text-align:center;padding-top:10px}
-    .lang-select{width:100%;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);background:transparent;color:inherit}
+    .sidebar {
+      width: 300px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-right: 1px solid var(--glass-2);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #002427;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background: var(--accent1);
+      color: #052224;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+    }
+    .btn.ghost:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .sessions {
+      flex: 1;
+      overflow: auto;
+      margin-top: 8px;
+      padding-right: 4px;
+    }
+    .session-item {
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+    .session-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .session-item.active {
+      background: linear-gradient(90deg, rgba(6, 182, 212, 0.08), rgba(124, 58, 237, 0.04));
+      border-color: rgba(6, 182, 212, 0.1);
+    }
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .footer-note {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      padding-top: 10px;
+    }
+    .lang-select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      background: transparent;
+      color: inherit;
+    }
 
     /* main chat */
-    .main{flex:1;display:flex;flex-direction:column;min-height:70vh}
-    .header{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid rgba(255,255,255,0.02)}
-    .header .title{font-size:18px;font-weight:700}
-    .meta-actions{display:flex;gap:8px;align-items:center}
-    .chat-area{flex:1;padding:18px;overflow:auto;display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg, rgba(255,255,255,0.0), rgba(255,255,255,0.01))}
-    .messages{display:flex;flex-direction:column;gap:12px;max-width:880px;margin-inline-start:auto;margin-inline-end:0}
-    .message{max-width:78%;padding:12px;border-radius:12px;background:var(--glass);color:#dff2f6;box-shadow:0 4px 18px rgba(2,6,23,0.4);overflow-wrap:break-word}
-    .message.user{margin-left:auto;background:linear-gradient(90deg,var(--accent1),#0ea5a7);color:#002427}
-    .message.bot{margin-right:auto;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:#e6f1f5}
-    .message .meta{font-size:12px;color:var(--muted);margin-bottom:6px}
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    }
+    .header .title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .meta-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .chat-area {
+      flex: 1;
+      padding: 18px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.01));
+    }
+    .messages {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 880px;
+      margin-inline-start: auto;
+      margin-inline-end: 0;
+    }
+    .message {
+      max-width: 78%;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--glass);
+      color: #dff2f6;
+      box-shadow: 0 4px 18px rgba(2, 6, 23, 0.4);
+      overflow-wrap: break-word;
+    }
+    .message.user {
+      margin-left: auto;
+      background: linear-gradient(90deg, var(--accent1), #0ea5a7);
+      color: #002427;
+    }
+    .message.bot {
+      margin-right: auto;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      color: #e6f1f5;
+    }
+    .message .meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
 
     /* composer */
-    .composer{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,0.02);align-items:flex-end}
-    textarea{flex:1;min-height:56px;border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit;resize:vertical;font-size:15px}
-    .composer-right{display:flex;flex-direction:column;gap:8px}
-    .tiny{font-size:12px;color:var(--muted)}
+    .composer {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.02);
+      align-items: flex-end;
+    }
+    textarea {
+      flex: 1;
+      min-height: 56px;
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      background: transparent;
+      color: inherit;
+      resize: vertical;
+      font-size: 15px;
+      font-family: inherit;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+    .composer-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .tiny {
+      font-size: 12px;
+      color: var(--muted);
+    }
 
     /* typing cursor */
-    .typing{display:inline-block;width:8px;height:8px;background:#fff;border-radius:50%;opacity:0.9;margin-inline-start:6px;animation:blink 1s infinite}
-    @keyframes blink{0%{opacity:0.2}50%{opacity:1}100%{opacity:0.2}}
+    .typing {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.9;
+      margin-inline-start: 6px;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0% { opacity: 0.2; }
+      50% { opacity: 1; }
+      100% { opacity: 0.2; }
+    }
 
     /* responsive */
-    @media(max-width:980px){
-      .sidebar{display:none}
-      .app{padding:12px}
-      .messages{max-width:100%}
+    @media (max-width: 980px) {
+      .sidebar {
+        display: none;
+      }
+      .app {
+        padding: 12px;
+      }
+      .messages {
+        max-width: 100%;
+      }
     }
     /* small helper */
-    .row{display:flex;gap:8px;align-items:center}
-    .badge{background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:13px;color:var(--muted)}
-    .icon{width:18px;height:18px;display:inline-block;vertical-align:middle}
-    .glow{box-shadow:0 6px 30px rgba(6,182,212,0.14)}
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .badge {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 6px 8px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .glow {
+      box-shadow: 0 6px 30px rgba(6, 182, 212, 0.14);
+    }
+    
+    /* Loading animation */
+    .loader {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--accent1);
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
   <!-- jsPDF for PDF export (CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 </head>
 <body>
-  <div class="app card" role="application" aria-label="vivk chat app">
+  <div class="app card" role="application" aria-label="تطبيق Vivk AI للدردشة">
     <!-- SIDEBAR -->
     <aside class="sidebar" aria-label="الشريط الجانبي">
       <div class="brand">
-        <div class="logo">v</div>
+        <div class="logo">V</div>
         <div>
-          <h1>vivk <span class="small">chat</span></h1>
+          <h1>Vivk AI <span class="small">شات</span></h1>
           <div class="small">شات ذكي | تصميم متطور</div>
         </div>
       </div>
@@ -118,7 +361,7 @@
     <main class="main" aria-live="polite">
       <header class="header">
         <div>
-          <div class="title">محادثتك الذكية — vivk</div>
+          <div class="title">محادثتك الذكية — Vivk AI</div>
           <div class="small">تتكلم، تُقرأ، وتحفظ محادثاتك تلقائياً</div>
         </div>
         <div class="meta-actions">
@@ -143,7 +386,7 @@
   </div>
 
   <script>
-    /* ====== Vivk SuperChat — Frontend (single file) ======
+    /* ====== Vivk AI SuperChat — Frontend (single file) ======
        Features:
        - Local sessions (localStorage)
        - Streaming display (SSE parsing) from /api/chat
@@ -171,11 +414,27 @@
     let sessions = JSON.parse(localStorage.getItem('vivk_sessions_v1') || '[]');
     let currentId = localStorage.getItem('vivk_current_id') || null;
     let voiceEnabled = false;
+    let isProcessing = false;
 
-    function save() { localStorage.setItem('vivk_sessions_v1', JSON.stringify(sessions)); localStorage.setItem('vivk_current_id', currentId); }
+    function save() { 
+      localStorage.setItem('vivk_sessions_v1', JSON.stringify(sessions)); 
+      localStorage.setItem('vivk_current_id', currentId); 
+    }
 
     // Helpers
     function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
 
     function createSession(initialTitle){
       const id = uid();
@@ -190,44 +449,77 @@
 
     function renderSessions(){
       sessionsEl.innerHTML = '';
-      sessions.forEach(s=>{
+      if (sessions.length === 0) {
+        sessionsEl.innerHTML = '<div class="small" style="text-align:center;padding:20px">لا توجد جلسات</div>';
+        return;
+      }
+      
+      sessions.forEach(s => {
         const div = document.createElement('div');
         div.className = 'session-item' + (s.id === currentId ? ' active' : '');
-        div.innerHTML = `<div style="flex:1"><strong>${escapeHtml(s.title || 'جلسة')}</strong><div class="small">${new Date(s.createdAt).toLocaleString()}</div></div>
-                         <div style="display:flex;gap:8px;align-items:center">
-                           <button title="حفظ" class="btn ghost" data-save="${s.id}">حذف</button>
-                         </div>`;
-        div.onclick = (e)=>{ if(e.target?.dataset?.save) return; currentId = s.id; save(); renderSessions(); renderMessages(); };
+        div.innerHTML = `
+          <div style="flex:1">
+            <strong>${escapeHtml(s.title || 'جلسة')}</strong>
+            <div class="small">${new Date(s.createdAt).toLocaleString('ar-SA')}</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button title="حذف" class="btn ghost" data-delete="${s.id}">حذف</button>
+          </div>
+        `;
+        
+        div.onclick = (e) => { 
+          if (e.target?.dataset?.delete) return; 
+          currentId = s.id; 
+          save(); 
+          renderSessions(); 
+          renderMessages(); 
+        };
+        
         // delete button
-        div.querySelector('[data-save]')?.addEventListener('click',(ev)=>{
-          ev.stopPropagation();
-          if(confirm('حذف هذه الجلسة؟')){ sessions = sessions.filter(x=>x.id!==s.id); if(currentId===s.id) currentId = sessions[0]?.id || null; save(); renderSessions(); renderMessages(); }
-        });
+        const deleteBtn = div.querySelector('[data-delete]');
+        if (deleteBtn) {
+          deleteBtn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            if(confirm('حذف هذه الجلسة؟')){ 
+              sessions = sessions.filter(x => x.id !== s.id); 
+              if(currentId === s.id) currentId = sessions[0]?.id || null; 
+              save(); 
+              renderSessions(); 
+              renderMessages(); 
+            }
+          });
+        }
+        
         sessionsEl.appendChild(div);
       });
     }
 
-    function getCurrent(){ return sessions.find(s=>s.id===currentId); }
+    function getCurrent(){ return sessions.find(s => s.id === currentId); }
 
     function appendMessage(role, text, opts = {}) {
       const wrap = document.createElement('div');
       wrap.className = 'message ' + (role === 'user' ? 'user' : 'bot');
-      if(opts.meta) wrap.innerHTML = `<div class="meta">${escapeHtml(opts.meta)}</div>` + `<div class="body">${text}</div>`;
-      else wrap.innerHTML = `<div class="body">${text}</div>`;
+      if(opts.meta) {
+        wrap.innerHTML = `<div class="meta">${escapeHtml(opts.meta)}</div>` + `<div class="body">${text}</div>`;
+      } else {
+        wrap.innerHTML = `<div class="body">${text}</div>`;
+      }
       messagesEl.appendChild(wrap);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
+      setTimeout(() => {
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }, 0);
       return wrap;
     }
-
-    function escapeHtml(s){ if(!s) return ''; return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
 
     function addToSession(role, text){
       if(!currentId) createSession();
       const s = getCurrent();
       s.messages.push({role, text, t: new Date().toISOString()});
       // update title from first user message
-      const firstUser = s.messages.find(m=>m.role==='user');
-      s.title = firstUser?.text?.slice(0,60) || s.title;
+      const firstUser = s.messages.find(m => m.role === 'user');
+      if (firstUser && !s.title || s.title === 'جلسة جديدة') {
+        s.title = firstUser.text.slice(0, 60) || s.title;
+      }
       save();
     }
 
@@ -235,54 +527,107 @@
       messagesEl.innerHTML = '';
       const s = getCurrent();
       if(!s) return;
-      s.messages.forEach(m=>{
-        appendMessage(m.role, escapeHtml(m.text), {meta: new Date(m.t).toLocaleString()});
+      s.messages.forEach(m => {
+        appendMessage(m.role, escapeHtml(m.text), {meta: new Date(m.t).toLocaleString('ar-SA')});
       });
     }
 
     // Initial load
-    if(!sessions.length) createSession();
-    else if(!currentId) currentId = sessions[0].id;
+    if(!sessions.length) {
+      createSession();
+    } else if(!currentId) {
+      currentId = sessions[0].id;
+    }
     renderSessions();
     renderMessages();
 
     // Composer interactions
     sendBtn.addEventListener('click', () => attemptSend());
     inputEl.addEventListener('keydown', (e) => {
-      if(e.ctrlKey && e.key === 'Enter'){ attemptSend(); e.preventDefault(); }
+      if(e.ctrlKey && e.key === 'Enter'){ 
+        attemptSend(); 
+        e.preventDefault(); 
+      }
       // allow shift+enter for newline
     });
 
-    newSessionBtn.addEventListener('click', ()=>{ createSession(); renderSessions(); renderMessages(); inputEl.focus(); });
+    newSessionBtn.addEventListener('click', () => { 
+      createSession(); 
+      renderSessions(); 
+      renderMessages(); 
+      inputEl.focus(); 
+    });
 
-    clearAllBtn.addEventListener('click', ()=>{ if(confirm('مسح كل المحادثات المحفوظة محليًا؟')){ sessions = []; currentId = null; save(); renderSessions(); renderMessages(); } });
+    clearAllBtn.addEventListener('click', () => { 
+      if(confirm('مسح كل المحادثات المحفوظة محليًا؟')){ 
+        sessions = []; 
+        currentId = null; 
+        save(); 
+        renderSessions(); 
+        renderMessages(); 
+      } 
+    });
 
-    importBtn.addEventListener('click', async ()=>{
+    importBtn.addEventListener('click', async () => {
       // Quick import a JSON file containing sessions
-      const inp = document.createElement('input'); inp.type='file'; inp.accept='application/json';
-      inp.onchange = async ()=>{ const f = inp.files[0]; if(!f) return; const txt = await f.text(); try{ const data = JSON.parse(txt); if(Array.isArray(data)){ sessions = data; currentId = sessions[0]?.id || null; save(); renderSessions(); renderMessages(); alert('تم الاستيراد'); } else alert('ملف غير صالح'); }catch(e){ alert('فشل قراءة الملف'); } };
+      const inp = document.createElement('input'); 
+      inp.type = 'file'; 
+      inp.accept = 'application/json';
+      inp.onchange = async () => { 
+        const f = inp.files[0]; 
+        if(!f) return; 
+        const txt = await f.text(); 
+        try { 
+          const data = JSON.parse(txt); 
+          if(Array.isArray(data)){ 
+            sessions = data; 
+            currentId = sessions[0]?.id || null; 
+            save(); 
+            renderSessions(); 
+            renderMessages(); 
+            alert('تم الاستيراد'); 
+          } else {
+            alert('ملف غير صالح'); 
+          }
+        } catch(e) { 
+          alert('فشل قراءة الملف'); 
+        } 
+      };
       inp.click();
     });
 
     // Export functions
-    exportTxtBtn.addEventListener('click', ()=>{
-      const s = getCurrent(); if(!s){ alert('لا توجد جلسة'); return; }
-      const lines = s.messages.map(m=> (m.role==='user'?'أنت: ':'البوت: ') + m.text);
+    exportTxtBtn.addEventListener('click', () => {
+      const s = getCurrent(); 
+      if(!s){ alert('لا توجد جلسة'); return; }
+      const lines = s.messages.map(m => (m.role === 'user' ? 'أنت: ' : 'البوت: ') + m.text);
       downloadBlob(new Blob([lines.join('\n\n')], {type:'text/plain'}), `vivk-session-${s.id}.txt`);
     });
 
-    exportPDFBtn.addEventListener('click', async ()=>{
-      const s = getCurrent(); if(!s){ alert('لا توجد جلسة'); return; }
+    exportPDFBtn.addEventListener('click', async () => {
+      const s = getCurrent(); 
+      if(!s){ alert('لا توجد جلسة'); return; }
       statusBadge.textContent = 'جارٍ تجهيز PDF...';
-      // use jsPDF
-      try{
+      
+      try {
+        // Check if jsPDF is available
+        if (typeof window.jspdf === 'undefined') {
+          throw new Error('لم يتم تحميل مكتبة jsPDF بعد. يرجى الانتظار قليلاً ثم المحاولة مرة أخرى.');
+        }
+        
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF({ unit: 'pt', format: 'a4' });
         const margin = 40;
         const lineHeight = 14;
         let y = 60;
-        doc.setFontSize(14); doc.text(`جلسة: ${s.title}`, margin, y); y += 26;
+        
+        // Set font for Arabic support
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(14); 
+        doc.text(`جلسة: ${s.title}`, margin, y); 
+        y += 26;
         doc.setFontSize(11);
+        
         for(const m of s.messages){
           const prefix = m.role === 'user' ? 'أنت: ' : 'البوت: ';
           const text = prefix + m.text;
@@ -291,37 +636,61 @@
           y += split.length * lineHeight + 8;
           if(y > 750){ doc.addPage(); y = 40; }
         }
+        
         const filename = `vivk-session-${s.id}.pdf`;
         doc.save(filename);
         statusBadge.textContent = 'جاهز';
-      }catch(err){ console.error(err); statusBadge.textContent = 'خطأ PDF'; alert('فشل إنشاء PDF'); }
+      } catch(err) { 
+        console.error(err); 
+        statusBadge.textContent = 'خطأ PDF'; 
+        alert('فشل إنشاء PDF: ' + err.message); 
+      }
     });
 
     function downloadBlob(blob, filename){
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
+      const a = document.createElement('a'); 
+      a.href = url; 
+      a.download = filename; 
+      a.click(); 
+      URL.revokeObjectURL(url);
     }
 
     // Voice toggle
-    voiceToggleBtn.addEventListener('click', ()=>{
+    voiceToggleBtn.addEventListener('click', () => {
       voiceEnabled = !voiceEnabled;
       voiceToggleBtn.textContent = voiceEnabled ? 'صوتي ✅' : 'تشغيل صوتي';
+      if (voiceEnabled && 'speechSynthesis' in window) {
+        // Test voice synthesis
+        const u = new SpeechSynthesisUtterance('تم تفعيل الصوت');
+        u.lang = 'ar-SA';
+        speechSynthesis.speak(u);
+      }
     });
 
     // SEND (with streaming)
     async function attemptSend(){
+      if (isProcessing) return;
+      
       const text = inputEl.value.trim();
       if(!text) return;
+      
+      isProcessing = true;
       inputEl.value = '';
+      inputEl.disabled = true;
+      sendBtn.disabled = true;
+      statusBadge.textContent = 'جارٍ المعالجة...';
+      
       addToSession('user', text);
-      appendMessage('user', escapeHtml(text), {meta: new Date().toLocaleString()});
+      appendMessage('user', escapeHtml(text), {meta: new Date().toLocaleString('ar-SA')});
       renderSessions();
 
       // show placeholder for bot
       const placeholder = appendMessage('bot', '', {meta: '...'});
 
-      try{
-        statusBadge.textContent = 'يتواصل...';
+      try {
+        statusBadge.textContent = 'يتواصل مع الخادم...';
+        
         // call server route /api/chat which should forward to OpenAI with stream=true
         const controller = new AbortController();
         const resp = await fetch('/api/chat', {
@@ -339,9 +708,13 @@
         // handle streaming: try to parse SSE-style chunks; otherwise append raw chunks
         const reader = resp.body.getReader();
         const decoder = new TextDecoder();
-        let done = false; let full = '';
+        let done = false; 
+        let full = '';
+        
         // show typing indicator
-        const typingEl = document.createElement('span'); typingEl.className='typing'; placeholder.appendChild(typingEl);
+        const typingEl = document.createElement('span'); 
+        typingEl.className='typing'; 
+        placeholder.querySelector('.body').appendChild(typingEl);
 
         while(!done){
           const { value, done: d } = await reader.read();
@@ -373,7 +746,9 @@
               }
             }
             // update placeholder text
-            placeholder.querySelector('.body') ? placeholder.querySelector('.body').textContent = full : placeholder.innerHTML = `<div class="body">${escapeHtml(full)}</div>`;
+            if (placeholder.querySelector('.body')) {
+              placeholder.querySelector('.body').textContent = full;
+            }
             messagesEl.scrollTop = messagesEl.scrollHeight;
           }
         }
@@ -381,10 +756,11 @@
         // remove typing indicator
         placeholder.querySelector('.typing')?.remove();
         if(!full) full = '(لم يرد النظام)';
+        
         // finalize
         addToSession('bot', full);
         // update placeholder content with meta/timestamp
-        placeholder.innerHTML = `<div class="meta">${new Date().toLocaleString()}</div><div class="body">${escapeHtml(full)}</div>`;
+        placeholder.innerHTML = `<div class="meta">${new Date().toLocaleString('ar-SA')}</div><div class="body">${escapeHtml(full)}</div>`;
         renderSessions();
         statusBadge.textContent = 'جاهز';
 
@@ -393,20 +769,29 @@
           const u = new SpeechSynthesisUtterance(full);
           // pick voice by language
           u.lang = langEl.value === 'ar' ? 'ar-SA' : (langEl.value === 'es' ? 'es-ES' : 'en-US');
-          speechSynthesis.cancel(); speechSynthesis.speak(u);
+          speechSynthesis.cancel(); 
+          speechSynthesis.speak(u);
         }
 
-      }catch(err){
+      } catch(err) {
         console.error(err);
         placeholder.innerHTML = `<div class="meta">خطأ</div><div class="body">حصل خطأ: ${escapeHtml(String(err.message || err))}</div>`;
         addToSession('bot', 'حصل خطأ: ' + String(err.message || err));
         statusBadge.textContent = 'خطأ';
+      } finally {
+        isProcessing = false;
+        inputEl.disabled = false;
+        sendBtn.disabled = false;
+        inputEl.focus();
       }
     }
 
     // Accessibility: keyboard shortcuts
-    document.addEventListener('keydown', (e)=>{
-      if((e.ctrlKey || e.metaKey) && e.key === 'k'){ inputEl.focus(); e.preventDefault(); }
+    document.addEventListener('keydown', (e) => {
+      if((e.ctrlKey || e.metaKey) && e.key === 'k'){ 
+        inputEl.focus(); 
+        e.preventDefault(); 
+      }
     });
 
     // Utility: show initial greeting (only once per session)
@@ -419,75 +804,14 @@
           es: '¡Hola! Soy tu asistente inteligente — pregúntame lo que quieras o inicia un chat nuevo.'
         }[langEl.value || 'ar'];
         addToSession('bot', greeting);
-        appendMessage('bot', greeting, {meta: new Date().toLocaleString()});
+        appendMessage('bot', greeting, {meta: new Date().toLocaleString('ar-SA')});
       }
     })();
 
     // save before unload
-    window.addEventListener('beforeunload', ()=> save() );
+    window.addEventListener('beforeunload', () => save());
 
     // END frontend
   </script>
-
-  <!--
-    ====== Example server route (Node.js / Vercel) ======
-    ضع هذا الملف كـ /api/chat.js في مشروع Vercel (أو كمسار على أي سيرفر Node).
-
-    // api/chat.js
-    import fetch from 'node-fetch';
-
-    export default async function handler(req, res){
-      if(req.method !== 'POST') return res.status(405).send('Method Not Allowed');
-      const { message, lang } = req.body || {};
-      if(!message) return res.status(400).json({ error: 'No message' });
-
-      try{
-        const system = { role: 'system', content: `أنت مساعد ودود، تحدث باللغة: ${lang || 'ar'}` };
-        const user = { role: 'user', content: message };
-
-        const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o-mini', // أو أي موديل متاح لك
-            messages: [system, user],
-            max_tokens: 800,
-            stream: true
-          })
-        });
-
-        if(!openaiRes.ok){
-          const t = await openaiRes.text(); return res.status(502).send(t);
-        }
-
-        // نمرّر البايتات مباشرة إلى العميل (raw streaming)
-        res.setHeader('Content-Type','text/event-stream; charset=utf-8');
-        res.setHeader('Cache-Control','no-cache');
-        const reader = openaiRes.body.getReader();
-        const decoder = new TextDecoder();
-        let done = false;
-        while(!done){
-          const { value, done: d } = await reader.read(); done = d;
-          if(value){
-            const chunk = decoder.decode(value);
-            // أرسل chunk كما هو إلى العميل
-            res.write(chunk);
-          }
-        }
-        res.end();
-      }catch(err){
-        console.error(err);
-        res.status(500).json({ error: err.message });
-      }
-    }
-
-    * ملاحظات تنفيذية:
-    - ضع متغير البيئة OPENAI_API_KEY في إعدادات Vercel (Environment Variables).
-    - تأكد من اختيار موديل متاح لك وقيّم max_tokens حسب حاجتك.
-    - قد تحتاج إلى تعديل client-side SSE parsing بناءً على صيغة البث الدقيقة من OpenAI.
-  -->
 </body>
 </html>
