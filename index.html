@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIVK - الذكاء الاصطناعي المتقدم</title>
+    <title>Vivk AI - مساعدك الذكي</title>
     <style>
         :root {
-            --primary: #6e44ff;
-            --secondary: #b892ff;
-            --dark: #1a1a2e;
-            --light: #f0f0f7;
-            --accent: #ff44a8;
-            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --accent-color: #ff6b6b;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
         }
         
         * {
@@ -22,169 +22,166 @@
         }
         
         body {
-            background-color: var(--dark);
-            color: var(--light);
-            line-height: 1.6;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         header {
-            background: var(--gradient);
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 1rem;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
-        .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
+        header h1 {
+            color: var(--primary-color);
             margin-bottom: 0.5rem;
-            background: linear-gradient(45deg, #ffeb3b, #ff4081);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
         
-        .tagline {
-            font-size: 1.2rem;
-            opacity: 0.9;
+        header p {
+            color: var(--dark-color);
+            font-size: 1.1rem;
         }
         
         .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--secondary);
-        }
-        
-        .feature-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--secondary);
+            padding: 1rem;
+            width: 100%;
         }
         
         .chat-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 3rem 0;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        
+        .chat-header {
+            padding: 1rem;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            font-weight: bold;
         }
         
         .chat-messages {
-            height: 400px;
-            overflow-y: auto;
+            flex: 1;
             padding: 1rem;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            margin-bottom: 1rem;
+            overflow-y: auto;
+            max-height: 60vh;
         }
         
         .message {
-            padding: 0.8rem 1.2rem;
             margin-bottom: 1rem;
-            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message-content {
+            padding: 0.75rem;
+            border-radius: 10px;
             max-width: 80%;
-            animation: fadeIn 0.3s;
+            word-wrap: break-word;
         }
         
         .user-message {
-            background: var(--gradient);
-            margin-left: auto;
-            margin-right: 0;
+            align-items: flex-end;
+        }
+        
+        .user-message .message-content {
+            background-color: var(--primary-color);
+            color: white;
         }
         
         .ai-message {
-            background: rgba(255, 255, 255, 0.1);
-            margin-right: auto;
-            margin-left: 0;
+            align-items: flex-start;
+        }
+        
+        .ai-message .message-content {
+            background-color: #e9ecef;
+            color: var(--dark-color);
+        }
+        
+        .message-info {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            color: #6c757d;
         }
         
         .chat-input {
             display: flex;
-            gap: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
         }
         
-        input, textarea, button {
-            padding: 0.8rem 1.2rem;
-            border: none;
-            border-radius: 8px;
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            outline: none;
             font-size: 1rem;
         }
         
-        input, textarea {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-        }
-        
-        button {
-            background: var(--gradient);
+        .chat-input button {
+            margin-left: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
             color: white;
+            border: none;
+            border-radius: 20px;
             cursor: pointer;
-            transition: opacity 0.3s;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
         
-        button:hover {
-            opacity: 0.9;
+        .chat-input button:hover {
+            background-color: var(--secondary-color);
         }
         
-        .text-to-image {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 3rem 0;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
         
-        .image-result {
-            margin-top: 2rem;
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 1.5rem;
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .generated-image {
-            max-width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
         }
         
         footer {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 1rem;
             text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin-top: auto;
         }
         
         @media (max-width: 768px) {
@@ -192,190 +189,246 @@
                 grid-template-columns: 1fr;
             }
             
-            .message {
+            .message-content {
                 max-width: 90%;
             }
+        }
+        
+        .typing-indicator {
+            display: none;
+            padding: 0.5rem;
+            color: #6c757d;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">VIVK</div>
-        <div class="tagline">نموذج الذكاء الاصطناعي المتقدم بميزة تحويل النص إلى صورة</div>
+        <h1>Vivk AI</h1>
+        <p>مساعدك الذكي الذي يفهمك ويتحدث بلغتك</p>
     </header>
     
     <div class="container">
         <div class="features">
             <div class="feature-card">
-                <div class="feature-icon">💬</div>
-                <h3 class="feature-title">محادثة ذكية</h3>
-                <p>تفاعل مع نموذج ذكاء اصطناعي متطور يفهم ويتحدث العربية بطلاقة ويجيب على أسئلتك بدقة.</p>
+                <i>💬</i>
+                <h3>محادثة ذكية</h3>
+                <p>تحدث مع Vivk AI في أي موضوع وسيجيبك بذكاء</p>
             </div>
-            
             <div class="feature-card">
-                <div class="feature-icon">🖼️</div>
-                <h3 class="feature-title">تحويل النص إلى صورة</h3>
-                <p>حول أي وصف نصي إلى صور عالية الجودة وواقعية باستخدام أحدث تقنيات الذكاء الاصطناعي.</p>
+                <i>🌐</i>
+                <h3>يعمل بدون إنترنت</h3>
+                <p>لا يحتاج إلى اتصال بالإنترنت أو مفتاح API</p>
             </div>
-            
             <div class="feature-card">
-                <div class="feature-icon">🌐</div>
-                <h3 class="feature-title">متعدد اللغات</h3>
-                <p>يدعم النموذج عشرات اللغات ويترجم بينها بدقة مع الحفاظ على المعنى والسياق.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">معالجة فائقة السرعة</h3>
-                <p>يستطيع معالجة آلاف الجمل في الثانية مع تقديم نتائج دقيقة وسريعة.</p>
+                <i>⚡</i>
+                <h3>ردود فورية</h3>
+                <p>يحلل أسئلتك ويجيبك في لحظات</p>
             </div>
         </div>
         
         <div class="chat-container">
-            <h2>محادثة مع VIVK</h2>
+            <div class="chat-header">
+                محادثة مع Vivk AI
+            </div>
             <div class="chat-messages" id="chatMessages">
                 <div class="message ai-message">
-                    مرحباً! أنا VIVK، مساعدك الذكاء الاصطناعي. كيف يمكنني مساعدتك اليوم؟
+                    <div class="message-content">
+                        مرحباً! أنا Vivk AI، مساعدك الذكي. كيف يمكنني مساعدتك اليوم؟
+                    </div>
+                    <div class="message-info">Vivk AI - الآن</div>
                 </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                Vivk AI يكتب...
             </div>
             <div class="chat-input">
                 <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
-                <button onclick="sendMessage()">إرسال</button>
-            </div>
-        </div>
-        
-        <div class="text-to-image">
-            <h2>تحويل النص إلى صورة</h2>
-            <p>اكتب وصفاً للصورة التي تريد إنشاءها، وسيقوم الذكاء الاصطناعي لدينا بإنشائها لك.</p>
-            <div class="chat-input">
-                <input type="text" id="imagePrompt" placeholder="مثال: منظر طبيعي لجبل مغطى بالثلوج أثناء غروب الشمس">
-                <button onclick="generateImage()">إنشاء صورة</button>
-            </div>
-            <div class="image-result" id="imageResult">
-                <!-- سيتم عرض الصورة هنا -->
+                <button id="sendButton">إرسال</button>
             </div>
         </div>
     </div>
     
     <footer>
-        <p>© 2023 VIVK - جميع الحقوق محفوظة</p>
-        <p>نموذج الذكاء الاصطناعي المتقدم بميزة تحويل النص إلى صورة</p>
+        <p>© 2023 Vivk AI - جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
-        // محاكاة للردود الذكية من الذكاء الاصطناعي
-        const aiResponses = [
-            "هذا سؤال مثير للاهتمام! بناءً على معرفتي، يمكنني القول أن...",
-            "شكراً لاستفسارك. المعلومات المتوفرة لدي تشير إلى أن...",
-            "أفهم استفسارك. وفقاً لأحدث البيانات...",
-            "هذا موضوع رائع! من وجهة نظري...",
-            "بناءً على تحليلي للبيانات، يمكنني تقديم التالي...",
-            "سعيد بمساعدتك! الجواب على سؤالك هو...",
-            "هذا سؤال عميق. بعد البحث في مصادر متعددة...",
-            "أعتقد أنني могу مساعدتك في هذا. إليك ما أعرفه...",
-            "شكراً لتواصلك معي. الإجابة المختصرة هي...",
-            "لقد قمت بتحليل سؤالك ووجدت أن الإجابة الأكثر دقة هي..."
-        ];
-        
-        // محاكاة لصور تم إنشاؤها (في الواقع الفعلي، سيتم الاتصال بAPI لتحويل النص إلى صورة)
-        const sampleImages = [
-            "https://placehold.co/600x400/6e44ff/white?text=منظر+طبيعي+رائع",
-            "https://placehold.co/600x400/b892ff/white?text=مدينة+مستقبلية",
-            "https://placehold.co/600x400/ff44a8/white?text=حيوان+خيالي",
-            "https://placehold.co/600x400/6e44ff/white?text=لوحة+فنية+تجريدية"
-        ];
-        
-        let messageCount = 0;
-        
-        function sendMessage() {
-            const userInput = document.getElementById('userInput');
+        document.addEventListener('DOMContentLoaded', function() {
             const chatMessages = document.getElementById('chatMessages');
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const typingIndicator = document.getElementById('typingIndicator');
             
-            if (userInput.value.trim() === '') return;
+            // قاعدة المعرفة للذكاء الاصطناعي
+            const knowledgeBase = {
+                greetings: [
+                    "مرحباً! كيف يمكنني مساعدتك اليوم؟",
+                    "أهلاً وسهلاً! كيف حالك؟",
+                    "مرحباً بك! أنا هنا لمساعدتك.",
+                    "أهلاً! يسعدني التحدث معك."
+                ],
+                farewells: [
+                    "وداعاً! كان حديثاً ممتعاً.",
+                    "إلى اللقاء! لا تتردد في العودة إذا كان لديك أي أسئلة.",
+                    "مع السلامة! أتمنى لك يوماً رائعاً.",
+                    "إلى اللقاء! كان من الرائع التحدث معك."
+                ],
+                thanks: [
+                    "على الرحب والسعة! سعيد لأنني استطعت المساعدة.",
+                    "لا شكر على واجب! أنا هنا دائماً لمساعدتك.",
+                    "شكراً لك على كلماتك اللطيفة!",
+                    "يسعدني أن أكون مفيداً لك."
+                ],
+                questions: {
+                    "ما اسمك": "أنا Vivk AI، مساعدك الذكي!",
+                    "من صنعك": "لقد تم تطويري لمساعدة الناس في الحصول على إجابات لاستفساراتهم.",
+                    "ماذا يمكنك أن تفعل": "يمكنني الإجابة على أسئلتك، تقديم النصائح، المساعدة في حل المشاكل، والتحدث في مواضيع مختلفة.",
+                    "كيف حالك": "أنا بخير، شكراً لسؤالك! كيف حالك أنت؟",
+                    "ما هو الطقس اليوم": "للأسف لا أستطيع الوصول إلى معلومات الطلقية مباشرة، لكنني أوصي بالتحقق من تطبيق الطقس المحلي."
+                },
+                topics: {
+                    technology: [
+                        "التكنولوجيا تتطور بسرعة مذهلة هذه الأيام!",
+                        "أحدث الابتكارات التكنولوجية ستغير طريقة عيشنا.",
+                        "هل تعلم أن الذكاء الاصطناعي يساعد في مجالات كثيرة مثل الطب والتعليم؟"
+                    ],
+                    science: [
+                        "العلم هو مفتاح فهم العالم من حولنا.",
+                        "التقدم العلمي يساعدنا على حل مشاكل البشرية.",
+                        "اكتشافات العلماء الجديدة تفتح آفاقاً جديدة للمعرفة."
+                    ],
+                    education: [
+                        "التعلم المستمر هو وسيلة النجاح في عالم اليوم.",
+                        "التعليم الجيد يفتح الأبواب للفرص الكثيرة.",
+                        "المعرفة هي القوة الحقيقية في عصر المعلومات."
+                    ],
+                    health: [
+                        "الصحة هي أغلى ما نملك، لذا يجب الاعتناء بها.",
+                        "الغذاء الصحي والرياضة أساسيان للحياة الجيدة.",
+                        "الوقاية خير من العلاج عندما يتعلق الأمر بالصحة."
+                    ]
+                },
+                advice: [
+                    "خذ وقتك في اتخاذ القرارات المهمة.",
+                    "استمع لحدسك الداخلي، فهو غالباً على حق.",
+                    "لا تتردد في طلب المساعدة عندما تحتاجها.",
+                    "تعلم من أخطائك، فهي فرص للتحسن.",
+                    "حافظ على التوازن بين العمل والحياة الشخصية."
+                ],
+                default: [
+                    "هذا مثير للاهتمام! هل يمكنك إخباري المزيد؟",
+                    "أفهم ما تقصده. هل لديك أسئلة أخرى؟",
+                    "شكراً لمشاركة هذا معي. كيف يمكنني مساعدتك أكثر؟",
+                    "أرى ما تعنيه. هل تريد أن أعطيك معلومات أكثر عن هذا الموضوع؟",
+                    "هذا سؤال جيد! دعني أفكر في أفضل طريقة للإجابة عليه."
+                ]
+            };
             
-            // إضافة رسالة المستخدم
-            const userMessage = document.createElement('div');
-            userMessage.classList.add('message', 'user-message');
-            userMessage.textContent = userInput.value;
-            chatMessages.appendChild(userMessage);
-            
-            // مسح حقل الإدخال
-            const userText = userInput.value;
-            userInput.value = '';
-            
-            // إظهار مؤشر typing
-            const typingIndicator = document.createElement('div');
-            typingIndicator.classList.add('message', 'ai-message');
-            typingIndicator.textContent = 'يكتب...';
-            typingIndicator.id = 'typingIndicator';
-            chatMessages.appendChild(typingIndicator);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            // محاكاة وقت معالجة الذكاء الاصطناعي
-            setTimeout(() => {
-                // إزالة مؤشر typing
-                document.getElementById('typingIndicator').remove();
+            // وظيفة للعثور على أفضل رد
+            function findBestResponse(input) {
+                const lowerInput = input.toLowerCase();
                 
-                // إضافة رد الذكاء الاصطناعي
-                const aiMessage = document.createElement('div');
-                aiMessage.classList.add('message', 'ai-message');
-                
-                // زيادة العداد واختيار رد مختلف
-                messageCount = (messageCount + 1) % aiResponses.length;
-                
-                // في حالة خاصة لبعض الأسئلة
-                if (userText.includes('اسمك') || userText.includes('ما اسمك')) {
-                    aiMessage.textContent = "أنا VIVK، مساعدك الذكاء الاصطناعي المتقدم!";
-                } else if (userText.includes('شكرا') || userText.includes('شكراً')) {
-                    aiMessage.textContent = "على الرحب والسعة! أنا هنا لمساعدتك دائماً.";
-                } else if (userText.includes('بوت') || userText.includes('ذكاء اصطناعي')) {
-                    aiMessage.textContent = "نعم، أنا نموذج ذكاء اصطناعي متقدم بميزات متطورة مثل تحويل النص إلى صورة ومعالجة آلاف الجمل بدقة.";
-                } else {
-                    aiMessage.textContent = aiResponses[messageCount];
+                // التحقق من التحيات
+                if (lowerInput.includes("مرحبا") || lowerInput.includes("اهلا") || lowerInput.includes("السلام")) {
+                    return getRandomResponse(knowledgeBase.greetings);
                 }
                 
-                chatMessages.appendChild(aiMessage);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1500);
-        }
-        
-        function generateImage() {
-            const imagePrompt = document.getElementById('imagePrompt');
-            const imageResult = document.getElementById('imageResult');
-            
-            if (imagePrompt.value.trim() === '') return;
-            
-            // إظهار رسالة تحميل
-            imageResult.innerHTML = '<p>جاري إنشاء الصورة... قد يستغرق هذا بضع ثوانٍ</p>';
-            
-            // محاكاة وقت إنشاء الصورة
-            setTimeout(() => {
-                // اختيار صورة عشوائية من مجموعة الأمثلة
-                const randomImage = sampleImages[Math.floor(Math.random() * sampleImages.length)];
+                // التحقق من الوداع
+                if (lowerInput.includes("وداعا") || lowerInput.includes("مع السلامة") || lowerInput.includes("الى اللقاء")) {
+                    return getRandomResponse(knowledgeBase.farewells);
+                }
                 
-                // عرض الصورة الناتجة
-                imageResult.innerHTML = `
-                    <p>الصورة المنشأة بناء على وصفك: "${imagePrompt.value}"</p>
-                    <img src="${randomImage}" alt="صورة منشأة بالذكاء الاصطناعي" class="generated-image">
-                    <p style="margin-top: 1rem;">جودة عالية - واقعية 100% - من إنشاء VIVK AI</p>
-                `;
+                // التحقق من الشكر
+                if (lowerInput.includes("شكرا") || lowerInput.includes("متشكر") || lowerInput.includes("مقدر")) {
+                    return getRandomResponse(knowledgeBase.thanks);
+                }
+                
+                // التحقق من الأسئلة المحددة
+                for (const [question, answer] of Object.entries(knowledgeBase.questions)) {
+                    if (lowerInput.includes(question.toLowerCase())) {
+                        return answer;
+                    }
+                }
+                
+                // التحقق من المواضيع
+                for (const [topic, responses] of Object.entries(knowledgeBase.topics)) {
+                    if (lowerInput.includes(topic)) {
+                        return getRandomResponse(responses);
+                    }
+                }
+                
+                // التحقق من طلب النصيحة
+                if (lowerInput.includes("نصيحة") || lowerInput.includes("نصحت") || lowerInput.includes("مشورة")) {
+                    return getRandomResponse(knowledgeBase.advice);
+                }
+                
+                // إذا لم يتم التعرف على النمط، استخدم رداً افتراضياً
+                return getRandomResponse(knowledgeBase.default);
+            }
+            
+            // وظيفة للحصول على رد عشوائي من مصفوفة
+            function getRandomResponse(responses) {
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            // إضافة رسالة إلى الدردشة
+            function addMessage(message, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+                
+                const messageContent = document.createElement('div');
+                messageContent.classList.add('message-content');
+                messageContent.textContent = message;
+                
+                const messageInfo = document.createElement('div');
+                messageInfo.classList.add('message-info');
+                messageInfo.textContent = isUser ? 'أنت - الآن' : 'Vivk AI - الآن';
+                
+                messageDiv.appendChild(messageContent);
+                messageDiv.appendChild(messageInfo);
+                
+                chatMessages.appendChild(messageDiv);
+                
+                // التمرير إلى الأسفل
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // معالجة إرسال الرسالة
+            function sendMessage() {
+                const message = userInput.value.trim();
+                
+                if (message === '') return;
+                
+                // إضافة رسالة المستخدم
+                addMessage(message, true);
                 
                 // مسح حقل الإدخال
-                imagePrompt.value = '';
-            }, 2000);
-        }
-        
-        // للسماح بإرسال الرسالة باستخدام زر Enter
-        document.getElementById('userInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
+                userInput.value = '';
+                
+                // إظهار مؤشر الكتابة
+                typingIndicator.style.display = 'block';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // محاكاة وقت المعالجة
+                setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    
+                    // العثور على الرد المناسب وإضافته
+                    const response = findBestResponse(message);
+                    addMessage(response, false);
+                }, 1000 + Math.random() * 1000); // وقت عشوائي بين 1-2 ثانية
             }
-        });
-        
-        document.getElementById('imagePrompt').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                generateImage();
-            }
+            
+            // إضافة مستمعي الأحداث
+            sendButton.addEventListener('click', sendMessage);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
         });
     </script>
 </body>
